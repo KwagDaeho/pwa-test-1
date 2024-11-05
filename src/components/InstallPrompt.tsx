@@ -1,8 +1,24 @@
 "use client";
+
+interface BeforeInstallPromptEvent extends Event {
+  readonly platforms: string[];
+  readonly userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+  prompt(): Promise<void>;
+}
+
+declare global {
+  interface WindowEventMap {
+    beforeinstallprompt: BeforeInstallPromptEvent;
+  }
+}
 import { useEffect, useState } from "react";
 
 const InstallPrompt = () => {
-  const [deferredPrompt, setDeferredPrompt] = useState<any>(null);
+  const [deferredPrompt, setDeferredPrompt] =
+    useState<BeforeInstallPromptEvent | null>(null);
 
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
@@ -15,7 +31,7 @@ const InstallPrompt = () => {
     };
   }, []);
 
-  const handleBeforeInstallPrompt = (event: Event) => {
+  const handleBeforeInstallPrompt = (event: BeforeInstallPromptEvent) => {
     event.preventDefault();
     setDeferredPrompt(event);
   };
