@@ -1,6 +1,6 @@
 {
-  "theme_color": "#8936FF",
-  "background_color": "#f8d75d",
+  "theme_color": "#c8c2a9",
+  "background_color": "#fff",
   "icons": [
     {
       "purpose": "maskable",
@@ -19,7 +19,7 @@
   "display": "standalone",
   "dir": "left",
   "lang": "ko-KR",
-  "name": "DuCK93",
+  "name": "93DuCK",
   "start_url": "https://pwa-test-phi-ecru.vercel.app/",
-  "scope": "https://pwa-test-phi-ecru.vercel.app/"
+  "scope": "/"
 }

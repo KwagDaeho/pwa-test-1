@@ -55,7 +55,9 @@ const InstallPrompt = () => {
   return (
     <>
       {deferredPrompt && (
-        <button onClick={handleInstallClick}>설치해볼까?</button>
+        <div>
+          <button onClick={handleInstallClick}>PWA 앱을 설치해볼까용?</button>
+        </div>
       )}
     </>
   );
