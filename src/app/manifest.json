@@ -1,5 +1,5 @@
 {
-  "theme_color": "#c8c2a9",
+  "theme_color": "#cccd39",
   "background_color": "#fff",
   "icons": [
     {
@@ -15,11 +15,12 @@
       "type": "image/png"
     }
   ],
-  "orientation": "any",
+  "orientation": "portrait-primary",
   "display": "standalone",
   "dir": "left",
   "lang": "ko-KR",
   "name": "93DuCK",
-  "start_url": "https://pwa-test-phi-ecru.vercel.app/",
-  "scope": "/"
+  "short_name": "DuCK",
+  "start_url": "/",
+  "scope": "."
 }
