@@ -4,15 +4,14 @@ FROM node:21-alpine
 
 WORKDIR /app
 
-COPY package*.json ./
-COPY yarn.lock ./
-
-COPY .pnp.cjs ./
-COPY .yarnrc.yml ./
-COPY .pnp.loader.mjs ./
-
-COPY .yarn/releases ./
-COPY .yarn/sdks ./
+# 도커 최적화 - 나중에 필요한것만 남기고 전체카피 제거하기
+# COPY package*.json ./
+# COPY yarn.lock ./
+# COPY .pnp.cjs ./
+# COPY .yarnrc.yml ./
+# COPY .pnp.loader.mjs ./
+# COPY .yarn/releases ./
+# COPY .yarn/sdks ./
 
 COPY . .
 
