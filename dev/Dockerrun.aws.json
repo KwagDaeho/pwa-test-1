@@ -1,7 +1,7 @@
 {
   "AWSEBDockerrunVersion": "1",
   "Image": {
-    "Name": "615299758656.dkr.ecr.ap-northeast-2.amazonaws.com/dev-churrrr-admin-fe-repository:latest",
+    "Name": "615299758656.dkr.ecr.ap-northeast-2.amazonaws.com/pwa-test-1:latest",
     "Update": "true"
   },
   "Ports": [
