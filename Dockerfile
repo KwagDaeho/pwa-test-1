@@ -1,4 +1,6 @@
-FROM 615299758656.dkr.ecr.ap-northeast-2.amazonaws.com/node:latest
+# FROM 615299758656.dkr.ecr.ap-northeast-2.amazonaws.com/node:latest
+# 여거는 더블랙에서 도커 허브의 유료정책 떄문에 별도로 노드 이미지를 빌드해서 ecr ( 엘라 컨테이너 레지스트리 ) 에 올려뒀던 거
+FROM node:21-alpine
 
 WORKDIR /app
 
