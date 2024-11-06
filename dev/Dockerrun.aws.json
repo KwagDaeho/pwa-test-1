@@ -1,0 +1,13 @@
+{
+  "AWSEBDockerrunVersion": "1",
+  "Image": {
+    "Name": "615299758656.dkr.ecr.ap-northeast-2.amazonaws.com/dev-churrrr-admin-fe-repository:latest",
+    "Update": "true"
+  },
+  "Ports": [
+    {
+      "ContainerPort": "8080",
+      "HostPort": "8080"
+    }
+  ]
+}
