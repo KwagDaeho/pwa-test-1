@@ -21,6 +21,6 @@ RUN yarn set version stable
 RUN yarn install
 RUN yarn build
 
-EXPOSE 80
+EXPOSE 8080
 # Start the application
-CMD ["yarn", "start", "-p", "80"]
+CMD ["yarn", "start", "-p", "8080"]
