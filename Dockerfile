@@ -16,14 +16,11 @@ WORKDIR /app
 
 COPY . .
 
-
 RUN yarn cache clean --all
 RUN yarn set version stable
 RUN yarn install
 RUN yarn build
 
-
-EXPOSE 8080
-
+EXPOSE 80
 # Start the application
-CMD ["yarn", "start", "-p", "8080"]
+CMD ["yarn", "start", "-p", "80"]
