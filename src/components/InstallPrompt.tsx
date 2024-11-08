@@ -19,12 +19,7 @@ declare global {
 const InstallPrompt = () => {
   const [deferredPrompt, setDeferredPrompt] =
     useState<BeforeInstallPromptEvent | null>(null);
-
   useEffect(() => {
-    const handleBeforeInstallPrompt = (event: BeforeInstallPromptEvent) => {
-      event.preventDefault();
-      setDeferredPrompt(event);
-    };
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
     return () => {
       window.removeEventListener(
@@ -33,9 +28,10 @@ const InstallPrompt = () => {
       );
     };
   }, []);
-  console.log(deferredPrompt);
-  console.log(Math.random());
-
+  const handleBeforeInstallPrompt = (event: BeforeInstallPromptEvent) => {
+    event.preventDefault();
+    setDeferredPrompt(event);
+  };
   const handleInstallClick = () => {
     if (deferredPrompt) {
       deferredPrompt.prompt();
@@ -53,9 +49,7 @@ const InstallPrompt = () => {
   return (
     <>
       {deferredPrompt && (
-        <div>
-          <button onClick={handleInstallClick}>PWA 앱을 설치해볼까용?</button>
-        </div>
+        <button onClick={handleInstallClick}>PWA 앱을 설치해볼까용?</button>
       )}
     </>
   );

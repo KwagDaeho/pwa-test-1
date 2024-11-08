@@ -1,27 +1,20 @@
 import type { Metadata } from "next";
-import localFont from "next/font/local";
 import "./globals.css";
+import Script from "next/script";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
-});
-
-export const viewport = {
-  themeColor: "#ffffff",
-};
+export function generateViewport() {
+  return {
+    minimumScale: 1,
+    initialScale: 1,
+    width: "device-width",
+    shrinkToFit: "no",
+    viewportFit: "cover",
+  };
+}
 export const metadata: Metadata = {
   title: "PWA Next App",
   description: "PWA Next APP TEST by 9DuCK3",
   manifest: "/manifest.json",
-  viewport:
-    "minimum-scale=1, initial-scale=1, width=device-width, shrink-to-fit=no, viewport-fit=cover",
   icons: [{ rel: "icon", url: "/icon512_maskable.png", sizes: "192x192" }],
 };
 
@@ -32,8 +25,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+      <body>
         {children}
+        <Script src="/service-worker.js" />
       </body>
     </html>
   );
