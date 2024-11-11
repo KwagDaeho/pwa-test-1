@@ -13,8 +13,6 @@ import { firebaseApp } from "@/firebase";
 // Push 컴포넌트
 export default function Push() {
   const [permission, setPermission] = useState<string>("");
-  const [currentNotification, setCurrentNotification] =
-    useState<Notification | null>(null); // 알림 객체 상태 관리
 
   useEffect(() => {
     if (typeof window !== "undefined" && "Notification" in window) {
@@ -86,12 +84,9 @@ export default function Push() {
             const title = payload.notification?.title;
             const redirectUrl = "/";
             const body = payload.notification?.body;
-
-            // 알림이 열려 있지 않으면 새로운 알림을 생성
             if (permission === "granted") {
               console.log("payload", payload);
-              // 알림이 열려 있지 않으면 새로 알림을 생성
-              if (!currentNotification) {
+              if (payload.data) {
                 const notification = new Notification(title, {
                   body,
                   icon: "/icon512_rounded.png",
@@ -99,11 +94,9 @@ export default function Push() {
                 notification.onclick = () => {
                   window.open(redirectUrl, "_blank")?.focus();
                 };
-                setCurrentNotification(notification); // 알림 상태 업데이트
               }
             }
           });
-
           // 푸시 알림을 위한 토큰을 가져옴
           await getPushToken(messagingResolve);
         }
@@ -112,7 +105,7 @@ export default function Push() {
       // 컴포넌트가 마운트될 때 알림을 수신하도록 설정
       onMessageListener();
     }
-  }, [currentNotification]); // currentNotification이 변경될 때마다 `onMessageListener` 다시 실행
+  }, []); // dependency array가 빈 배열이면 컴포넌트가 마운트될 때 한 번만 실행됨
 
   // 권한 상태에 따른 버튼 또는 메시지 표시
   const renderPermissionMessage = () => {
