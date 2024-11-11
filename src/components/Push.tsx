@@ -81,7 +81,6 @@ export default function Push() {
           // 푸시 알림 권한을 확인하고 수신 처리
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
-            alert(payload);
             const permission = Notification.permission;
             const title = payload.notification?.title + "...PUSH..";
             const options = {
@@ -89,15 +88,18 @@ export default function Push() {
               icon: payload.notification?.icon || "/icon512_rounded.png",
               data: payload.data, // 추가 데이터가 있는 경우
             };
-            const redirectUrl = "/";
             if (permission === "granted") {
-              // if (payload.data) {
               const notification = new Notification(title, options);
-              notification.onclick = () => {
-                window.open(redirectUrl, "_blank")?.focus();
-                notification.close();
+
+              // 알림 클릭 시 앱을 여는 동작
+              notification.onclick = (event) => {
+                event.preventDefault(); // 기본 클릭 동작 방지
+
+                // 앱이 이미 열려 있으면 포커스를 주고, 그렇지 않으면 새 창을 엶
+                const redirectUrl = "/"; // 앱의 루트 URL로 변경 가능
+                window.focus();
+                window.open(redirectUrl, "_self"); // 앱 내에서 현재 탭을 포커스하거나 새 탭에서 열기
               };
-              // }
             }
           });
           // 푸시 알림을 위한 토큰을 가져옴
