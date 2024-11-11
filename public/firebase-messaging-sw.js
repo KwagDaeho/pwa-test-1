@@ -32,18 +32,6 @@ messaging.onBackgroundMessage((payload) => {
   self.registration.showNotification(title, notificationOptions);
 });
 
-onMessage(messaging, (payload) => {
-  console.log("포그라운드 알림 수신:", payload);
-
-  const title = payload.notification.title;
-  const options = {
-    body: payload.notification.body,
-    icon: payload.notification.icon || "/icon512_rounded.png", // 아이콘 없으면 기본 아이콘
-  };
-  // 알림 표시
-  self.registration.showNotification(title, options);
-});
-
 self.addEventListener("notificationclick", (event) => {
   const notification = event.notification;
   const redirectUrl = "/"; // 앱의 루트 URL로 변경 가능
