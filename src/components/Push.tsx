@@ -88,11 +88,13 @@ export default function Push() {
             const options = {
               body: payload.notification?.body || "You have a new message.",
               icon: payload.notification?.icon || "/icon512_rounded.png",
-              data: payload.data, // 추가 데이터가 있는 경우
+              data: payload?.data, // 추가 데이터가 있는 경우
             };
-            if (permission === "granted") {
-              const notification = new Notification(title, options);
+            alert(112233);
+            if (permission == "granted") {
+              alert(12);
               alert(title);
+              const notification = new Notification(title, options);
               notification.onclick = () => {
                 // 1. 이미 열려 있는 앱으로 포커스를 준다
                 window.focus();
