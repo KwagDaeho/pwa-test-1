@@ -5,10 +5,12 @@ const useSendPush = () => {
     title,
     body,
     click_action,
+    token,
   }: {
     title: string;
     body: string;
     click_action: string;
+    token: string;
   }) => {
     const message = {
       data: {
@@ -19,13 +21,11 @@ const useSendPush = () => {
       },
     };
 
+    // Axios 요청에 토큰 추가
     axios.request({
       method: "POST",
-      url:
-        typeof window !== "undefined"
-          ? window.location.origin
-          : "" + "api/send-fcm",
-      data: { message },
+      url: window?.location?.origin + "/api/send-fcm",
+      data: { message, tokens: [token] }, // 토큰 포함
     });
   };
 

@@ -14,6 +14,7 @@ import useSendPush from "@/hooks/useSendPush";
 // Push 컴포넌트
 export default function Push() {
   const [permission, setPermission] = useState<string>("");
+  const [token, setToken] = useState<string>("");
   const sendPush = useSendPush();
   useEffect(() => {
     if (typeof window !== "undefined" && "Notification" in window) {
@@ -45,6 +46,7 @@ export default function Push() {
       });
       if (token) {
         console.log("FCM Token:", token);
+        setToken(token);
         // 토큰을 서버나 DB에 저장하여 나중에 사용할 수 있도록 합니다.
       } else {
         console.log(
@@ -144,6 +146,7 @@ export default function Push() {
             title: "버튼 클릭",
             body: "버튼 클릭 시 푸시 알림",
             click_action: "/",
+            token: token,
           })
         }>
         푸시 알림 TEST

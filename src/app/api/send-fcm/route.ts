@@ -49,6 +49,12 @@ const sendFCMNotification = async (
 export async function POST(req: NextRequest) {
   try {
     const { message, tokens } = await req.json();
+    if (!tokens || tokens.length === 0) {
+      return NextResponse.json(
+        { error: "Token list is empty" },
+        { status: 400 }
+      );
+    }
     const result = await sendFCMNotification(message, tokens); // 푸시 알림 전송
     return NextResponse.json({ result });
   } catch (error) {
