@@ -20,7 +20,8 @@ const messaging = firebase.messaging();
 
 // 백그라운드 푸시 메시지 처리
 messaging.onBackgroundMessage((payload) => {
-  const title = payload.notification.title;
+  // 푸시 알림 데이터 가져오기
+  const title = payload.notification.title + " (Background PUSH)";
   const notificationOptions = {
     body: payload.notification.body,
     icon: "/icon512_rounded.png",
@@ -30,7 +31,6 @@ messaging.onBackgroundMessage((payload) => {
   self.registration.showNotification(title, notificationOptions);
 });
 
-// 알림 클릭 시 앱 열기
 self.addEventListener("notificationclick", (event) => {
   const notification = event.notification;
   const redirectUrl = "/"; // 앱의 루트 URL로 변경 가능

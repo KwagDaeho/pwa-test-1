@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import {
   getMessaging,
-  // onMessage,
+  onMessage,
   getToken,
   isSupported,
   Messaging,
@@ -79,24 +79,24 @@ export default function Push() {
         const messagingResolve = await messaging();
         if (messagingResolve) {
           // 푸시 알림 권한을 확인하고 수신 처리
-          // onMessage(messagingResolve, (payload) => {
-          //   const permission = Notification.permission;
-          //   const title = payload.notification?.title;
-          //   const redirectUrl = "/";
-          //   const body = payload.notification?.body;
-          //   if (permission === "granted") {
-          //     console.log("payload", payload);
-          //     if (payload.data) {
-          //       const notification = new Notification(title, {
-          //         body,
-          //         icon: "/icon512_rounded.png",
-          //       });
-          //       notification.onclick = () => {
-          //         window.open(redirectUrl, "_blank")?.focus();
-          //       };
-          //     }
-          //   }
-          // });
+          onMessage(messagingResolve, (payload) => {
+            const permission = Notification.permission;
+            const title = payload.notification?.title;
+            const redirectUrl = "/";
+            const body = payload.notification?.body;
+            if (permission === "granted") {
+              console.log("payload", payload);
+              if (payload.data) {
+                const notification = new Notification(title, {
+                  body,
+                  icon: "/icon512_rounded.png",
+                });
+                notification.onclick = () => {
+                  window.open(redirectUrl, "_blank")?.focus();
+                };
+              }
+            }
+          });
           // 푸시 알림을 위한 토큰을 가져옴
           await getPushToken(messagingResolve);
         }
