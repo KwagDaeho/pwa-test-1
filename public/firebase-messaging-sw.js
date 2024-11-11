@@ -20,8 +20,7 @@ const messaging = firebase.messaging();
 
 // 백그라운드 푸시 메시지 처리
 messaging.onBackgroundMessage((payload) => {
-  // 푸시 알림 데이터 가져오기
-  const title = payload.notification.title + " (Background PUSH)";
+  const title = payload.notification.title;
   const notificationOptions = {
     body: payload.notification.body,
     icon: "/icon512_rounded.png",
@@ -29,4 +28,29 @@ messaging.onBackgroundMessage((payload) => {
 
   // 알림 표시
   self.registration.showNotification(title, notificationOptions);
+});
+
+// 알림 클릭 시 앱 열기
+self.addEventListener("notificationclick", (event) => {
+  const notification = event.notification;
+  const redirectUrl = "/"; // 앱의 루트 URL로 변경 가능
+
+  // 알림 클릭 시 앱을 여는 동작
+  event.waitUntil(
+    clients.matchAll({ type: "window" }).then((clientList) => {
+      // 앱이 이미 열려 있으면 포커스를 주고, 그렇지 않으면 새 창을 엶
+      const client = clientList.find(
+        (client) =>
+          client.url === redirectUrl && client.visibilityState === "visible"
+      );
+      if (client) {
+        return client.focus();
+      } else {
+        return clients.openWindow(redirectUrl);
+      }
+    })
+  );
+
+  // 알림 닫기
+  notification.close();
 });
