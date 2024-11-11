@@ -82,7 +82,6 @@ export default function Push() {
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
             const permission = Notification.permission;
-            alert(permission);
             const title = payload.notification?.title + "...PUSH..";
 
             const options = {
@@ -90,10 +89,7 @@ export default function Push() {
               icon: payload.notification?.icon || "/icon512_rounded.png",
               data: payload?.data, // 추가 데이터가 있는 경우
             };
-            alert(112233);
             if (permission == "granted") {
-              alert(12);
-              alert(title);
               const notification = new Notification(title, options);
               notification.onclick = () => {
                 // 1. 이미 열려 있는 앱으로 포커스를 준다
