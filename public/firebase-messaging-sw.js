@@ -30,8 +30,7 @@ messaging.onBackgroundMessage((payload) => {
   };
 
   // 알림 표시
-  // self.registration.showNotification(title, notificationOptions);
-  console.log(title, notificationOptions);
+  self.registration.showNotification(title, notificationOptions);
 });
 
 self.addEventListener("notificationclick", (event) => {
