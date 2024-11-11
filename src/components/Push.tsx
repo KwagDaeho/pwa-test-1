@@ -82,7 +82,9 @@ export default function Push() {
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
             const permission = Notification.permission;
+            alert(permission);
             const title = payload.notification?.title + "...PUSH..";
+
             const options = {
               body: payload.notification?.body || "You have a new message.",
               icon: payload.notification?.icon || "/icon512_rounded.png",
@@ -90,15 +92,12 @@ export default function Push() {
             };
             if (permission === "granted") {
               const notification = new Notification(title, options);
-
-              // 알림 클릭 시 앱을 여는 동작
-              notification.onclick = (event) => {
-                event.preventDefault(); // 기본 클릭 동작 방지
-
-                // 앱이 이미 열려 있으면 포커스를 주고, 그렇지 않으면 새 창을 엶
-                const redirectUrl = "/"; // 앱의 루트 URL로 변경 가능
+              alert(title);
+              notification.onclick = () => {
+                // 1. 이미 열려 있는 앱으로 포커스를 준다
                 window.focus();
-                window.open(redirectUrl, "_self"); // 앱 내에서 현재 탭을 포커스하거나 새 탭에서 열기
+                // 2. 알림을 닫는다
+                notification.close();
               };
             }
           });
