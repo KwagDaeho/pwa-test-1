@@ -4,6 +4,9 @@ importScripts(
 importScripts(
   "https://www.gstatic.com/firebasejs/9.0.2/firebase-messaging-compat.js"
 );
+self.addEventListener("install", () => {
+  self.skipWaiting(); // 서비스 워커를 즉시 활성화
+});
 
 const firebaseConfig = {
   apiKey: "AIzaSyBJ31XuUe28bUefVKtL7lZ40Cp3WAR1o2I",
@@ -21,7 +24,7 @@ const messaging = firebase.messaging();
 // 백그라운드 푸시 메시지 처리
 messaging.onBackgroundMessage((payload) => {
   // 푸시 알림 데이터 가져오기
-  const title = payload.notification.title + " (Background PUSH)";
+  const title = payload.notification.title + " (Background)";
   const notificationOptions = {
     body: payload.notification.body,
     icon: "/icon512_rounded.png",
@@ -53,8 +56,4 @@ self.addEventListener("notificationclick", (event) => {
 
   // 알림 닫기
   notification.close();
-});
-
-self.addEventListener("install", () => {
-  self.skipWaiting(); // 서비스 워커를 즉시 활성화
 });

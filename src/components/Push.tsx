@@ -81,6 +81,7 @@ export default function Push() {
           // 푸시 알림 권한을 확인하고 수신 처리
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
+            alert(payload);
             const permission = Notification.permission;
             const title = payload.notification?.title + "...PUSH..";
             const options = {
@@ -94,6 +95,7 @@ export default function Push() {
               const notification = new Notification(title, options);
               notification.onclick = () => {
                 window.open(redirectUrl, "_blank")?.focus();
+                notification.close();
               };
               // }
             }
