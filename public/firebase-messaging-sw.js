@@ -30,26 +30,8 @@ messaging.onBackgroundMessage((payload) => {
   };
 
   // 알림 표시
-  self.registration.showNotification(title, notificationOptions);
-});
-
-// 포그라운드 푸시 메시지 처리
-messaging.onMessage(function (payload) {
-  const title = payload.notification.title;
-  const options = {
-    body: payload.notification.body,
-    icon: payload.notification.icon || "/icon512_rounded.png",
-  };
-
-  if (Notification.permission === "granted") {
-    const notification = new Notification(title, options);
-    notification.onclick = () => {
-      // 이미 열린 앱으로 포커스를 준다
-      window.focus();
-      // 알림을 닫는다
-      notification.close();
-    };
-  }
+  // self.registration.showNotification(title, notificationOptions);
+  console.log(title, notificationOptions);
 });
 
 self.addEventListener("notificationclick", (event) => {
