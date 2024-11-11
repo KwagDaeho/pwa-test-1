@@ -80,21 +80,22 @@ export default function Push() {
         if (messagingResolve) {
           // 푸시 알림 권한을 확인하고 수신 처리
           onMessage(messagingResolve, (payload) => {
+            console.log("payload", payload);
             const permission = Notification.permission;
-            const title = payload.notification?.title;
+            const title = payload.notification?.title + "...PUSH..";
+            const options = {
+              body: payload.notification?.body || "You have a new message.",
+              icon: payload.notification?.icon || "/icon512_rounded.png",
+              data: payload.data, // 추가 데이터가 있는 경우
+            };
             const redirectUrl = "/";
-            const body = payload.notification?.body;
             if (permission === "granted") {
-              console.log("payload", payload);
-              if (payload.data) {
-                const notification = new Notification(title, {
-                  body,
-                  icon: "/icon512_rounded.png",
-                });
-                notification.onclick = () => {
-                  window.open(redirectUrl, "_blank")?.focus();
-                };
-              }
+              // if (payload.data) {
+              const notification = new Notification(title, options);
+              notification.onclick = () => {
+                window.open(redirectUrl, "_blank")?.focus();
+              };
+              // }
             }
           });
           // 푸시 알림을 위한 토큰을 가져옴
