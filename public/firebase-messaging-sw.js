@@ -54,3 +54,7 @@ self.addEventListener("notificationclick", (event) => {
   // 알림 닫기
   notification.close();
 });
+
+self.addEventListener("install", () => {
+  self.skipWaiting(); // 서비스 워커를 즉시 활성화
+});
