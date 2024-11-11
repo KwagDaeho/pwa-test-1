@@ -43,7 +43,7 @@ export default function Push() {
           "BAoxgrzIdQPE90qpBuUoCNMN-eUKRGDumVGyMiz4zqwbNncR1yJXg36T1OE7TWJhIHaDVNmCGY5DAwRkkwBWQbI",
       });
       if (token) {
-        console.log("FCM Token:", token);
+        alert("FCM Token:" + token);
         // 토큰을 서버나 DB에 저장하여 나중에 사용할 수 있도록 합니다.
       } else {
         console.log(
