@@ -23,6 +23,7 @@ const messaging = firebase.messaging();
 
 // 백그라운드 푸시 메시지 처리
 messaging.onBackgroundMessage((payload) => {
+  console.log(payload);
   const title = payload.notification.title + " (Background)";
   const notificationOptions = {
     body: payload.notification.body,
@@ -34,20 +35,28 @@ messaging.onBackgroundMessage((payload) => {
 
 self.addEventListener("notificationclick", (event) => {
   const notification = event.notification;
-  const redirectUrl = "/"; // 앱의 루트 URL로 변경 가능
+  const redirectUrl = "/112"; // 리다이렉트할 절대 경로
 
-  // 알림 클릭 시 앱을 여는 동작
   event.waitUntil(
     clients.matchAll({ type: "window" }).then((clientList) => {
-      // 앱이 이미 열려 있으면 포커스를 주고, 그렇지 않으면 새 창을 엶
       const client = clientList.find(
         (client) =>
           client.url === redirectUrl && client.visibilityState === "visible"
       );
+
       if (client) {
-        return client.focus();
+        // 이미 열려 있는 창이 있다면 포커스를 주고, 해당 클라이언트에 메시지 전송
+        return client.focus().then((focusedClient) => {
+          if ("navigate" in focusedClient) {
+            // 클라이언트에게 URL을 전달하여 리다이렉트
+            focusedClient.postMessage(redirectUrl);
+          }
+        });
       } else {
-        return clients.openWindow(redirectUrl);
+        // 새 창을 열고 메시지 전달
+        return clients.openWindow(redirectUrl).then((newClient) => {
+          newClient.postMessage(redirectUrl);
+        });
       }
     })
   );

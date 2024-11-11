@@ -43,7 +43,7 @@ export default function Push() {
           "BAoxgrzIdQPE90qpBuUoCNMN-eUKRGDumVGyMiz4zqwbNncR1yJXg36T1OE7TWJhIHaDVNmCGY5DAwRkkwBWQbI",
       });
       if (token) {
-        alert("FCM Token:" + token);
+        console.log("FCM Token:", token);
         // 토큰을 서버나 DB에 저장하여 나중에 사용할 수 있도록 합니다.
       } else {
         console.log(
@@ -80,6 +80,7 @@ export default function Push() {
         if (messagingResolve) {
           // 푸시 알림 권한을 확인하고 수신 처리
           onMessage(messagingResolve, (payload) => {
+            alert("Foreground PUSH Coming!!");
             console.log("payload", payload);
             const permission = Notification.permission;
             const title = payload.notification?.title + "...PUSH..";
@@ -90,13 +91,8 @@ export default function Push() {
               data: payload?.data, // 추가 데이터가 있는 경우
             };
             if (permission == "granted") {
-              const notification = new Notification(title, options);
-              notification.onclick = () => {
-                // 1. 이미 열려 있는 앱으로 포커스를 준다
-                window.focus();
-                // 2. 알림을 닫는다
-                notification.close();
-              };
+              alert("TITLE : " + title);
+              console.log(options);
             }
           });
           // 푸시 알림을 위한 토큰을 가져옴
