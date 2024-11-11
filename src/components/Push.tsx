@@ -9,11 +9,12 @@ import {
   Messaging,
 } from "firebase/messaging";
 import { firebaseApp } from "@/firebase";
+import useSendPush from "@/hooks/useSendPush";
 
 // Push 컴포넌트
 export default function Push() {
   const [permission, setPermission] = useState<string>("");
-
+  const sendPush = useSendPush();
   useEffect(() => {
     if (typeof window !== "undefined" && "Notification" in window) {
       // 클라이언트에서만 Notification을 사용할 수 있도록 설정
@@ -55,7 +56,7 @@ export default function Push() {
     }
   };
 
-  // 푸시 알림 권한을 요청하는 함수
+  // 백그라운드 푸시 알림 권한을 요청하는 함수
   const requestPermission = async (): Promise<void> => {
     if (!("Notification" in window)) {
       console.warn("This browser does not support notifications.");
@@ -71,18 +72,16 @@ export default function Push() {
     }
   };
 
-  // `useEffect`로 푸시 알림 및 메시지 수신 처리
+  // `useEffect`로 인앱 알림 처리
   useEffect(() => {
     // 클라이언트 사이드에서만 Notification을 사용하도록 처리
-    if (typeof window !== "undefined" && "Notification" in window) {
+    if (typeof window !== "undefined") {
       const onMessageListener = async () => {
         const messagingResolve = await messaging();
         if (messagingResolve) {
           // 푸시 알림 권한을 확인하고 수신 처리
           onMessage(messagingResolve, (payload) => {
-            alert("Foreground PUSH Coming!!");
             console.log("payload", payload);
-            const permission = Notification.permission;
             const title = payload.notification?.title + "...PUSH..";
 
             const options = {
@@ -90,10 +89,8 @@ export default function Push() {
               icon: payload.notification?.icon || "/icon512_rounded.png",
               data: payload?.data, // 추가 데이터가 있는 경우
             };
-            if (permission == "granted") {
-              alert("TITLE : " + title);
-              console.log(options);
-            }
+            alert("TITLE : " + title);
+            console.log(options);
           });
           // 푸시 알림을 위한 토큰을 가져옴
           await getPushToken(messagingResolve);
@@ -113,18 +110,44 @@ export default function Push() {
           <p>
             푸시 알림이 차단되어있어요.
             <br />
+            백그라운드 알림을 받으시려면
+            <br />
             브라우저 설정에서 알림을 허용해주세요.
           </p>
         </div>
       );
     }
-    return <button onClick={requestPermission}>푸시 알림 켜기</button>;
+    return (
+      <div>
+        <button
+          style={{ width: "100%", padding: "8px" }}
+          onClick={requestPermission}>
+          푸시 알림 켜기
+        </button>
+      </div>
+    );
   };
 
   return (
     <div>
       <div>🔔{permission}🔔</div>
       {renderPermissionMessage()}
+      <button
+        style={{
+          width: "100%",
+          padding: "8px",
+          backgroundColor: "transparent",
+          border: "1px solid #c90",
+        }}
+        onClick={() =>
+          sendPush({
+            title: "버튼 클릭",
+            body: "버튼 클릭 시 푸시 알림",
+            click_action: "/",
+          })
+        }>
+        푸시 알림 TEST
+      </button>
     </div>
   );
 }
