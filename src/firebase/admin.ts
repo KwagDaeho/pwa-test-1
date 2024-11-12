@@ -1,4 +1,4 @@
-import admin from "firebase-admin";
+import * as admin from "firebase-admin";
 import { ServiceAccount } from "firebase-admin";
 
 // 다운로드한 Firebase 서비스 계정 키 파일을 프로젝트에 추가하고, 해당 파일을 import 합니다.
@@ -13,11 +13,13 @@ const serviceAccount: ServiceAccount = {
     "firebase-adminsdk-gpy3x@pwa-push-test-a894c.iam.gserviceaccount.com",
 };
 
-// Firebase Admin SDK 초기화 (한 번만 실행되도록 설정)
+// Firebase Admin 초기화
 if (!admin.apps.length) {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
   });
+} else {
+  admin.app(); // 이미 초기화된 앱이 있다면 그 앱을 사용
 }
 
 export default admin;
