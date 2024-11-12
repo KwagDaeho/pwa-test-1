@@ -1,32 +1,41 @@
+"use client";
+
 import axios from "axios";
 
+interface PushNotification {
+  title: string;
+  body: string;
+  click_action: string;
+  token: string;
+}
 const useSendPush = () => {
   const sendPush = async ({
     title,
     body,
     click_action,
     token,
-  }: {
-    title: string;
-    body: string;
-    click_action: string;
-    token: string;
-  }) => {
+  }: PushNotification) => {
     const message = {
       data: {
         title,
         body,
-        image: "/icon512_rounded.png",
+        image: window?.location?.origin + "/icon512_rounded.png",
         click_action,
       },
     };
-
-    // Axios 요청에 토큰 추가
-    axios.request({
-      method: "POST",
-      url: window?.location?.origin + "/api/send-fcm",
-      data: { message, tokens: [token] }, // 토큰 포함
-    });
+    try {
+      const postURL = window?.location?.origin + "/api/send-fcm";
+      await axios.request({
+        method: "POST",
+        url: postURL,
+        data: {
+          tokens: [token], // 올바른 키 사용
+          notification: message.data, // `notification`으로 변경
+        },
+      });
+    } catch (error) {
+      console.error("Error sending push notification:", error);
+    }
   };
 
   return sendPush;
