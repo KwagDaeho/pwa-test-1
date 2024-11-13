@@ -18,11 +18,16 @@ const sendFCMNotification = async (
   // V1 API에서 sendEach을 사용하여 다중 토큰 처리
   const messages: Message[] = tokenList.map((token) => ({
     token: token, // 각 사용자의 토큰
-    data: {
+    // data: {
+    //   title: data.title,
+    //   body: data.body,
+    //   image: data.image,
+    //   click_url: data.click_url,
+    // },
+    notification: {
       title: data.title,
       body: data.body,
-      image: data.image,
-      click_url: data.click_url,
+      imageUrl: "https://cdn-icons-png.flaticon.com/512/5220/5220478.png",
     },
   }));
 

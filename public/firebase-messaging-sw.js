@@ -19,14 +19,14 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
-const messaging = firebase.messaging();
-console.log(messaging);
-
 let notificationLink = "/";
 self.addEventListener("push", function (event) {
-  const data = event.data.json().data;
-  // 알림 표시
+  const data = event.data.json().notification;
+  console.log(data);
+  console.log(event.data.json());
   notificationLink = data.click_url;
+
+  // 알림 표시
   self.registration.showNotification(data.title, {
     body: data.body,
     icon: data.image,
@@ -35,8 +35,6 @@ self.addEventListener("push", function (event) {
 
 self.addEventListener("notificationclick", (event) => {
   const notification = event.notification;
-  console.log(event);
-  console.log(notification);
   const redirectUrl = notificationLink; // 리다이렉트할 절대 경로
 
   event.waitUntil(

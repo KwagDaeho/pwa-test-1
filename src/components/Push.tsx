@@ -84,7 +84,7 @@ export default function Push() {
           // 푸시 알림 권한을 확인하고 수신 처리
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
-            const title = payload.data.title;
+            const title = payload.notification.title;
             alert("TITLE : " + title + "   ...PUSH..");
           });
           // 푸시 알림을 위한 토큰을 가져옴
