@@ -84,14 +84,8 @@ export default function Push() {
           // 푸시 알림 권한을 확인하고 수신 처리
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
-            const title = payload.notification?.title + "...PUSH..";
-            const options = {
-              body: payload.notification?.body || "You have a new message.",
-              icon: payload.notification?.icon || "/icon512_rounded.png",
-              data: payload?.data, // 추가 데이터가 있는 경우
-            };
-            alert("TITLE : " + title);
-            console.log(options);
+            const title = payload.data.title;
+            alert("TITLE : " + title + "   ...PUSH..");
           });
           // 푸시 알림을 위한 토큰을 가져옴
           await getPushToken(messagingResolve);
@@ -144,7 +138,7 @@ export default function Push() {
           sendPush({
             title: "버튼 클릭",
             body: "버튼 클릭 시 푸시 알림",
-            click_url: "/113/113/",
+            click_url: "/",
             token: token,
           })
         }>

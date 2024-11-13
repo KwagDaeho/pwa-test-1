@@ -23,22 +23,33 @@ const messaging = firebase.messaging();
 console.log(messaging);
 
 // // 백그라운드 푸시 메시지 처리
-// messaging.onBackgroundMessage((payload) => {
-//   console.log(payload);
-//   const title = payload.notification.title + " (Background)";
-//   const notificationOptions = {
-//     body: payload.notification.body,
-//     icon: payload.notification.icon || "/icon512_rounded.png", // 아이콘 없으면 기본 아이콘
-//   };
-//   // 알림 표시
-//   self.registration.showNotification(title, notificationOptions);
-// });
+messaging.onBackgroundMessage((payload) => {
+  console.log(payload);
+  const title = payload.notification.title + " (Background)";
+  const notificationOptions = {
+    body: payload.notification.body,
+    icon: payload.notification.icon || "/icon512_rounded.png", // 아이콘 없으면 기본 아이콘
+  };
+  // 알림 표시
+  self.registration.showNotification(title, notificationOptions);
+});
+
+let notificationLink = "/";
+self.addEventListener("push", function (event) {
+  const data = event.data.json().data;
+  // 알림 표시
+  notificationLink = data.click_url;
+  self.registration.showNotification(data.title, {
+    body: data.body,
+    icon: data.image,
+  });
+});
 
 self.addEventListener("notificationclick", (event) => {
   const notification = event.notification;
   console.log(event);
   console.log(notification);
-  const redirectUrl = "/112"; // 리다이렉트할 절대 경로
+  const redirectUrl = notificationLink; // 리다이렉트할 절대 경로
 
   event.waitUntil(
     clients.matchAll({ type: "window" }).then((clientList) => {
@@ -66,16 +77,4 @@ self.addEventListener("notificationclick", (event) => {
 
   // 알림 닫기
   notification.close();
-});
-
-self.addEventListener("push", function (event) {
-  const data = event.data.json().data;
-  console.log("===");
-  console.log(data);
-  console.log(event.data.json());
-  // 알림 표시
-  self.registration.showNotification(data.title, {
-    body: data.body,
-    icon: "/icon512_rounded.png",
-  });
 });

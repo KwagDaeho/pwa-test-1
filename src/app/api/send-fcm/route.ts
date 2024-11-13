@@ -6,7 +6,7 @@ type Notification = {
   title: string;
   body: string;
   image: string;
-  click_action: string;
+  click_url: string;
 };
 
 const sendFCMNotification = async (
@@ -22,11 +22,7 @@ const sendFCMNotification = async (
       title: data.title,
       body: data.body,
       image: data.image,
-    },
-    webpush: {
-      fcmOptions: {
-        link: data.click_action,
-      },
+      click_url: data.click_url,
     },
   }));
 
