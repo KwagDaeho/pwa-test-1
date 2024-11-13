@@ -85,7 +85,6 @@ export default function Push() {
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
             const title = payload.notification?.title + "...PUSH..";
-
             const options = {
               body: payload.notification?.body || "You have a new message.",
               icon: payload.notification?.icon || "/icon512_rounded.png",
@@ -145,7 +144,7 @@ export default function Push() {
           sendPush({
             title: "버튼 클릭",
             body: "버튼 클릭 시 푸시 알림",
-            click_action: "/",
+            click_url: "/113/113/",
             token: token,
           })
         }>

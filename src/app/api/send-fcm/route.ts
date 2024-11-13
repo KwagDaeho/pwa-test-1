@@ -32,7 +32,6 @@ const sendFCMNotification = async (
 
   try {
     const res = await admin.messaging().sendEach(messages);
-    console.log(res);
     return res;
   } catch (error) {
     console.error("Error sending FCM notification:", error);
