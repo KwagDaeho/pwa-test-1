@@ -39,6 +39,7 @@ export default function Push() {
 
   // 푸시 토큰을 가져오는 함수
   const getPushToken = async (messagingInstance: Messaging): Promise<void> => {
+    alert("토큰 가져오기. 토큰값 alert이 안 뜨면 에러임");
     try {
       const token = await getToken(messagingInstance, {
         vapidKey:
