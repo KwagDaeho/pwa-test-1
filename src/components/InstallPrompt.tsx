@@ -1,5 +1,6 @@
 "use client";
 
+import { inappdeny_exec_vanillajs } from "@/util/inApp";
 import { useEffect, useState } from "react";
 
 interface BeforeInstallPromptEvent extends Event {
@@ -21,6 +22,7 @@ const InstallPrompt = () => {
     useState<BeforeInstallPromptEvent | null>(null);
   useEffect(() => {
     window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    inappdeny_exec_vanillajs();
     return () => {
       window.removeEventListener(
         "beforeinstallprompt",
