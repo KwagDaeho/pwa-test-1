@@ -19,11 +19,12 @@ const firebaseConfig = {
 };
 firebase.initializeApp(firebaseConfig);
 
+const messaging = firebase.messaging();
+console.log(messaging);
+
 let notificationLink = "/";
 self.addEventListener("push", function (event) {
   const data = event.data.json().notification;
-  console.log(data);
-  console.log(event.data.json());
   notificationLink = data.click_url;
 
   // 알림 표시
