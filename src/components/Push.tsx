@@ -139,7 +139,7 @@ export default function Push() {
             title: "버튼 클릭",
             body: "버튼 클릭 시 푸시 알림",
             click_url: "/",
-            token: token,
+            tokens: [token],
           })
         }>
         푸시 알림 TEST
