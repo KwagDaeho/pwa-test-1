@@ -472,6 +472,7 @@ export const gameLogic = () => {
     drawHill(hill2BaseHeight, hill2Amplitude, hill2Stretch, "#659F1C");
 
     // Draw trees
+
     trees.forEach((tree) => drawTree(tree.x, tree.color));
   }
 
@@ -495,10 +496,10 @@ export const gameLogic = () => {
       getTreeY(x, hill1BaseHeight, hill1Amplitude)
     );
 
-    const treeTrunkHeight = Math.random() * 50 + 3;
-    const treeTrunkWidth = Math.random() * 2 + 1;
-    const treeCrownHeight = Math.random() * 65 + 10;
-    const treeCrownWidth = Math.random() * 20 + 5;
+    const treeTrunkHeight = Math.random() * 350 + 3;
+    const treeTrunkWidth = Math.random() * 3 + 2;
+    const treeCrownHeight = Math.random() * 100 + 10;
+    const treeCrownWidth = Math.random() * 50 + 5;
 
     // Draw trunk
     ctx.fillStyle = "#7D833C";
