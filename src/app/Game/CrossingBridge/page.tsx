@@ -19,7 +19,6 @@ export default function CrossingBridge() {
   return (
     <>
       <div className="container">
-        <div id="score"></div>
         <canvas id="game" width="375" height="375"></canvas>
         <div id="introduction">
           Click Mouse || Hold Touch

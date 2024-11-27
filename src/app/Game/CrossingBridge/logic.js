@@ -23,6 +23,7 @@ export const gameLogic = () => {
   // Todo: Save high score to localStorage (?)
 
   let score = 0;
+  let beforeScore = 0;
 
   // Configuration
   const canvasWidth = 375;
@@ -58,8 +59,9 @@ export const gameLogic = () => {
   const introductionElement = document.getElementById("introduction");
   const perfectElement = document.getElementById("perfect");
   const restartButton = document.getElementById("restart");
-  const scoreElement = document.getElementById("score");
 
+  ctx.font = "36px bold gothic";
+  ctx.fillStyle = "#121212";
   canvas.addEventListener("contextmenu", (event) => {
     event.preventDefault(); // 기본 우클릭 메뉴 차단
   });
@@ -70,11 +72,11 @@ export const gameLogic = () => {
     lastTimestamp = undefined;
     sceneOffset = 0;
     score = 0;
+    beforeScore = 0;
 
     introductionElement.style.opacity = 1;
     perfectElement.style.opacity = 0;
     restartButton.style.display = "none";
-    scoreElement.innerText = score;
 
     // The first platform is always the same
     // x + w has to match paddingX
@@ -162,7 +164,6 @@ export const gameLogic = () => {
   window.addEventListener("mouseup", endAction);
   window.addEventListener("touchstart", startAction, { passive: false });
   window.addEventListener("touchend", endAction, { passive: false });
-
   function startAction(event) {
     // 모바일 터치에서는 event.changedTouches[0]로 첫 번째 터치 정보를 가져옴
     if (phase == "waiting") {
@@ -206,8 +207,9 @@ export const gameLogic = () => {
     }
 
     switch (phase) {
-      case "waiting":
+      case "waiting": {
         return; // Stop the loop
+      }
       case "stretching": {
         sticks.last().length += (timestamp - lastTimestamp) / stretchingSpeed;
         break;
@@ -222,7 +224,6 @@ export const gameLogic = () => {
           if (nextPlatform) {
             // Increase score
             score += perfectHit ? 2 : 1;
-            scoreElement.innerText = score;
 
             if (perfectHit) {
               perfectElement.style.opacity = 1;
@@ -329,7 +330,6 @@ export const gameLogic = () => {
   function draw() {
     ctx.save();
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
     drawBackground();
 
     // Center main canvas area to the middle of the screen
@@ -345,6 +345,12 @@ export const gameLogic = () => {
 
     // Restore transformation
     ctx.restore();
+    if (phase == "walking") {
+      ctx.fillText(beforeScore, window.innerWidth - 100, 100);
+    } else {
+      ctx.fillText(score, window.innerWidth - 100, 100);
+      beforeScore = score;
+    }
   }
 
   const restartGame = (event) => {
