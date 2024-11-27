@@ -60,7 +60,7 @@ export const gameLogic = () => {
   const perfectElement = document.getElementById("perfect");
   const restartButton = document.getElementById("restart");
 
-  ctx.font = "36px bold gothic";
+  ctx.font = "bold 30px Fira Sans";
   ctx.fillStyle = "#121212";
   canvas.addEventListener("contextmenu", (event) => {
     event.preventDefault(); // 기본 우클릭 메뉴 차단
@@ -346,9 +346,9 @@ export const gameLogic = () => {
     // Restore transformation
     ctx.restore();
     if (phase == "walking") {
-      ctx.fillText(beforeScore, window.innerWidth - 100, 100);
+      ctx.fillText("SCORE : " + beforeScore, window.innerWidth - 250, 100);
     } else {
-      ctx.fillText(score, window.innerWidth - 100, 100);
+      ctx.fillText("SCORE : " + score, window.innerWidth - 250, 100);
       beforeScore = score;
     }
   }
