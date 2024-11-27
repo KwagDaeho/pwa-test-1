@@ -43,9 +43,9 @@ export const gameLogic = () => {
   const hill2Amplitude = 20;
   const hill2Stretch = 0.5;
 
-  const stretchingSpeed = 2; // Milliseconds it takes to draw a pixel
-  const turningSpeed = 4; // Milliseconds it takes to turn a degree
-  const walkingSpeed = 3;
+  const stretchingSpeed = 1.75; // Milliseconds it takes to draw a pixel
+  const turningSpeed = 3; // Milliseconds it takes to turn a degree
+  const walkingSpeed = 2;
   const transitioningSpeed = 2;
   const fallingSpeed = 1.5;
 
@@ -115,19 +115,20 @@ export const gameLogic = () => {
       furthestX +
       minimumGap +
       Math.floor(Math.random() * (maximumGap - minimumGap));
+    const color = `
+    rgb(
+    ${Math.random() * 205 + 50},
+    ${Math.random() * 205 + 50},
+    ${Math.random() * 205 + 50}
+    )`;
 
-    const treeColors = [
-      "#6D8821",
-      "#ff1493",
-      "#98B333",
-      "#003f5c",
-      "#ffa600",
-      "#7a5195",
-      "#96c0b7",
-    ];
-    const color = treeColors[Math.floor(Math.random() * 7)];
-
-    trees.push({ x, color });
+    const size = {
+      treeTrunkHeight: Math.random() * 400 + 100,
+      treeTrunkWidth: Math.random() * 5 + 2,
+      treeCrownHeight: Math.random() * 120 + 10,
+      treeCrownWidth: Math.random() * 70 + 8,
+    };
+    trees.push({ x, color, size });
   }
 
   function generatePlatform() {
@@ -458,7 +459,14 @@ export const gameLogic = () => {
 
       // Draw stick
       ctx.beginPath();
-      ctx.lineWidth = 2;
+      ctx.strokeStyle = `
+        rgb(
+        ${Math.random() * 190 + 10},
+        ${Math.random() * 190 + 10},
+        ${Math.random() * 190 + 10}
+        )
+      `;
+      ctx.lineWidth = 4;
       ctx.moveTo(0, 0);
       ctx.lineTo(0, -stick.length);
       ctx.stroke();
@@ -482,7 +490,7 @@ export const gameLogic = () => {
 
     // Draw trees
 
-    trees.forEach((tree) => drawTree(tree.x, tree.color));
+    trees.forEach((tree) => drawTree(tree.x, tree.color, tree.size));
   }
 
   // A hill is a shape under a stretched out sinus wave
@@ -498,17 +506,21 @@ export const gameLogic = () => {
     ctx.fill();
   }
 
-  function drawTree(x, color) {
+  function drawTree(x, color, size) {
     ctx.save();
     ctx.translate(
       (-sceneOffset * backgroundSpeedMultiplier + x) * hill1Stretch,
       getTreeY(x, hill1BaseHeight, hill1Amplitude)
     );
 
-    const treeTrunkHeight = Math.random() * 350 + 3;
-    const treeTrunkWidth = Math.random() * 3 + 2;
-    const treeCrownHeight = Math.random() * 100 + 10;
-    const treeCrownWidth = Math.random() * 50 + 5;
+    // const treeTrunkHeight = Math.random() * 350 + 3;
+    // const treeTrunkWidth = Math.random() * 3 + 2;
+    // const treeCrownHeight = Math.random() * 100 + 10;
+    // const treeCrownWidth = Math.random() * 50 + 5;
+    const treeTrunkHeight = size.treeTrunkHeight;
+    const treeTrunkWidth = size.treeTrunkWidth;
+    const treeCrownHeight = size.treeCrownHeight;
+    const treeCrownWidth = size.treeCrownWidth;
 
     // Draw trunk
     ctx.fillStyle = "#7D833C";

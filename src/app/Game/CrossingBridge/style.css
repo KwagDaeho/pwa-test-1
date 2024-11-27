@@ -40,7 +40,7 @@ canvas {
   top: 30%;
   font-weight: 600;
   text-align: center;
-  transition: opacity 2s;
+  transition: opacity 0.35s;
 }
 
 #restart {
