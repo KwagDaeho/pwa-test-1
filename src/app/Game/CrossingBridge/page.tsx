@@ -7,7 +7,8 @@ export default function CrossingBridge() {
   useEffect(() => {
     // 클라이언트에서만 실행되는 로직
     import("./logic.js")
-      .then(() => {
+      .then((module) => {
+        module.gameLogic();
         // 로딩이 끝난 후, 해당 모듈을 사용할 수 있습니다.
         console.log("logic.js가 로드되었습니다!");
       })
