@@ -153,22 +153,36 @@ export const gameLogic = () => {
         return;
       }
     });
+    window.addEventListener("mousedown", startAction);
+    window.addEventListener("mouseup", endAction);
+    window.addEventListener("touchstart", startAction);
+    window.addEventListener("touchend", endAction);
 
-    window.addEventListener("mousedown", function () {
-      console.log(1234);
+    function startAction(event) {
+      // 모바일 터치에서는 event.changedTouches[0]로 첫 번째 터치 정보를 가져옴
       if (phase == "waiting") {
         lastTimestamp = undefined;
         introductionElement.style.opacity = 0;
         phase = "stretching";
+
+        // 터치 이벤트의 경우, 마우스 이벤트와 다르게 clientX, clientY를 사용할 수 있음.
+        if (event.type === "touchstart") {
+          event.preventDefault(); // 터치 이벤트의 기본 동작 방지 (스크롤 방지 등)
+        }
+
         window.requestAnimationFrame(animate);
       }
-    });
+    }
 
-    window.addEventListener("mouseup", function () {
+    function endAction(event) {
       if (phase == "stretching") {
         phase = "turning";
       }
-    });
+      // 터치 이벤트에서 발생한 끝났을 때의 처리가 추가됨
+      if (event.type === "touchend") {
+        event.preventDefault(); // 터치 종료 시 기본 동작 방지
+      }
+    }
 
     window.addEventListener("resize", function () {
       canvas.width = window.innerWidth;
