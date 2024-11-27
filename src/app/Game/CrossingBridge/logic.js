@@ -29,7 +29,7 @@ export const gameLogic = () => {
   const canvasHeight = 375;
   const platformHeight = 100;
   const heroDistanceFromEdge = 10; // While waiting
-  const paddingX = 100; // The waiting position of the hero in from the original canvas size
+  const paddingX = 50; // The waiting position of the hero in from the original canvas size
   const perfectAreaSize = 10;
 
   // The background moves slower than the hero
@@ -42,11 +42,11 @@ export const gameLogic = () => {
   const hill2Amplitude = 20;
   const hill2Stretch = 0.5;
 
-  const stretchingSpeed = 4; // Milliseconds it takes to draw a pixel
+  const stretchingSpeed = 2; // Milliseconds it takes to draw a pixel
   const turningSpeed = 4; // Milliseconds it takes to turn a degree
-  const walkingSpeed = 4;
+  const walkingSpeed = 3;
   const transitioningSpeed = 2;
-  const fallingSpeed = 2;
+  const fallingSpeed = 1.5;
 
   const heroWidth = 17; // 24
   const heroHeight = 30; // 40
@@ -126,10 +126,10 @@ export const gameLogic = () => {
   }
 
   function generatePlatform() {
-    const minimumGap = 40;
-    const maximumGap = 400;
-    const minimumWidth = 20;
-    const maximumWidth = 200;
+    const minimumGap = 50;
+    const maximumGap = 300;
+    const minimumWidth = 30;
+    const maximumWidth = 120;
 
     // X coordinate of the right edge of the furthest platform
     const lastPlatform = platforms[platforms.length - 1];

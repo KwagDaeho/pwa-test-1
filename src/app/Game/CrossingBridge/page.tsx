@@ -21,8 +21,20 @@ export default function CrossingBridge() {
       <div className="container">
         <div id="score"></div>
         <canvas id="game" width="375" height="375"></canvas>
-        <div id="introduction">Hold down the mouse to stretch out a stick</div>
-        <div id="perfect">DOUBLE SCORE</div>
+        <div id="introduction">
+          Click Mouse || Hold Touch
+          <br />
+          <br />1 cross =&gt; +1 score
+          <br />
+          cross with red-zone =&gt; +2 score
+        </div>
+        <div id="perfect" style={{ textAlign: "center" }}>
+          ~!@#$ Wow $#@!~
+          <br />
+          == == == == == == == ==
+          <br />
+          <b>[[ SCORE + 2 ]]</b>
+        </div>
         <button id="restart">RESTART</button>
       </div>
     </>
