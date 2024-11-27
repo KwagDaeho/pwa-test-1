@@ -60,6 +60,10 @@ export const gameLogic = () => {
   const restartButton = document.getElementById("restart");
   const scoreElement = document.getElementById("score");
 
+  canvas.addEventListener("contextmenu", (event) => {
+    event.preventDefault(); // 기본 우클릭 메뉴 차단
+  });
+
   function resetGame() {
     // Reset game progress
     phase = "waiting";
@@ -153,8 +157,8 @@ export const gameLogic = () => {
   });
   window.addEventListener("mousedown", startAction);
   window.addEventListener("mouseup", endAction);
-  window.addEventListener("touchstart", startAction);
-  window.addEventListener("touchend", endAction);
+  window.addEventListener("touchstart", startAction, { passive: false });
+  window.addEventListener("touchend", endAction, { passive: false });
 
   function startAction(event) {
     // 모바일 터치에서는 event.changedTouches[0]로 첫 번째 터치 정보를 가져옴
@@ -340,11 +344,13 @@ export const gameLogic = () => {
     ctx.restore();
   }
 
-  restartButton.addEventListener("click", function (event) {
+  const restartGame = (event) => {
     event.preventDefault();
     resetGame();
     restartButton.style.display = "none";
-  });
+  };
+  restartButton.addEventListener("touchend", restartGame);
+  restartButton.addEventListener("click", restartGame);
 
   function drawPlatforms() {
     platforms.forEach(({ x, w }) => {

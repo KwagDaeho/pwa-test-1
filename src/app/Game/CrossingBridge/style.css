@@ -10,6 +10,13 @@ body {
   cursor: pointer;
 }
 
+body,
+canvas {
+  user-select: none;
+  -webkit-user-select: none; /* Safari에서 사용 */
+  -moz-user-select: none; /* Firefox에서 사용 */
+}
+
 .container {
   display: flex;
   justify-content: center;
