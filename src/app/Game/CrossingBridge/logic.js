@@ -89,12 +89,9 @@ export const gameLogic = () => {
     sticks = [{ x: platforms[0].x + platforms[0].w, length: 0, rotation: 0 }];
 
     trees = [];
-    generateTree();
-    generateTree();
-    generateTree();
-    generateTree();
-    generateTree();
-
+    for (let index = 0; index < 30; index++) {
+      generateTree();
+    }
     heroX = platforms[0].x + platforms[0].w - heroDistanceFromEdge;
     heroY = 0;
 
