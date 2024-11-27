@@ -92,11 +92,6 @@ export const gameLogic = () => {
     generateTree();
     generateTree();
     generateTree();
-    generateTree();
-    generateTree();
-    generateTree();
-    generateTree();
-    generateTree();
 
     heroX = platforms[0].x + platforms[0].w - heroDistanceFromEdge;
     heroY = 0;
@@ -108,7 +103,7 @@ export const gameLogic = () => {
 
   function generateTree() {
     const minimumGap = 30;
-    const maximumGap = 150;
+    const maximumGap = 200;
 
     // X coordinate of the right edge of the furthest tree
     const lastTree = trees[trees.length - 1];
@@ -119,8 +114,16 @@ export const gameLogic = () => {
       minimumGap +
       Math.floor(Math.random() * (maximumGap - minimumGap));
 
-    const treeColors = ["#6D8821", "#8FAC34", "#98B333"];
-    const color = treeColors[Math.floor(Math.random() * 3)];
+    const treeColors = [
+      "#6D8821",
+      "#ff1493",
+      "#98B333",
+      "#003f5c",
+      "#ffa600",
+      "#7a5195",
+      "#96c0b7",
+    ];
+    const color = treeColors[Math.floor(Math.random() * 7)];
 
     trees.push({ x, color });
   }
