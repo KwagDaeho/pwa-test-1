@@ -727,7 +727,6 @@ export const gameLogic = () => {
         this.terrain.dimension.x
       );
     }
-    tileDefinitions;
     renderTerrain() {
       // terrain의 각 칸을 순차적으로 그립니다.
       for (let j = 0; j < this.terrain.dimension.y; j++) {
