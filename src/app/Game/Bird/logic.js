@@ -330,9 +330,6 @@ export const gameLogic = () => {
       this.ctx.msImageSmoothingEnabled = false; // Internet Explorer에서 이미지 smoothing 비활성화
       this.ctx.imageSmoothingEnabled = false; // 기타 브라우저에서 이미지 smoothing 비활성화
 
-      // 캔버스를 문서의 body에 추가합니다.
-      document.body.appendChild(this.canvas); // 캔버스를 화면에 추가합니다.
-
       // 캔버스를 생성한 후, 로깅을 출력합니다.
       console.log(
         "padding:2px; border-left:2px solid green; background: lightgreen; color: #000"

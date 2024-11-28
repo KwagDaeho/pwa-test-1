@@ -1,6 +1,7 @@
 import Push from "@/components/Push";
 import styles from "./page.module.css";
 import InstallPrompt from "@/components/InstallPrompt";
+import Link from "next/link";
 
 export default function Home() {
   return (
@@ -21,6 +22,8 @@ export default function Home() {
         </div>
         <InstallPrompt />
         <Push />
+        <Link href={"/Game/Bird"}>Bird</Link>
+        <Link href={"/Game/CrossingBridge"}>CrossingBridge</Link>
       </main>
       <footer className={styles.footer}></footer>
     </div>

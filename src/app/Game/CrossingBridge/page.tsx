@@ -11,28 +11,20 @@ export default function CrossingBridge() {
     })();
   }, []);
   return (
-    <>
-      <div className="container">
-        <canvas id="game" width="375" height="375"></canvas>
-        <div id="introduction">
-          Click Mouse or Hold Touch
-          <br />
-          <br />
-          Cross 1 bridge =&gt; <b>+1</b>
-          <br />
-          Cross to the red zone =&gt; <b>+2</b>
-        </div>
-        <div id="perfect" style={{ textAlign: "center" }}>
-          <b>
-            ~!@#$ Wow $#@!~
-            <br />
-            == == == == == == == ==
-            <br />
-            [[ SCORE + 2 ]]
-          </b>
-        </div>
-        <button id="restart">RESTART</button>
+    <div id="CrossingBridgeContainer" className="container">
+      <canvas id="game" width="375" height="375"></canvas>
+      <div id="introduction">
+        Click Mouse or Hold Touch
+        <br />
+        <br />
+        Cross 1 bridge =&gt; <b>+1</b>
+        <br />
+        Cross to the red zone =&gt; <b>+2</b>
       </div>
-    </>
+      <div id="perfect" style={{ textAlign: "center" }}>
+        <b>[[ SCORE + 2 ]]</b>
+      </div>
+      <button id="restart">RESTART</button>
+    </div>
   );
 }

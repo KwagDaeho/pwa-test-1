@@ -1,30 +1,20 @@
-html,
-body {
-  height: 100%;
-  margin: 0;
-  color: #121212;
-}
-
-body {
-  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
-  cursor: pointer;
-}
-
-body,
-canvas {
+#CrossingBridgeContainer canvas {
   user-select: none;
   -webkit-user-select: none; /* Safari에서 사용 */
   -moz-user-select: none; /* Firefox에서 사용 */
 }
 
-.container {
+#CrossingBridgeContainer * {
+  color: #232323;
+}
+#CrossingBridgeContainer .container {
   display: flex;
   justify-content: center;
   align-items: center;
   height: 100%;
 }
 
-#score {
+#CrossingBridgeContainer #score {
   position: absolute;
   top: 30px;
   right: 30px;
@@ -32,7 +22,7 @@ canvas {
   font-weight: 900;
 }
 
-#introduction {
+#CrossingBridgeContainer #introduction {
   width: 90%;
   height: 100px;
   position: absolute;
@@ -43,10 +33,12 @@ canvas {
   transition: opacity 0.35s;
 }
 
-#restart {
+#CrossingBridgeContainer #restart {
   width: 120px;
   height: 120px;
   position: absolute;
+  left: calc(50% - 60px);
+  top: calc(50% - 60px);
   border-radius: 50%;
   color: white;
   background-color: red;
@@ -58,8 +50,13 @@ canvas {
   cursor: pointer;
 }
 
-#perfect {
+#CrossingBridgeContainer #perfect {
+  width: 100%;
+  height: 40px;
   position: absolute;
+  left: 0;
+  top: calc(50% - 20px);
   opacity: 0;
   transition: opacity 2s;
+  text-align: center;
 }

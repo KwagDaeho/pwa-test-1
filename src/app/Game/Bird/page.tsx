@@ -11,10 +11,8 @@ export default function CrossingBridge() {
     })();
   }, []);
   return (
-    <>
-      <div className="container">
-        <canvas id="game" width="375" height="375"></canvas>
-      </div>
-    </>
+    <div className="BirdContainer">
+      <canvas id="game" width="375" height="375"></canvas>
+    </div>
   );
 }
