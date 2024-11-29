@@ -44,13 +44,13 @@ export const gameLogic = () => {
         y: y,
       };
       this.velocity = {
-        x: 1.12,
+        x: 0.7,
         y: 0,
       };
-      this.friction = 0.97;
+      this.friction = 0.94;
       this.force = {
         x: 0,
-        y: 0.09,
+        y: 0.06,
       };
       this.hitFloor = 0;
       this.isDead = false;
@@ -879,7 +879,7 @@ export const gameLogic = () => {
         this.terrain.geometry[distribute[i]][11] = 6;
       }
       // bonus가 이미 없다면 bonus 추가
-      if (this.spawnBonus) {
+      if (this.spawnBonus || Utils.random(0, 8) < 1) {
         this.spawnBonus = false;
         let posBonus = Math.round(Utils.random(4, 12));
         // bonus 효과 추가
@@ -906,7 +906,7 @@ export const gameLogic = () => {
         this.terrain.geometry[distribute[i]][4] = 5;
       }
       // bonus가 이미 없다면 bonus 추가
-      if (this.spawnBonus) {
+      if (this.spawnBonus || Utils.random(0, 8) < 1) {
         this.spawnBonus = false;
         let posBonus = Math.round(Utils.random(4, 12));
         this.effects.push(
