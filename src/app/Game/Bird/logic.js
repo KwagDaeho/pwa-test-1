@@ -464,7 +464,7 @@ export const gameLogic = () => {
         let subject = stockSounds[i];
         let name = subject.name;
         subject.url = this.loadSound(stockSounds[i].url);
-        subject.url.volume = 0.1;
+        subject.url.volume = name == "bonus" ? 0.3 : 0.1;
         soundResources[name] = stockSounds[i];
       }
 
