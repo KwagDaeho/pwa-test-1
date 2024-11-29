@@ -263,7 +263,7 @@ export const gameLogic = () => {
       this.state = "menu"; // Initial state of the game (starts with the menu)
       this.lastUpdateTime = 0; // 마지막 업데이트 시간
       this.targetFPS = 60; // 목표 FPS
-      this.frameInterval = 1000 / this.targetFPS; // 프레임 간격 (ms)
+      this.targetFrameInterval = 1000 / this.targetFPS; // 프레임 간격 (ms)
       // levels
       this.bestScore = 0;
       this.score = 0;
@@ -968,14 +968,24 @@ export const gameLogic = () => {
     loop() {
       const currentTime = performance.now(); // 현재 시간(ms)
       const deltaTime = currentTime - this.lastUpdateTime; // 지난 프레임 이후 경과 시간
-
-      if (deltaTime >= this.frameInterval) {
-        this.lastUpdateTime = currentTime - (deltaTime % this.frameInterval); // 시간 보정
-
+      if (deltaTime >= this.targetFrameInterval) {
+        this.lastUpdateTime =
+          currentTime - (deltaTime % this.targetFrameInterval); // 시간 보정
         // 화면 초기화 및 렌더링
         this.ctx.fillStyle = this.background;
         this.ctx.fillRect(0, 0, this.width, this.height);
-        this.render(); // 렌더링 및 게임 업데이트
+
+        if (deltaTime / this.targetFrameInterval < 3) {
+          for (
+            let index = 1;
+            index < deltaTime / this.targetFrameInterval;
+            index++
+          ) {
+            this.render(); // 렌더링 및 게임 업데이트
+          }
+        } else {
+          this.render(); // 렌더링 및 게임 업데이트
+        }
       }
 
       if (this.continueGame) {
