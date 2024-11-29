@@ -78,7 +78,6 @@ export default function Push() {
   // `useEffect`로 인앱 알림 처리
   useEffect(() => {
     // 클라이언트 사이드에서만 Notification을 사용하도록 처리
-    console.log(1234);
     if (typeof window !== "undefined") {
       const onMessageListener = async () => {
         const messagingResolve = await messaging();
