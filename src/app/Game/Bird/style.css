@@ -12,11 +12,12 @@ body:has(canvas) {
   overflow: hidden;
 }
 #BirdContainer {
-  background-color: #111;
+  height: 100dvh;
   display: flex;
   align-items: center;
   justify-content: center;
   overflow: hidden;
+  background-color: #111;
 }
 
 #BirdContainer canvas {

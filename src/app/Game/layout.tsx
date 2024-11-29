@@ -10,7 +10,7 @@ export default function GameLayout({
       <Link
         href={"/"}
         style={{
-          position: "absolute",
+          position: "fixed",
           left: "10px",
           top: "10px",
           padding: "5px 12px",

@@ -1,9 +1,9 @@
 export const gameLogic = () => {
   var Utils = {};
 
-  Utils.isBetween = function (valeur, min, max) {
+  Utils.isBetween = function (value, min, max) {
     // 특정 값(`value`)이 두 값(`min`, `max`) 사이에 있는지 확인하는 함수
-    return (valeur - min) * (valeur - max) < 0;
+    return (value - min) * (value - max) < 0;
   };
   Utils.random = function (min, max) {
     // `min`과 `max` 사이의 임의의 숫자를 생성하는 함수
@@ -17,19 +17,19 @@ export const gameLogic = () => {
     // 두 값(`value1`, `value2`) 사이의 선형 보간을 수행하는 함수
     return value1 + (value2 - value1) * amount;
   };
-  Utils.isPointInSquare = function (x, y, carre) {
+  Utils.isPointInSquare = function (x, y, square) {
     // 특정 점(`x`, `y`)이 정사각형(`square`) 내부에 있는지 확인하는 함수
     return (
-      Calcul.isBetween(x, carre.position.x, carre.position.x + carre.size) &&
-      Calcul.isBetween(y, carre.position.y, carre.position.y + carre.size)
+      Calcul.isBetween(x, square.position.x, square.position.x + square.size) &&
+      Calcul.isBetween(y, square.position.y, square.position.y + square.size)
     );
   };
-  Utils.splitArray = function (tableau, width) {
+  Utils.splitArray = function (array, width) {
     // 주어진 배열(`array`)을 지정된 크기(`width`)만큼의 행으로 나누는 함수
-    var resultat = [];
-    for (var i = 0; i < tableau.length; i += width)
-      resultat.push(tableau.slice(i, i + width));
-    return resultat;
+    var result = [];
+    for (var i = 0; i < array.length; i += width)
+      result.push(array.slice(i, i + width));
+    return result;
   };
 
   class Entity {
