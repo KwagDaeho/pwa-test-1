@@ -118,6 +118,8 @@ export const gameLogic = () => {
         this.position.x = 32;
         this.velocity.x *= -1;
         if (!this.isDead) {
+          this.world.sounds.point.url.currentTime = 0;
+          this.world.sounds.point.url.play();
           this.world.score += 1;
           this.world.leftSpikes();
           this.sprite.selectLine = 1;
@@ -127,6 +129,8 @@ export const gameLogic = () => {
         this.position.x = this.limit.x - 32 - this.size;
         this.velocity.x *= -1;
         if (!this.isDead) {
+          this.world.sounds.point.url.currentTime = 0;
+          this.world.sounds.point.url.play();
           this.world.score += 1;
           this.world.rightSpikes();
           this.sprite.selectLine = 0;
@@ -1082,6 +1086,10 @@ export const gameLogic = () => {
       {
         url: "/sound/get-coin.mp3",
         name: "bonus", // 보너스 사운드
+      },
+      {
+        url: "/sound/get-point.mp3",
+        name: "point", // 보너스 사운드
       },
       {
         url: "/sound/fail.mp3",
