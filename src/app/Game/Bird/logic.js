@@ -44,13 +44,13 @@ export const gameLogic = () => {
         y: y,
       };
       this.velocity = {
-        x: 0.7,
+        x: 1.15,
         y: 0,
       };
-      this.friction = 0.94;
+      this.friction = 0.97;
       this.force = {
         x: 0,
-        y: 0.06,
+        y: 0.1,
       };
       this.hitFloor = 0;
       this.isDead = false;
@@ -261,7 +261,9 @@ export const gameLogic = () => {
       this.fullscreen = false; // Flag for fullscreen mode (false by default)
       this.background = "black"; // Background color of the game world
       this.state = "menu"; // Initial state of the game (starts with the menu)
-
+      this.lastUpdateTime = 0; // 마지막 업데이트 시간
+      this.targetFPS = 60; // 목표 FPS
+      this.frameInterval = 1000 / this.targetFPS; // 프레임 간격 (ms)
       // levels
       this.bestScore = 0;
       this.score = 0;
@@ -964,13 +966,20 @@ export const gameLogic = () => {
       }
     }
     loop() {
-      // 애니메이션 루프
-      this.ctx.fillStyle = this.background;
-      this.ctx.fillRect(0, 0, this.width, this.height);
-      this.render();
-      // 애니메이션을 계속 반복
+      const currentTime = performance.now(); // 현재 시간(ms)
+      const deltaTime = currentTime - this.lastUpdateTime; // 지난 프레임 이후 경과 시간
+
+      if (deltaTime >= this.frameInterval) {
+        this.lastUpdateTime = currentTime - (deltaTime % this.frameInterval); // 시간 보정
+
+        // 화면 초기화 및 렌더링
+        this.ctx.fillStyle = this.background;
+        this.ctx.fillRect(0, 0, this.width, this.height);
+        this.render(); // 렌더링 및 게임 업데이트
+      }
+
       if (this.continueGame) {
-        this.animation = requestAnimationFrame(() => this.loop());
+        this.animation = requestAnimationFrame(() => this.loop()); // 다음 루프 실행
       }
     }
     phase(phase) {
