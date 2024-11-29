@@ -15,7 +15,7 @@
       "type": "image/png"
     }
   ],
-  "orientation": "portrait-primary",
+  "orientation": "natural",
   "display": "standalone",
   "dir": "left",
   "lang": "ko-KR",
