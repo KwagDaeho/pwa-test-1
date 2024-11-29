@@ -34,7 +34,6 @@ export const gameLogic = () => {
 
   class Entity {
     constructor(world, x, y, sprite) {
-      console.log(world);
       this.world = world;
       this.limit = world.limit;
       this.size = world.size;
@@ -45,10 +44,10 @@ export const gameLogic = () => {
         y: y,
       };
       this.velocity = {
-        x: 0.65,
+        x: 1.12,
         y: 0,
       };
-      this.friction = 0.95;
+      this.friction = 0.97;
       this.force = {
         x: 0,
         y: 0.09,
@@ -330,10 +329,39 @@ export const gameLogic = () => {
       this.ctx.msImageSmoothingEnabled = false; // Internet Explorer에서 이미지 smoothing 비활성화
       this.ctx.imageSmoothingEnabled = false; // 기타 브라우저에서 이미지 smoothing 비활성화
 
-      // 캔버스를 생성한 후, 로깅을 출력합니다.
-      console.log(
-        "padding:2px; border-left:2px solid green; background: lightgreen; color: #000"
-      );
+      const touchToSpace = (event) => {
+        event.preventDefault(); // 기본 터치 동작 방지 (예: 스크롤 방지)
+        // 스페이스바 keydown 이벤트 생성 및 디스패치
+        const keydownEvent = new KeyboardEvent("keydown", {
+          key: " ", // 스페이스바 키
+          code: "Space", // 코드
+          keyCode: 32, // 키코드
+          bubbles: true, // 이벤트 버블링 허용
+          cancelable: true, // 이벤트 취소 가능
+        });
+        document.dispatchEvent(keydownEvent);
+
+        // 일정 시간 후에 keyup 이벤트 생성 및 디스패치
+        setTimeout(() => {
+          const keyupEvent = new KeyboardEvent("keyup", {
+            key: " ", // 스페이스바 키
+            code: "Space", // 코드
+            keyCode: 32, // 키코드
+            bubbles: true, // 이벤트 버블링 허용
+            cancelable: true, // 이벤트 취소 가능
+          });
+          document.dispatchEvent(keyupEvent);
+        }, 10); // 10ms 동안 눌림 상태 유지 (필요에 따라 조정 가능)
+      };
+      // 모바일 터치 이벤트 리스너를 설정합니다.
+      document
+        .getElementById("BirdContainer")
+        .removeEventListener("touchstart", touchToSpace);
+      document
+        .getElementById("BirdContainer")
+        .addEventListener("touchstart", touchToSpace, {
+          passive: false,
+        }); // passive 옵션을 false로 설정)
 
       // 키보드 이벤트 리스너를 설정합니다.
       document.addEventListener(
@@ -830,7 +858,9 @@ export const gameLogic = () => {
     }
     randomSpikes() {
       // 아래 범위의 갯수만큼 랜덤한 y값을 생성하여 반환
-      const spikeCount = Utils.random(1.8, 3.2);
+      const spikeCount = Utils.random(1.8, Math.min(3 + this.score / 50), 5);
+
+      // 100점 달성시 최고난이도 진입
       let draw = [];
       while (draw.length < spikeCount) {
         let randomNumber = Math.round(Utils.random(4, 12));
@@ -965,9 +995,28 @@ export const gameLogic = () => {
           this.ctx.globalAlpha = 0.8;
           this.ctx.fillRect(0, 0, this.width, this.height);
           this.ctx.globalAlpha = 1;
-          this.writeText("Best Score : " + this.bestScore, this.height / 2, 5);
-          this.writeText("[spacebar] to jump", this.width / 2, this.height / 3);
-          this.writeText("[f] to fullscreen", this.width / 2, this.height / 2);
+          if (window.innerWidth > 768) {
+            this.writeText(
+              "Best Score : " + this.bestScore,
+              this.height / 2,
+              5
+            );
+            this.writeText(
+              "[spacebar] to jump",
+              this.width / 2,
+              this.height / 3
+            );
+            this.writeText(
+              "[f] to fullscreen",
+              this.width / 2,
+              this.height / 2
+            );
+          } else {
+            this.writeText("Best : " + this.bestScore, this.height / 2, 5);
+            this.writeText("[touch]", this.width / 2, this.height / 3);
+            this.writeText("to jump", this.width / 2, this.height / 2);
+          }
+
           break;
         case "start":
           this.initialize();

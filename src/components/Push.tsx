@@ -39,7 +39,7 @@ export default function Push() {
 
   // 푸시 토큰을 가져오는 함수
   const getPushToken = async (messagingInstance: Messaging): Promise<void> => {
-    alert("토큰 가져오기. 토큰값 alert이 안 뜨면 에러임");
+    alert("토큰 가져오기. 토큰값 alert이 안 뜨면 에러 또는 푸시알림 거절임");
     try {
       const token = await getToken(messagingInstance, {
         vapidKey:
@@ -48,7 +48,7 @@ export default function Push() {
       if (token) {
         alert("FCM Token: " + token);
         setToken(token);
-        // 토큰을 서버나 DB에 저장하여 나중에 사용할 수 있도록 합니다.
+        // 토큰을 서버나 DB에 저장하여 나중에 사용할 수 있도록 처리하면 된다.
       } else {
         console.log(
           "No registration token available. Request permission to generate one."
@@ -78,6 +78,7 @@ export default function Push() {
   // `useEffect`로 인앱 알림 처리
   useEffect(() => {
     // 클라이언트 사이드에서만 Notification을 사용하도록 처리
+    console.log(1234);
     if (typeof window !== "undefined") {
       const onMessageListener = async () => {
         const messagingResolve = await messaging();

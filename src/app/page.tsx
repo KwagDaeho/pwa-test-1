@@ -22,8 +22,12 @@ export default function Home() {
         </div>
         <InstallPrompt />
         <Push />
-        <Link href={"/Game/Bird"}>Bird</Link>
-        <Link href={"/Game/CrossingBridge"}>CrossingBridge</Link>
+        <Link href={"/Game/Bird"} target="_blank">
+          Game - Bird GO!
+        </Link>
+        <Link href={"/Game/CrossingBridge"} target="_blank">
+          Game - CrossingBridge GO!
+        </Link>
       </main>
       <footer className={styles.footer}></footer>
     </div>
