@@ -86,7 +86,8 @@ export const gameLogic = () => {
           !this.isDead &&
           this.world.getKeyInfo(targetX, targetY).action === "isDead"
         ) {
-          // this.world.sounds.defeat.url.play();
+          this.world.sounds.defeat.url.currentTime = 0;
+          this.world.sounds.defeat.url.play();
           this.isDead = true;
           this.sprite.animation = false;
           this.sprite.selectLine += 2;
@@ -103,7 +104,8 @@ export const gameLogic = () => {
           this.world.terrain.geometry[Math.floor(targetY / this.size)][
             Math.floor(targetX / this.size)
           ] = 2;
-          // this.world.sounds.bonus.url.play();
+          this.world.sounds.bonus.url.currentTime = 0;
+          this.world.sounds.bonus.url.play();
           this.world.score += 5;
           if (Utils.random(0, 2) < 1) {
             // 보너스 습득 후 벽 도달시, 50% 확률로 보너스 코인 생성
@@ -116,7 +118,6 @@ export const gameLogic = () => {
         this.position.x = 32;
         this.velocity.x *= -1;
         if (!this.isDead) {
-          // this.world.sounds.bonus.url.play();
           this.world.score += 1;
           this.world.leftSpikes();
           this.sprite.selectLine = 1;
@@ -126,7 +127,6 @@ export const gameLogic = () => {
         this.position.x = this.limit.x - 32 - this.size;
         this.velocity.x *= -1;
         if (!this.isDead) {
-          // this.world.sounds.bonus.url.play();
           this.world.score += 1;
           this.world.rightSpikes();
           this.sprite.selectLine = 0;
@@ -149,7 +149,8 @@ export const gameLogic = () => {
       // Controls
       if (!this.isDead) {
         if (this.world.keysPressed[32] && !this.isPressed) {
-          // this.world.sounds.jump.url.play();
+          this.world.sounds.jump.url.currentTime = 0;
+          this.world.sounds.jump.url.play();
           this.world.effects.push(
             new Effect(
               this.world,
@@ -463,7 +464,7 @@ export const gameLogic = () => {
         soundResources[name] = stockSounds[i];
       }
 
-      // this.sounds = soundResources;
+      this.sounds = soundResources;
       if (tileDefinitions) {
         //  processImages tileDefinitions
         this.cleanKeys = new Array(tileDefinitions.length).fill(false);
@@ -1075,15 +1076,15 @@ export const gameLogic = () => {
 
     stockSounds: [
       {
-        url: "http://www.noiseforfun.com/waves/interface-and-media/NFF-select-04.wav",
+        url: "/sound/jump.mp3",
         name: "jump", // 점프 사운드
       },
       {
-        url: "http://www.noiseforfun.com/waves/interface-and-media/NFF-menu-04-b.wav",
+        url: "/sound/get-coin.mp3",
         name: "bonus", // 보너스 사운드
       },
       {
-        url: "http://www.noiseforfun.com/waves/interface-and-media/NFF-lose.wav",
+        url: "/sound/fail.mp3",
         name: "defeat", // 패배 사운드
       },
     ],
