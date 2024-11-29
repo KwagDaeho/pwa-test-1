@@ -1,0 +1,99 @@
+.container {
+  height: 100vh;
+  padding-top: 30dvh;
+  text-align: center;
+  overflow: hidden;
+}
+
+.heading {
+  font-size: 2rem;
+  margin-bottom: 20px;
+  color: #ccc;
+}
+
+.result {
+  font-size: 2rem;
+  margin-top: 30px;
+  opacity: 0;
+  transform: scale(0.2);
+  transition: transform 1.5s, opacity 1.5s;
+}
+
+.animateText {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* 폭죽 애니메이션 */
+.confetti {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: -1;
+}
+
+.button {
+  padding: 1em 2em;
+  border: 0.125em solid #ca8256;
+  box-shadow: 0.5em 0.5em 0 -0.125em #fff, 0.5em 0.5em lighten(#ca8256, 35%);
+  overflow: hidden;
+  position: relative;
+  color: #ca8256;
+  font: 18px "Space Mono";
+  text-decoration: none;
+  text-transform: uppercase;
+  transition: 0.3s;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.button:after {
+  content: "";
+  background: #ca8256;
+  width: 150%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: -1;
+  transform: rotate(-45deg) translateY(-3em);
+  transform-origin: 0% 100%;
+  transition: 0.3s;
+}
+
+.button:hover {
+  color: #fff;
+  box-shadow: 1em 1em 0 -0.125em #fff, 1em 1em lighten(#ca8256, 35%);
+}
+
+.button:hover:after {
+  transform: rotate(0deg);
+}
+
+.button.isButtonDisabled {
+  content: "뽑기 진행중";
+  background-color: #ddd;
+  color: #ff6347;
+  border-color: #bbb;
+  cursor: not-allowed;
+}
+
+.button.isButtonDisabled:after {
+  background: #bbb;
+  transform: rotate(0deg);
+}
+
+.result h2 {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin: 0;
+  color: #ff6347;
+}
+
+.result p {
+  font-size: 1.5rem;
+  margin: 20px 0;
+  color: #ff4500;
+}

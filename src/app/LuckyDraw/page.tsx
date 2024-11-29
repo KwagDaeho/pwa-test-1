@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Confetti from "react-confetti";
+import styles from "./LuckyDraw.module.css"; // CSS 모듈 불러오기
 
 const LuckyDraw = () => {
   const initialProducts = [
@@ -108,81 +109,27 @@ const LuckyDraw = () => {
   };
 
   return (
-    <div style={styles.container}>
-      <h1 style={styles.heading}>경품 뽑기권을 사용할까요?</h1>
+    <div className={styles.container}>
+      <h1 className={styles.heading}>경품 뽑기권을 사용할까요?</h1>
       <button
         onClick={drawGift}
-        className="button"
+        className={`${styles.button} ${
+          isButtonDisabled ? styles.isButtonDisabled : ""
+        }`}
         type="button"
-        style={{
-          ...styles.button,
-          ...(isButtonDisabled ? styles.buttonDisabled : {}),
-        }}
         disabled={isButtonDisabled}>
-        경품 뽑기
+        [ 뽑기 실행 ]
       </button>
 
-      {confetti && <Confetti style={styles.confetti} />}
+      {confetti && <Confetti className={styles.confetti} />}
 
       <div
-        style={{
-          ...styles.result,
-          ...(animateText ? styles.animateText : {}),
-        }}>
+        className={`${styles.result} ${animateText ? styles.animateText : ""}`}>
         <h3>= 추첨 결과 =</h3>
         <h2>{drawnGift?.name}</h2>
       </div>
     </div>
   );
-};
-
-const styles = {
-  container: {
-    height: "100vh",
-    paddingTop: "30dvh",
-    textAlign: "center",
-    overflow: "hidden",
-  },
-  heading: {
-    fontSize: "2rem",
-    marginBottom: "20px",
-    color: "#ccc",
-  },
-  result: {
-    fontSize: "2rem",
-    marginTop: "30px",
-    opacity: 0,
-    transform: "scale(0.2)",
-    transition: "transform 1.5s, opacity 1.5s",
-    transitionDelay: "1s",
-  },
-  animateText: {
-    opacity: 1,
-    transform: "scale(1)",
-  },
-  confetti: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    right: 0,
-    bottom: 0,
-    zIndex: -1,
-  },
-  button: {
-    padding: "1em 2em",
-    fontSize: "1.25rem",
-    backgroundColor: "#cd3f64",
-    color: "#fff",
-    border: "none",
-    borderRadius: "8px",
-    cursor: "pointer",
-    transition: "background-color 0.3s",
-  },
-  buttonDisabled: {
-    backgroundColor: "#ccc",
-    color: "#888",
-    cursor: "not-allowed",
-  },
 };
 
 export default LuckyDraw;
