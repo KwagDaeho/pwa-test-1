@@ -331,8 +331,9 @@ export const gameLogic = () => {
       this.ctx.msImageSmoothingEnabled = false; // Internet Explorer에서 이미지 smoothing 비활성화
       this.ctx.imageSmoothingEnabled = false; // 기타 브라우저에서 이미지 smoothing 비활성화
 
-      const touchToSpace = () => {
+      const touchToSpaceStart = (e) => {
         // 스페이스바 keydown 이벤트 생성 및 디스패치
+        e.preventDefault();
         const keydownEvent = new KeyboardEvent("keydown", {
           key: " ", // 스페이스바 키
           code: "Space", // 코드
@@ -341,26 +342,33 @@ export const gameLogic = () => {
           cancelable: true, // 이벤트 취소 가능
         });
         document.dispatchEvent(keydownEvent);
-
-        // 일정 시간 후에 keyup 이벤트 생성 및 디스패치
-        setTimeout(() => {
-          const keyupEvent = new KeyboardEvent("keyup", {
-            key: " ", // 스페이스바 키
-            code: "Space", // 코드
-            keyCode: 32, // 키코드
-            bubbles: true, // 이벤트 버블링 허용
-            cancelable: true, // 이벤트 취소 가능
-          });
-          document.dispatchEvent(keyupEvent);
-        }, 10); // 10ms 동안 눌림 상태 유지 (필요에 따라 조정 가능)
+      };
+      const touchToSpaceEnd = () => {
+        // keyup 이벤트 생성 및 디스패치
+        const keyupEvent = new KeyboardEvent("keyup", {
+          key: " ", // 스페이스바 키
+          code: "Space", // 코드
+          keyCode: 32, // 키코드
+          bubbles: true, // 이벤트 버블링 허용
+          cancelable: true, // 이벤트 취소 가능
+        });
+        document.dispatchEvent(keyupEvent);
       };
       // 모바일 터치 이벤트 리스너를 설정합니다.
       document
         .getElementById("BirdContainer")
-        .removeEventListener("touchstart", touchToSpace);
+        .removeEventListener("touchstart", touchToSpaceStart);
       document
         .getElementById("BirdContainer")
-        .addEventListener("touchstart", touchToSpace, {
+        .addEventListener("touchstart", touchToSpaceStart, {
+          passive: false,
+        }); // passive 옵션을 false로 설정)
+      document
+        .getElementById("BirdContainer")
+        .removeEventListener("touchend", touchToSpaceEnd);
+      document
+        .getElementById("BirdContainer")
+        .addEventListener("touchend", touchToSpaceEnd, {
           passive: false,
         }); // passive 옵션을 false로 설정)
 
@@ -968,12 +976,13 @@ export const gameLogic = () => {
     loop() {
       const currentTime = performance.now(); // 현재 시간(ms)
       const deltaTime = currentTime - this.lastUpdateTime; // 지난 프레임 이후 경과 시간
+      // 화면 초기화 및 렌더링
+      this.ctx.fillStyle = this.background;
+      this.ctx.fillRect(0, 0, this.width, this.height);
+
       if (deltaTime >= this.targetFrameInterval) {
         this.lastUpdateTime =
           currentTime - (deltaTime % this.targetFrameInterval); // 시간 보정
-        // 화면 초기화 및 렌더링
-        this.ctx.fillStyle = this.background;
-        this.ctx.fillRect(0, 0, this.width, this.height);
 
         if (deltaTime / this.targetFrameInterval < 3) {
           for (
@@ -981,10 +990,10 @@ export const gameLogic = () => {
             index < deltaTime / this.targetFrameInterval;
             index++
           ) {
-            this.render(); // 렌더링 및 게임 업데이트
+            this.render(); // 부족한 프레임만큼 반복하여 렌더링 및 게임 업데이트
           }
         } else {
-          this.render(); // 렌더링 및 게임 업데이트
+          this.render(); // 프레임에 맞추어 렌더링 및 게임 업데이트
         }
       }
 
