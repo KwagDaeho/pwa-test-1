@@ -874,9 +874,9 @@ export const gameLogic = () => {
     }
     randomSpikes() {
       // 아래 범위의 갯수만큼 랜덤한 y값을 생성하여 반환
-      const spikeCount = Utils.random(1.8, Math.min(3 + this.score / 50), 5);
+      // 200점 달성 이후부터, 최고난이도 (= 최대 6개 생성)
+      const spikeCount = Utils.random(1.8, Math.min(2 + this.score / 50), 6);
 
-      // 100점 달성시 최고난이도 진입
       let draw = [];
       while (draw.length < spikeCount) {
         let randomNumber = Math.round(Utils.random(4, 12));
@@ -980,6 +980,10 @@ export const gameLogic = () => {
       }
     }
     loop() {
+      if (this.score > 48) {
+        // 48점 달성시부터 게임 스피드 증가, 216점 달성시 최고속도 도달
+        this.targetFrameInterval = Math.max(12, 18 - this.score / 36);
+      }
       const currentTime = performance.now(); // 현재 시간(ms)
       const deltaTime = currentTime - this.lastUpdateTime; // 지난 프레임 이후 경과 시간
       if (deltaTime >= this.targetFrameInterval) {
