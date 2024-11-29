@@ -329,8 +329,7 @@ export const gameLogic = () => {
       this.ctx.msImageSmoothingEnabled = false; // Internet Explorer에서 이미지 smoothing 비활성화
       this.ctx.imageSmoothingEnabled = false; // 기타 브라우저에서 이미지 smoothing 비활성화
 
-      const touchToSpace = (event) => {
-        event.preventDefault(); // 기본 터치 동작 방지 (예: 스크롤 방지)
+      const touchToSpace = () => {
         // 스페이스바 keydown 이벤트 생성 및 디스패치
         const keydownEvent = new KeyboardEvent("keydown", {
           key: " ", // 스페이스바 키
