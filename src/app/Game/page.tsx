@@ -13,17 +13,21 @@ export default function Game() {
         marginTop: "50px",
         textAlign: "center",
       }}>
-      <h1>PWA APP - by Daeho Kwag </h1>
+      <h1>
+        PWA APP
+        <br />
+        by Daeho Kwag{" "}
+      </h1>
       <div>
         <a href="https://open.kakao.com/o/sFBLKRZe" target="_blank">
-          카카오 오픈채팅 연결 [새 창이 열려요!]
+          카카오 오픈채팅
         </a>
       </div>
       <div>
         <a
           href="https://www.notion.so/darby-daeho/f16abea6cc5c4791998b6a062173da93?pvs=4"
           target="_blank">
-          노션 연결 [새 창이 열려요!]
+          노션 연결
         </a>
       </div>
       <button>
