@@ -8,7 +8,7 @@ export default function GameLayout({
   return (
     <>
       <Link
-        href={"/"}
+        href={"/Game"}
         style={{
           position: "fixed",
           left: "10px",
@@ -17,7 +17,7 @@ export default function GameLayout({
           backgroundColor: "rgba(255,255,255,0.4)",
           color: "#232323",
         }}>
-        HOME
+        Game Home
       </Link>
       <main>{children}</main>
     </>

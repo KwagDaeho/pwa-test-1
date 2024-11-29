@@ -10,6 +10,8 @@ export default function Game() {
         alignItems: "center",
         justifyContent: "center",
         gap: "10px",
+        marginTop: "50px",
+        textAlign: "center",
       }}>
       <h1>PWA APP - by Daeho Kwag </h1>
       <div>
