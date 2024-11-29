@@ -874,8 +874,8 @@ export const gameLogic = () => {
     }
     randomSpikes() {
       // 아래 범위의 갯수만큼 랜덤한 y값을 생성하여 반환
-      // 200점 달성 이후부터, 최고난이도 (= 최대 6개 생성)
-      const spikeCount = Utils.random(1.8, Math.min(2 + this.score / 50), 6);
+      // 250점 달성 이후부터, 최고난이도 (= 최대 6개 생성)
+      const spikeCount = Utils.random(1.1, Math.min(3.5 + this.score / 100), 6);
 
       let draw = [];
       while (draw.length < spikeCount) {

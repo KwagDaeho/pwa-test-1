@@ -22,7 +22,7 @@ export default function Home() {
         </div>
         <InstallPrompt />
         <Push />
-        <Link href={"/Game"} target="_blank">
+        <Link href={"/Game"}>
           <button>Play Game</button>
         </Link>
       </main>
