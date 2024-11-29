@@ -105,7 +105,10 @@ export const gameLogic = () => {
           ] = 2;
           // this.world.sounds.bonus.url.play();
           this.world.score += 5;
-          this.world.spawnBonus = true;
+          if (Utils.random(0, 2) < 1) {
+            // 보너스 습득 후 벽 도달시, 50% 확률로 보너스 코인 생성
+            this.world.spawnBonus = true;
+          }
         }
       }
       // Check for collision with walls
@@ -892,8 +895,8 @@ export const gameLogic = () => {
       for (var i = 0; i < distribute.length; i++) {
         this.terrain.geometry[distribute[i]][11] = 6;
       }
-      // bonus가 이미 없다면 bonus 추가
-      if (this.spawnBonus || Utils.random(0, 8) < 1) {
+      if (this.spawnBonus || Utils.random(0, 100) < 20) {
+        // 코인 습득 이후는 60%, 아닌 경우에는 20% 확률로 코인 생성
         this.spawnBonus = false;
         let posBonus = Math.round(Utils.random(4, 12));
         // bonus 효과 추가
@@ -919,9 +922,8 @@ export const gameLogic = () => {
       for (var i = 0; i < distribute.length; i++) {
         this.terrain.geometry[distribute[i]][4] = 5;
       }
-      // bonus가 이미 없다면 bonus 추가
-      if (this.spawnBonus || Utils.random(0, 8) < 1) {
-        this.spawnBonus = false;
+      if (this.spawnBonus || Utils.random(0, 100) < 20) {
+        // 코인 습득 이후는 60%, 아닌 경우에는 20% 확률로 코인 생성
         let posBonus = Math.round(Utils.random(4, 12));
         this.effects.push(
           new Effect(
@@ -980,23 +982,28 @@ export const gameLogic = () => {
     loop() {
       const currentTime = performance.now(); // 현재 시간(ms)
       const deltaTime = currentTime - this.lastUpdateTime; // 지난 프레임 이후 경과 시간
-      // 화면 초기화 및 렌더링
-      this.ctx.fillStyle = this.background;
-      this.ctx.fillRect(0, 0, this.width, this.height);
-
       if (deltaTime >= this.targetFrameInterval) {
         this.lastUpdateTime =
           currentTime - (deltaTime % this.targetFrameInterval); // 시간 보정
 
-        if (deltaTime / this.targetFrameInterval < 3) {
+        if (
+          2 < deltaTime / this.targetFrameInterval &&
+          deltaTime / this.targetFrameInterval < 3
+        ) {
           for (
             let index = 1;
             index < deltaTime / this.targetFrameInterval;
             index++
           ) {
+            // 화면 초기화 및 렌더링
+            this.ctx.fillStyle = this.background;
+            this.ctx.fillRect(0, 0, this.width, this.height);
             this.render(); // 부족한 프레임만큼 반복하여 렌더링 및 게임 업데이트
           }
         } else {
+          // 화면 초기화 및 렌더링
+          this.ctx.fillStyle = this.background;
+          this.ctx.fillRect(0, 0, this.width, this.height);
           this.render(); // 프레임에 맞추어 렌더링 및 게임 업데이트
         }
       }
