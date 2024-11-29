@@ -20,6 +20,9 @@ export default function CrossingBridge() {
         Cross 1 bridge =&gt; <b>+1</b>
         <br />
         Cross to the red zone =&gt; <b>+2</b>
+        {/* <br />
+        <br />
+        [space] to reset<b>+1</b> */}
       </div>
       <div id="perfect" style={{ textAlign: "center" }}>
         <b>[[ SCORE + 2 ]]</b>
