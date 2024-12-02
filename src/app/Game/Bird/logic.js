@@ -61,6 +61,7 @@ export const gameLogic = () => {
       this.sprite = new Sprite(this.world, this, sprite);
       this.sprite.selectLine = 1;
     }
+
     update() {
       // 물리 계산을 통합하고 위치와 속도를 업데이트하는 함수
 
@@ -86,8 +87,7 @@ export const gameLogic = () => {
           !this.isDead &&
           this.world.getKeyInfo(targetX, targetY).action === "isDead"
         ) {
-          // this.world.sounds.defeat.url.currentTime = 0;
-          // this.world.sounds.defeat.url.play();
+          this.world.playSound("defeat");
           this.isDead = true;
           this.sprite.animation = false;
           this.sprite.selectLine += 2;
@@ -104,8 +104,7 @@ export const gameLogic = () => {
           this.world.terrain.geometry[Math.floor(targetY / this.size)][
             Math.floor(targetX / this.size)
           ] = 2;
-          // this.world.sounds.bonus.url.currentTime = 0;
-          // this.world.sounds.bonus.url.play();
+          // this.world.playSound("bonus");
           this.world.score += 5;
           if (Utils.random(0, 2) < 1) {
             // 보너스 습득 후 벽 도달시, 50% 확률로 보너스 코인 생성
@@ -118,8 +117,7 @@ export const gameLogic = () => {
         this.position.x = 32;
         this.velocity.x *= -1;
         if (!this.isDead) {
-          // this.world.sounds.point.url.currentTime = 0;
-          // this.world.sounds.point.url.play();
+          // this.world.playSound("point");
           this.world.score += 1;
           this.world.leftSpikes();
           this.sprite.selectLine = 1;
@@ -129,8 +127,7 @@ export const gameLogic = () => {
         this.position.x = this.limit.x - 32 - this.size;
         this.velocity.x *= -1;
         if (!this.isDead) {
-          // this.world.sounds.point.url.currentTime = 0;
-          // this.world.sounds.point.url.play();
+          // this.world.playSound("point");
           this.world.score += 1;
           this.world.rightSpikes();
           this.sprite.selectLine = 0;
@@ -153,8 +150,7 @@ export const gameLogic = () => {
       // Controls
       if (!this.isDead) {
         if (this.world.keysPressed[32] && !this.isPressed) {
-          // this.world.sounds.jump.url.currentTime = 0;
-          // this.world.sounds.jump.url.play();
+          // this.world.playSound("jump");
           this.world.effects.push(
             new Effect(
               this.world,
@@ -291,7 +287,7 @@ export const gameLogic = () => {
       // Chargement + lancement
       this.createContext();
       if (this.prop !== 0) {
-        this.processImages(
+        this.processResources(
           parameters.stockImages,
           parameters.stockSounds,
           parameters.tileDefinitions
@@ -448,7 +444,7 @@ export const gameLogic = () => {
       return audio; // 오디오 객체를 반환합니다.
     }
 
-    processImages(stockImages, stockSounds, tileDefinitions) {
+    processResources(stockImages, stockSounds, tileDefinitions) {
       // 이미지 리소스를 처리합니다.
       let imageResources = {};
       for (let i = 0; i < stockImages.length; i++) {
@@ -464,13 +460,13 @@ export const gameLogic = () => {
         let subject = stockSounds[i];
         let name = subject.name;
         subject.url = this.loadSound(stockSounds[i].url);
-        subject.url.volume = name == "bonus" ? 0.3 : 0.1;
+        subject.url.volume = name == "bonus" ? 0.2 : 0.1;
         soundResources[name] = stockSounds[i];
       }
 
       this.sounds = soundResources;
       if (tileDefinitions) {
-        //  processImages tileDefinitions
+        //  processResources tileDefinitions
         this.cleanKeys = new Array(tileDefinitions.length).fill(false);
         let keyMap = {};
         for (let i = 0; i < tileDefinitions.length; i++) {
@@ -488,6 +484,17 @@ export const gameLogic = () => {
         this.tileDefinitions = keyMap;
       }
     }
+    playSound(soundKey) {
+      const sound = this.sounds[soundKey];
+      setTimeout(() => {
+        const audio = sound.url.cloneNode(true); // 기존 오디오를 복제
+        audio
+          .play()
+          .catch((err) =>
+            console.error(`Error playing sound: ${soundKey}`, err)
+          );
+      }, 0);
+    }
 
     keyPress(event) {
       // 키가 눌렸을 때 처리합니다.
@@ -499,6 +506,7 @@ export const gameLogic = () => {
       switch (this.state) {
         case "menu":
           if (this.keysPressed[32]) {
+            this.playSound("start");
             // 스페이스바가 눌리면 게임을 시작합니다.
             this.phase("start");
           }
@@ -1093,8 +1101,12 @@ export const gameLogic = () => {
         name: "point", // 보너스 사운드
       },
       {
-        url: "/sound/fail.mp3",
+        url: "/sound/defeat.mp3",
         name: "defeat", // 패배 사운드
+      },
+      {
+        url: "/sound/game-start.mp3",
+        name: "start", // 게임 시작 사운드
       },
     ],
 
