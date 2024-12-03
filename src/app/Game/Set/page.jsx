@@ -87,20 +87,23 @@ const thereIsAtLeastOneSet = (baubles) => {
   return getSet(baubles) != undefined;
 };
 
-// const highlightSet = (baubles) => {
-//   const setIndexes = getSet(baubles);
+const highlightSet = (baubles) => {
+  const setIndexes = getSet(baubles);
 
-//   const newBaubles = baubles.map((b, i) => {
-//     if (setIndexes.includes(i))
-//       return {
-//         ...b,
-//         selected: true,
-//       };
-//     return b;
-//   });
+  const newBaubles = baubles.map((b, i) => {
+    if (setIndexes.includes(i))
+      return {
+        ...b,
+        selected: true,
+      };
+    return {
+      ...b,
+      selected: false,
+    };
+  });
 
-//   return newBaubles;
-// };
+  return newBaubles;
+};
 
 const itIsASet = (bauble1, bauble2, bauble3) => {
   const {
@@ -250,14 +253,20 @@ export default function Set() {
         setScore(score + 10);
         newBaubles = generateBaubles();
       } else {
-        alert("Score : " + score);
-        setPhase("demo");
+        // Highlight the possible set
+        setTimeout(() => {
+          endGame();
+        }, 0);
       }
     }
 
     setBaubles(newBaubles);
   };
-
+  const endGame = () => {
+    setBaubles(highlightSet(baubles));
+    alert("Score : " + score);
+    setPhase("demo");
+  };
   const start = () => {
     // Start the game
     setBaubles(generateBaubles());
@@ -265,9 +274,7 @@ export default function Set() {
   };
 
   const timeUp = () => {
-    // Highlight the possible set
-    alert("Score : " + score);
-    setPhase("demo");
+    endGame();
   };
 
   return (
@@ -339,7 +346,7 @@ const useAnimationFrame = (callback) => {
 };
 
 function Timer({ timeUp }) {
-  const time = 50; // 타이머 초기 시간 (초 단위)
+  const time = 60; // 타이머 초기 시간 (초 단위)
   const [timeLeft, setTimeLeft] = useState(time * 1000);
 
   // 애니메이션 프레임 훅
