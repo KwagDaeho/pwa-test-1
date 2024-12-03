@@ -73,7 +73,7 @@ const getSet = (baubles) => {
     for (let i2 = i1 + 1; i2 < baubles.length - 1; i2++) {
       for (let i3 = i2 + 1; i3 < baubles.length; i3++) {
         if (itIsASet(baubles[i1], baubles[i2], baubles[i3])) {
-          console.log("Psst! Here's a solution:", i1 + 1, i2 + 1, i3 + 1);
+          // console.log("Psst! Here's a solution:", i1 + 1, i2 + 1, i3 + 1);
           return [i1, i2, i3];
         }
       }
@@ -251,7 +251,8 @@ export default function Set() {
         newBaubles = replaceSet(newBaubles);
       } else {
         // If the three selected baubles are not a set then the player failed
-        setPhase("failed");
+        alert("Score : " + score);
+        setPhase("demo");
       }
     }
 
@@ -266,12 +267,12 @@ export default function Set() {
 
   const timeUp = () => {
     // Highlight the possible set
-    setBaubles(highlightSet(baubles));
-    setPhase("time-up");
+    alert("Score : " + score);
+    setPhase("demo");
   };
 
   return (
-    <div className="container">
+    <div id="setContainer">
       <div className={"grid " + phase}>
         {baubles.map(({ color, shading, shape, number, selected }, index) => (
           <Bauble
@@ -289,50 +290,27 @@ export default function Set() {
       {phase == "demo" && (
         <div className="sidebar">
           <p className="less-important">
-            This game is based on the card game{" "}
-            <b>
-              <a
-                href="https://en.wikipedia.org/wiki/Set_(card_game)"
-                target="_blank">
-                Set
-              </a>
-            </b>
-            .
+            This game is based on the card game Set.
           </p>
-          <p>Pick a set of three baubles where the following is true:</p>
-          <p>
-            For each one of the four categories of features — color, number,
-            shape, and shading — the three baubles must display that feature as
-            a) either all the same, or b) all different.
+          <p id="ko-help">
+            <b>[ 색상 / 갯수 / 음영 / 모양 ]</b> 4가지 각각의 State가 모두
+            같거나, 모두 다른 3장의 카드를 고르면 Score UP!
+            <br />
+            <br />
+            Rule 유튜브 영상 :
+            <a
+              href="https://www.youtube.com/watch?v=uFKi9g6X3ng"
+              target="_blank">
+              Set
+            </a>
           </p>
-          <p>
-            This example is a set, because they all have <b>different colors</b>
-            , they all have <b>different numbers</b>, they all have the{" "}
-            <b>same shape</b> and they all have <b>different shading</b>.
-          </p>
-          <button onClick={start}>Start</button>
+          <button onClick={start}>Game Start</button>
         </div>
       )}
       {phase == "game" && (
         <div className="sidebar">
           <Score score={score} />
           <Timer key={score} timeUp={timeUp} />
-
-          <p>
-            For each one of the four categories of features — color, number,
-            shape, and shading — the three baubles must display that feature as
-            a) either all the same, or b) all different.
-          </p>
-        </div>
-      )}
-      {(phase == "time-up" || phase == "failed") && (
-        <div className="sidebar">
-          <Score score={score} />
-          {phase == "failed" && <ErrorMessage baubles={baubles} />}
-          {phase == "time-up" && <TimeUpMessage />}
-
-          <button onClick={start}>Play again</button>
-          <Twitter />
         </div>
       )}
     </div>
@@ -362,23 +340,27 @@ const useAnimationFrame = (callback) => {
 };
 
 function Timer({ timeUp }) {
-  const time = 60;
+  const time = 50; // 타이머 초기 시간 (초 단위)
   const [timeLeft, setTimeLeft] = useState(time * 1000);
 
+  // 애니메이션 프레임 훅
   useAnimationFrame((deltaTime) => {
-    // Pass on a function to the setter of the state
-    // to make sure we always have the latest state
     setTimeLeft((prevTime) => prevTime - deltaTime);
   });
 
-  if (timeLeft < 0) timeUp();
+  // 시간 초과 시 `timeUp` 호출
+  useEffect(() => {
+    if (timeLeft < 0) {
+      timeUp();
+    }
+  }, [timeLeft, timeUp]);
 
-  const timeLeftInSeconds = Math.floor(timeLeft / 1000);
+  const timeLeftInSeconds = Math.max(0, Math.floor(timeLeft / 1000)); // 0 이하로 내려가지 않도록 수정
   const radius = 70;
   const circumference = 2 * radius * Math.PI;
 
   return (
-    <svg width="100%" height="200" viewBox="-100 -100 200 200">
+    <svg id="timer" width="100%" height="200" viewBox="-100 -100 200 200">
       <path
         d={`M -1 -${radius} A ${radius} ${radius} 0 1 0 0 -${radius}`}
         stroke="white"
@@ -397,69 +379,12 @@ function Timer({ timeUp }) {
     </svg>
   );
 }
-
 function Score({ score }) {
   return (
     <div className="score">
       <h3>Score</h3>
       <h1>{score}</h1>
     </div>
-  );
-}
-
-function TimeUpMessage() {
-  return <p className="result">Time's up!</p>;
-}
-
-function ErrorMessage({ baubles }) {
-  const selectedBaubles = baubles.filter((b) => b.selected);
-
-  const {
-    colorsFitCriteria,
-    shadingsFitCriteria,
-    shapesFitCriteria,
-    numberFitCriteria,
-  } = getCriteria(selectedBaubles[0], selectedBaubles[1], selectedBaubles[2]);
-
-  return (
-    <div>
-      <p>You picked a wrong combination</p>
-      {!colorsFitCriteria && (
-        <p>
-          Colors don't fit the criteria. They should be either all the same or
-          all different
-        </p>
-      )}
-      {!shadingsFitCriteria && (
-        <p>
-          Shadings don't fit the criteria. They should be either all the same or
-          all different
-        </p>
-      )}
-      {!shapesFitCriteria && (
-        <p>
-          Shapes don't fit the criteria. They should be either all the same or
-          all different
-        </p>
-      )}
-      {!numberFitCriteria && (
-        <p>
-          Number of shapes don't fit the criteria. They should be either all the
-          same or all different
-        </p>
-      )}
-    </div>
-  );
-}
-
-function Twitter() {
-  return (
-    <p className="twitter">
-      Follow me{" "}
-      <a href="https://twitter.com/HunorBorbely" target="_blank">
-        @HunorBorbely
-      </a>
-    </p>
   );
 }
 
