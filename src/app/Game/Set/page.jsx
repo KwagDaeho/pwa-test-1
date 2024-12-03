@@ -50,20 +50,20 @@ const generateBaubles = () => {
   return generateBaubles();
 };
 
-const replaceSet = (baubles) => {
-  const newBaubles = [];
-  const remainingBaublesUnordered = baubles.filter((b) => !b.selected);
-  baubles.forEach((b) => {
-    if (!b.selected) return newBaubles.push(b);
+// const replaceSet = (baubles) => {
+//   const newBaubles = [];
+//   const remainingBaublesUnordered = baubles.filter((b) => !b.selected);
+//   baubles.forEach((b) => {
+//     if (!b.selected) return newBaubles.push(b);
 
-    const newBauble = generateBaubleNotInArray(remainingBaublesUnordered);
-    remainingBaublesUnordered.push(newBauble);
-    newBaubles.push(newBauble);
-  });
+//     const newBauble = generateBaubleNotInArray(remainingBaublesUnordered);
+//     remainingBaublesUnordered.push(newBauble);
+//     newBaubles.push(newBauble);
+//   });
 
-  if (thereIsAtLeastOneSet(newBaubles)) return newBaubles;
-  return replaceSet(baubles);
-};
+//   if (thereIsAtLeastOneSet(newBaubles)) return newBaubles;
+//   return replaceSet(baubles);
+// };
 
 const selectBauble = (baubles, index) =>
   baubles.map((b, i) => (i == index ? { ...b, selected: !b.selected } : b));
@@ -87,20 +87,20 @@ const thereIsAtLeastOneSet = (baubles) => {
   return getSet(baubles) != undefined;
 };
 
-const highlightSet = (baubles) => {
-  const setIndexes = getSet(baubles);
+// const highlightSet = (baubles) => {
+//   const setIndexes = getSet(baubles);
 
-  const newBaubles = baubles.map((b, i) => {
-    if (setIndexes.includes(i))
-      return {
-        ...b,
-        selected: true,
-      };
-    return b;
-  });
+//   const newBaubles = baubles.map((b, i) => {
+//     if (setIndexes.includes(i))
+//       return {
+//         ...b,
+//         selected: true,
+//       };
+//     return b;
+//   });
 
-  return newBaubles;
-};
+//   return newBaubles;
+// };
 
 const itIsASet = (bauble1, bauble2, bauble3) => {
   const {
@@ -247,10 +247,9 @@ export default function Set() {
       if (
         itIsASet(selectedBaubles[0], selectedBaubles[1], selectedBaubles[2])
       ) {
-        setScore(score + 1);
-        newBaubles = replaceSet(newBaubles);
+        setScore(score + 10);
+        newBaubles = generateBaubles();
       } else {
-        // If the three selected baubles are not a set then the player failed
         alert("Score : " + score);
         setPhase("demo");
       }
@@ -324,19 +323,19 @@ const useAnimationFrame = (callback) => {
   const requestRef = useRef();
   const previousTimeRef = useRef();
 
-  const animate = (time) => {
-    if (previousTimeRef.current != undefined) {
-      const deltaTime = time - previousTimeRef.current;
-      callback(deltaTime);
-    }
-    previousTimeRef.current = time;
-    requestRef.current = requestAnimationFrame(animate);
-  };
-
   useEffect(() => {
+    const animate = (time) => {
+      if (previousTimeRef.current != undefined) {
+        const deltaTime = time - previousTimeRef.current;
+        callback(deltaTime);
+      }
+      previousTimeRef.current = time;
+      requestRef.current = requestAnimationFrame(animate);
+    };
+
     requestRef.current = requestAnimationFrame(animate);
     return () => cancelAnimationFrame(requestRef.current);
-  }, []); // Make sure the effect runs only once
+  }, [callback]); // Make sure the effect runs only once
 };
 
 function Timer({ timeUp }) {
