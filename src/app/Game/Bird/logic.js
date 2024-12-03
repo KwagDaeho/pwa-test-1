@@ -317,7 +317,7 @@ export const gameLogic = () => {
       this.background = "black"; // Background color of the game world
       this.state = "menu"; // Initial state of the game (starts with the menu)
       this.lastUpdateTime = 0; // 마지막 업데이트 시간
-      this.targetFPS = 60; // 목표 FPS
+      this.targetFPS = 40; // 목표 FPS
       this.targetFrameInterval = 1000 / this.targetFPS; // 프레임 간격 (ms)
       // levels
       this.bestScore = 0;

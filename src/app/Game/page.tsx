@@ -17,7 +17,7 @@ export default function Game() {
         href={"/"}
         style={{
           padding: "5px 12px",
-          backgroundColor: "rgba(255,255,255,0.4)",
+          backgroundColor: "rgba(0, 0, 0, 0.4)",
           color: "#232323",
         }}>
         Go To Home
@@ -39,6 +39,11 @@ export default function Game() {
           노션 연결
         </a>
       </div>
+      <button>
+        <Link href={"/Game/Set"} target="_blank">
+          [Game] Set GO!
+        </Link>
+      </button>
       <button>
         <Link href={"/Game/Bird"} target="_blank">
           [Game] Bird GO!

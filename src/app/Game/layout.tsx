@@ -17,7 +17,19 @@ export default function GameLayout({
           backgroundColor: "rgba(255,255,255,0.4)",
           color: "#232323",
         }}>
-        Game Home
+        Game
+      </Link>
+      <Link
+        href={"/Game/LeaderBoard"}
+        style={{
+          position: "fixed",
+          left: "90px",
+          top: "10px",
+          padding: "5px 12px",
+          backgroundColor: "rgba(255,255,255,0.4)",
+          color: "#232323",
+        }}>
+        Leader Board
       </Link>
       <main>{children}</main>
     </>
