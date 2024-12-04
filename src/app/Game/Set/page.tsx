@@ -276,7 +276,7 @@ const useAnimationFrame = (callback: (deltaTime: number) => void) => {
 };
 
 function Timer({ timeUp }) {
-  const time = 3; // 타이머 초기 시간 (초 단위)
+  const time = 60; // 타이머 초기 시간 (초 단위)
   const [timeLeft, setTimeLeft] = useState(time * 1000);
 
   // 애니메이션 프레임 훅
