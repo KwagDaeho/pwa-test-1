@@ -158,7 +158,7 @@ export default function Santa() {
       );
 
       // Generate items
-      if (Math.random() < 0.15 * deltaTime) {
+      if (Math.random() < 0.2 * deltaTime) {
         const type =
           Math.random() < 0.6 ? "snow" : Math.random() < 0.4 ? "gift" : "rock";
         const xPosition = 5 + Math.random() * (canvas.width - 10); // 랜덤 x 위치
