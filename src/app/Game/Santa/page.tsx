@@ -4,13 +4,33 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Santa() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const santaRef = useRef({ x: 125, y: 50, speed: 2 }); // 산타 초기 속도
-  const playerRef = useRef({ x: 125, y: 450, speed: 0, targetSpeed: 0 }); // 플레이어 초기 속도
+  const santaRef = useRef({ x: 150, y: 50, speed: 2 }); // 산타 초기 속도
+  const playerRef = useRef({ x: 150, y: 500, speed: 0, targetSpeed: 0 }); // 플레이어 초기 속도
   const snowflakesRef = useRef<{ x: number; y: number }[]>([]); // 눈송이
   const giftsRef = useRef<{ x: number; y: number }[]>([]); // 선물
   const rocksRef = useRef<{ x: number; y: number }[]>([]); // 돌멩이
   const [score, setScore] = useState(0);
-  const [isGameOver, setIsGameOver] = useState(false);
+  const [isGameOver, setIsGameOver] = useState(true);
+  const [timeLeft, setTimeLeft] = useState(30); // 타이머 상태
+
+  useEffect(() => {
+    // 1초마다 타이머 감소
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => prev - 1);
+    }, 1000);
+
+    // 30초 뒤에 게임 오버 처리
+    if (timeLeft <= 0) {
+      setIsGameOver(true);
+      clearInterval(timer);
+    }
+
+    return () => clearInterval(timer);
+  }, [timeLeft]);
+  useEffect(() => {
+    if (isGameOver && timeLeft != 30) alert("Santa score : " + score);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isGameOver]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -18,7 +38,19 @@ export default function Santa() {
     if (!canvas || !ctx) return;
 
     canvas.width = 350; // 캔버스 가로 크기
-    canvas.height = 550; // 캔버스 세로 크기 (하단에 50px 추가)
+    canvas.height = 600; // 캔버스 세로 크기 (하단에 50px 추가)
+
+    // 이미지 리소스
+    const snowflakeImage = new Image();
+    snowflakeImage.src = "/image/snow.png"; // 눈송이 이미지 주소 입력
+    const giftImage = new Image();
+    giftImage.src = "/image/gift.png"; // 선물 이미지 주소 입력
+    const rockImage = new Image();
+    rockImage.src = "/image/stone.png"; // 돌멩이 이미지 주소 입력
+    const santaImage = new Image();
+    santaImage.src = "/image/santa.png"; // 산타 이미지 주소 입력
+    const playerImage = new Image();
+    playerImage.src = "/image/cat.png"; // 플레이어 이미지 주소 입력
 
     // 플레이어 이동을 위한 기본 속도
     const playerSpeed = 8;
@@ -73,6 +105,11 @@ export default function Santa() {
       // Clear canvas
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
+      // 배경 이미지를 그립니다.
+      const backgroundImage = new Image();
+      backgroundImage.src = "/image/bg-snow2.jpg"; // 다운로드한 배경 이미지 경로
+      ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+
       // Draw game border (흰색)
       ctx.strokeStyle = "white";
       ctx.lineWidth = 2;
@@ -84,9 +121,8 @@ export default function Santa() {
 
       santaRef.current.x += santaRef.current.speed; // 일정한 속도로 이동
 
-      // Draw Santa
-      ctx.fillStyle = "red";
-      ctx.fillRect(santaRef.current.x, santaRef.current.y, 50, 30);
+      // Draw Santa (정사각형 이미지 사용)
+      ctx.drawImage(santaImage, santaRef.current.x, santaRef.current.y, 50, 50);
 
       // 부드러운 속도 전환 (기존 속도에서 목표 속도로 변화)
       if (playerRef.current.speed < playerRef.current.targetSpeed) {
@@ -106,12 +142,17 @@ export default function Santa() {
       if (playerRef.current.x > canvas.width - 50)
         playerRef.current.x = canvas.width - 50;
 
-      // Draw Player
-      ctx.fillStyle = "blue";
-      ctx.fillRect(playerRef.current.x, playerRef.current.y, 60, 20);
+      // Draw Player (정사각형 이미지 사용)
+      ctx.drawImage(
+        playerImage,
+        playerRef.current.x,
+        playerRef.current.y,
+        60,
+        60
+      );
 
       // Generate items
-      if (Math.random() < 0.08) {
+      if (Math.random() < 0.1) {
         const type =
           Math.random() < 0.4 ? "snow" : Math.random() < 0.45 ? "gift" : "rock";
         const xPosition = 5 + Math.random() * (canvas.width - 10); // 랜덤 x 위치
@@ -134,17 +175,20 @@ export default function Santa() {
         if (snowflake.y > canvas.height) return false;
 
         // Draw snowflake
-        ctx.fillStyle = "white";
-        ctx.beginPath();
-        ctx.arc(snowflake.x, snowflake.y, 10, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.drawImage(
+          snowflakeImage,
+          snowflake.x - 15,
+          snowflake.y - 15,
+          30,
+          30
+        );
 
         // Collision detection with player
         if (
           snowflake.y > playerRef.current.y &&
-          snowflake.y < playerRef.current.y + 30 &&
+          snowflake.y - 15 < playerRef.current.y + 30 &&
           snowflake.x > playerRef.current.x &&
-          snowflake.x < playerRef.current.x + 50
+          snowflake.x - 15 < playerRef.current.x + 45
         ) {
           setScore((prev) => prev + 1);
           return false; // Remove collided snowflake
@@ -158,19 +202,16 @@ export default function Santa() {
         if (gift.y > canvas.height) return false;
 
         // Draw gift
-        ctx.fillStyle = "green";
-        ctx.beginPath();
-        ctx.arc(gift.x, gift.y, 10, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.drawImage(giftImage, gift.x - 15, gift.y - 15, 30, 30);
 
         // Collision detection with player
         if (
           gift.y > playerRef.current.y &&
-          gift.y < playerRef.current.y + 30 &&
+          gift.y - 15 < playerRef.current.y + 30 &&
           gift.x > playerRef.current.x &&
-          gift.x < playerRef.current.x + 50
+          gift.x - 15 < playerRef.current.x + 45
         ) {
-          setScore((prev) => prev + 3); // 선물 점수
+          setScore((prev) => prev + 5);
           return false; // Remove collided gift
         }
 
@@ -178,87 +219,107 @@ export default function Santa() {
       });
 
       rocksRef.current = rocksRef.current.filter((rock) => {
-        rock.y += 5; // Speed of falling rocks
+        rock.y += 6; // Speed of falling rocks
         if (rock.y > canvas.height) return false;
 
         // Draw rock
-        ctx.fillStyle = "gray";
-        ctx.beginPath();
-        ctx.arc(rock.x, rock.y, 10, 0, Math.PI * 2);
-        ctx.fill();
+        ctx.drawImage(rockImage, rock.x - 20, rock.y - 20, 40, 40);
 
         // Collision detection with player
         if (
           rock.y > playerRef.current.y &&
-          rock.y < playerRef.current.y + 30 &&
+          rock.y - 20 < playerRef.current.y + 30 &&
           rock.x > playerRef.current.x &&
-          rock.x < playerRef.current.x + 50
+          rock.x - 20 < playerRef.current.x + 45
         ) {
-          setIsGameOver(true);
-          return false; // Remove collided rock and stop the game
+          setIsGameOver(true); // Game Over when hit a rock
+          return false; // Remove collided rock
         }
 
         return true;
       });
 
-      // Draw score at the bottom center (흰색)
+      // Update score display
+      ctx.font = "24px Arial";
       ctx.fillStyle = "white";
-      ctx.font = "20px Arial";
-      ctx.fillText(
-        `Score: ${score}`,
-        canvas.width / 2 - 50,
-        canvas.height - 20
-      );
+      ctx.fillText(`Score: ${score}`, 10, canvas.height - 10); // 화면 하단 가운데에 점수 표시
 
       animationFrameId = requestAnimationFrame(update);
     };
-    update();
+
+    update(); // Start the game loop
 
     return () => {
+      cancelAnimationFrame(animationFrameId);
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
-      cancelAnimationFrame(animationFrameId);
     };
-  }, [score, isGameOver]);
+  }, [score, isGameOver, timeLeft]);
   const resetGame = () => {
-    setScore(0);
     setIsGameOver(false);
-    santaRef.current.x = 125;
-    santaRef.current.speed = 2;
-    playerRef.current.x = 125;
-    playerRef.current.speed = 0;
+    setTimeLeft(30);
+    setScore(0);
+
+    santaRef.current.x = 150;
+    playerRef.current.x = 150;
     playerRef.current.targetSpeed = 0;
+    playerRef.current.speed = 0;
     snowflakesRef.current = [];
     giftsRef.current = [];
     rocksRef.current = [];
   };
   return (
-    <div className="game-container">
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+      }}>
       {isGameOver ? (
-        <div
-          style={{
-            height: "calc(100vh - 80px)",
-            marginTop: "80px",
-            display: "flex",
-            flexDirection: "column",
-            gap: "20px",
-            justifyContent: "center",
-            alignItems: "center",
-            textAlign: "center",
-          }}>
-          <h1>Game Over</h1>
-          <p>Score: {score}</p>
-          <button onClick={() => resetGame()} style={{ padding: "4px 24px" }}>
-            Restart
-          </button>
-        </div>
+        <>
+          <div
+            style={{
+              width: "100%",
+              height: "100dvh",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              alignItems: "center",
+              paddingBottom: "50px",
+              fontSize: "24px",
+              color: "#f09",
+              backgroundImage: 'url("/image/bg-snow.jpg")',
+              backgroundSize: "contain",
+              backgroundRepeat: "no-repeat",
+              backgroundPosition: "center",
+            }}>
+            <p>Touch : [Left/Right] Side</p>
+            <p>keyboard : [&larr;/&rarr;] or [a/d]</p>
+            <button
+              onClick={() => {
+                resetGame();
+              }}
+              style={{ marginTop: "36px", padding: "10px", fontSize: "20px" }}>
+              Game Start
+            </button>
+          </div>
+        </>
       ) : (
-        <canvas
-          ref={canvasRef}
-          style={{ display: "block", margin: "50px auto 0" }}
-        />
+        <>
+          <canvas
+            ref={canvasRef}
+            style={{
+              width: "350px",
+              height: "600px",
+              border: "2px solid white",
+            }}
+          />
+          <div style={{ color: "white", fontSize: "20px", marginTop: "10px" }}>
+            {timeLeft + " sec left !!"}
+          </div>
+        </>
       )}
     </div>
   );

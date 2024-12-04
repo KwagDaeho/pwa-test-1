@@ -40,6 +40,11 @@ export default function Set() {
         </a>
       </div>
       <button>
+        <Link href={"/Game/Santa"} target="_blank">
+          [Game] Santa GO!
+        </Link>
+      </button>
+      <button>
         <Link href={"/Game/Set"} target="_blank">
           [Game] Set GO!
         </Link>
