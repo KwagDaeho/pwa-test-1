@@ -251,31 +251,32 @@ export default function Set() {
 }
 
 // Utility hook for requestAnimationFrame
-const useAnimationFrame = (callback) => {
-  // Use useRef for mutable variables that we want to persist
-  // without triggering a re-render on their change
-  const requestRef = useRef(0);
-  const previousTimeRef = useRef(0);
+const useAnimationFrame = (callback: (deltaTime: number) => void) => {
+  // 타입 지정
+  const requestRef = useRef<number | undefined>(undefined); // request ID
+  const previousTimeRef = useRef<number | undefined>(undefined); // 이전 프레임 시간
 
   useEffect(() => {
-    const animate = (time) => {
-      if (previousTimeRef.current != undefined) {
+    const animate = (time: number) => {
+      if (previousTimeRef.current !== undefined) {
         const deltaTime = time - previousTimeRef.current;
         callback(deltaTime);
       }
-      previousTimeRef.current = time;
-      if (requestRef.current !== undefined) {
-        requestRef.current = requestAnimationFrame(animate);
-      }
+      previousTimeRef.current = time; // 현재 시간을 저장
+      requestRef.current = requestAnimationFrame(animate); // 다음 프레임 예약
     };
 
-    requestRef.current = requestAnimationFrame(animate);
-    return () => cancelAnimationFrame(requestRef.current);
-  }, [callback]); // Make sure the effect runs only once
+    requestRef.current = requestAnimationFrame(animate); // 첫 프레임 예약
+    return () => {
+      if (requestRef.current !== undefined) {
+        cancelAnimationFrame(requestRef.current); // 예약 취소
+      }
+    };
+  }, [callback]); // 콜백이 바뀔 때만 재설정
 };
 
 function Timer({ timeUp }) {
-  const time = 60; // 타이머 초기 시간 (초 단위)
+  const time = 3; // 타이머 초기 시간 (초 단위)
   const [timeLeft, setTimeLeft] = useState(time * 1000);
 
   // 애니메이션 프레임 훅
