@@ -77,6 +77,7 @@ export default function Santa() {
 
     // 터치 이벤트 처리 함수 (모바일에서 터치시)
     const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
       const touchX = e.touches[0].clientX;
       if (touchX > canvas.width / 2) {
         playerRef.current.targetSpeed = playerSpeed; // 우측으로 이동
