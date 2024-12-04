@@ -3,6 +3,14 @@
 import { useState, useRef, useEffect } from "react";
 import "./style.css";
 
+interface Bauble {
+  color: string;
+  shading: string;
+  shape: string;
+  number: number;
+  selected: boolean;
+}
+
 // Return a random item from an array
 function pick(array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -15,7 +23,7 @@ const shapes = ["circle", "tree", "star"];
 const numbers = [1, 2, 3];
 
 // Generates a random bauble
-const generateBauble = () => ({
+const generateBauble = (): Bauble => ({
   color: pick(colors),
   shading: pick(shadings),
   shape: pick(shapes),
@@ -40,7 +48,7 @@ const baubleIsInArray = (baubles, bauble) =>
       b.number == bauble.number
   );
 
-const generateBaubles = () => {
+const generateBaubles = (): Bauble[] => {
   const baubles = [];
   while (baubles.length < 12) {
     const bauble = generateBaubleNotInArray(baubles);
@@ -147,97 +155,14 @@ const allTheSame = (values) => values[0] == values[1] && values[0] == values[2];
 const allDifferent = (values) =>
   values[0] != values[1] && values[0] != values[2] && values[1] != values[2];
 
-const demoBaubles = [
-  {
-    color: "#FAC44C",
-    shading: "striped",
-    shape: "circle",
-    number: 2,
-    selected: false,
-  },
-  {
-    color: "#FAC44C",
-    shading: "open",
-    shape: "tree",
-    number: 2,
-    selected: true,
-  },
-  {
-    color: "#EF5169",
-    shading: "striped",
-    shape: "tree",
-    number: 3,
-    selected: true,
-  },
-  {
-    color: "#EF5169",
-    shading: "open",
-    shape: "tree",
-    number: 3,
-    selected: false,
-  },
-  {
-    color: "#FAC44C",
-    shading: "solid",
-    shape: "tree",
-    number: 1,
-    selected: false,
-  },
-  {
-    color: "#EF5169",
-    shading: "striped",
-    shape: "circle",
-    number: 1,
-    selected: false,
-  },
-  {
-    color: "#FAC44C",
-    shading: "open",
-    shape: "circle",
-    number: 2,
-    selected: false,
-  },
-  {
-    color: "#72C264",
-    shading: "striped",
-    shape: "star",
-    number: 2,
-    selected: false,
-  },
-  {
-    color: "#EF5169",
-    shading: "solid",
-    shape: "circle",
-    number: 2,
-    selected: false,
-  },
-  {
-    color: "#72C264",
-    shading: "solid",
-    shape: "tree",
-    number: 2,
-    selected: false,
-  },
-  {
-    color: "#72C264",
-    shading: "solid",
-    shape: "tree",
-    number: 1,
-    selected: true,
-  },
-  {
-    color: "#FAC44C",
-    shading: "solid",
-    shape: "tree",
-    number: 3,
-    selected: false,
-  },
-];
-
 export default function Set() {
-  const [baubles, setBaubles] = useState(demoBaubles);
+  const [baubles, setBaubles] = useState<Bauble[] | null>(null);
   const [score, setScore] = useState(0);
   const [phase, setPhase] = useState("demo");
+
+  useEffect(() => {
+    setBaubles(generateBaubles());
+  }, []);
 
   const select = (index) => {
     if (phase == "demo") return;
@@ -253,7 +178,6 @@ export default function Set() {
         setScore(score + 10);
         newBaubles = generateBaubles();
       } else {
-        // Highlight the possible set
         setTimeout(() => {
           endGame();
         }, 0);
@@ -263,8 +187,11 @@ export default function Set() {
     setBaubles(newBaubles);
   };
   const endGame = () => {
+    // Highlight the possible set
     setBaubles(highlightSet(baubles));
+    // score alert
     alert("Score : " + score);
+    // demo로 이동
     setPhase("demo");
   };
   const start = () => {
@@ -280,7 +207,7 @@ export default function Set() {
   return (
     <div id="setContainer">
       <div className={"grid " + phase}>
-        {baubles.map(({ color, shading, shape, number, selected }, index) => (
+        {baubles?.map(({ color, shading, shape, number, selected }, index) => (
           <Bauble
             key={`${index}-${color}-${shading}-${shape}-${number}`}
             index={index}
@@ -327,8 +254,8 @@ export default function Set() {
 const useAnimationFrame = (callback) => {
   // Use useRef for mutable variables that we want to persist
   // without triggering a re-render on their change
-  const requestRef = useRef();
-  const previousTimeRef = useRef();
+  const requestRef = useRef(0);
+  const previousTimeRef = useRef(0);
 
   useEffect(() => {
     const animate = (time) => {
@@ -337,7 +264,9 @@ const useAnimationFrame = (callback) => {
         callback(deltaTime);
       }
       previousTimeRef.current = time;
-      requestRef.current = requestAnimationFrame(animate);
+      if (requestRef.current !== undefined) {
+        requestRef.current = requestAnimationFrame(animate);
+      }
     };
 
     requestRef.current = requestAnimationFrame(animate);

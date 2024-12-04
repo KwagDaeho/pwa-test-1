@@ -67,6 +67,8 @@ button {
 }
 
 .grid {
+  width: 660px;
+  height: 500px;
   margin: 20px;
   padding: 15px;
   display: grid;
@@ -75,7 +77,6 @@ button {
   gap: 10px;
   background-color: white;
   border-radius: 10px;
-  height: 80vh;
 }
 
 .bauble {
@@ -91,10 +92,6 @@ button {
 }
 
 @media (min-width: 980px) and (min-height: 480px) {
-  .grid {
-    height: auto;
-  }
-
   .bauble {
     width: 150px;
     height: 150px;
@@ -137,6 +134,7 @@ button {
     flex-direction: column;
     gap: 20px;
     .grid {
+      width: auto;
       height: 50%;
       max-height: 600px;
       grid-template-columns: repeat(3, minmax(auto, 120px));
