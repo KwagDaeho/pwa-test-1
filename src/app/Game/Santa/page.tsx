@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function Santa() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const santaRef = useRef({ x: 150, y: 50, speed: 2 }); // 산타 초기 속도
+  const santaRef = useRef({ x: 150, y: 50, speed: 5 }); // 산타 초기 속도
   const playerRef = useRef({ x: 150, y: 500, speed: 0, targetSpeed: 0 }); // 플레이어 초기 속도
   const snowflakesRef = useRef<{ x: number; y: number }[]>([]); // 눈송이
   const giftsRef = useRef<{ x: number; y: number }[]>([]); // 선물
@@ -96,7 +96,13 @@ export default function Santa() {
     window.addEventListener("touchend", handleTouchEnd);
 
     let animationFrameId: number;
-    const update = () => {
+    let lastTime = 0;
+    const update = (timestamp) => {
+      if (santaRef.current.x < -5 || santaRef.current.x > 305) {
+        santaRef.current.x = 150;
+      }
+      const deltaTime = (timestamp - lastTime) / 20; // 초 단위로 변환
+      lastTime = timestamp;
       if (isGameOver) {
         cancelAnimationFrame(animationFrameId);
         return;
@@ -118,25 +124,24 @@ export default function Santa() {
       if (santaRef.current.x <= 0 || santaRef.current.x >= canvas.width - 50) {
         santaRef.current.speed = -santaRef.current.speed; // 방향 반전
       }
-
-      santaRef.current.x += santaRef.current.speed; // 일정한 속도로 이동
+      santaRef.current.x += santaRef.current.speed * deltaTime; // 일정한 속도로 이동
 
       // Draw Santa (정사각형 이미지 사용)
       ctx.drawImage(santaImage, santaRef.current.x, santaRef.current.y, 50, 50);
 
       // 부드러운 속도 전환 (기존 속도에서 목표 속도로 변화)
       if (playerRef.current.speed < playerRef.current.targetSpeed) {
-        playerRef.current.speed += acceleration;
+        playerRef.current.speed += acceleration * deltaTime;
         if (playerRef.current.speed > playerRef.current.targetSpeed)
-          playerRef.current.speed = playerRef.current.targetSpeed;
+          playerRef.current.speed = playerRef.current.targetSpeed * deltaTime;
       } else if (playerRef.current.speed > playerRef.current.targetSpeed) {
-        playerRef.current.speed -= acceleration;
+        playerRef.current.speed -= acceleration * deltaTime;
         if (playerRef.current.speed < playerRef.current.targetSpeed)
-          playerRef.current.speed = playerRef.current.targetSpeed;
+          playerRef.current.speed = playerRef.current.targetSpeed * deltaTime;
       }
 
       // 플레이어 위치 업데이트 (speed에 따라 이동)
-      playerRef.current.x += playerRef.current.speed;
+      playerRef.current.x += playerRef.current.speed * deltaTime;
       // 화면 밖으로 나가지 않도록 제한
       if (playerRef.current.x < 0) playerRef.current.x = 0;
       if (playerRef.current.x > canvas.width - 50)
@@ -171,7 +176,7 @@ export default function Santa() {
 
       // Move and draw items
       snowflakesRef.current = snowflakesRef.current.filter((snowflake) => {
-        snowflake.y += 3; // Speed of falling snowflakes
+        snowflake.y += 3 * deltaTime; // Speed of falling snowflakes
         if (snowflake.y > canvas.height) return false;
 
         // Draw snowflake
@@ -198,7 +203,7 @@ export default function Santa() {
       });
 
       giftsRef.current = giftsRef.current.filter((gift) => {
-        gift.y += 4; // Speed of falling gifts
+        gift.y += 4 * deltaTime; // Speed of falling gifts
         if (gift.y > canvas.height) return false;
 
         // Draw gift
@@ -219,7 +224,7 @@ export default function Santa() {
       });
 
       rocksRef.current = rocksRef.current.filter((rock) => {
-        rock.y += 6; // Speed of falling rocks
+        rock.y += 6 * deltaTime; // Speed of falling rocks
         if (rock.y > canvas.height) return false;
 
         // Draw rock
@@ -238,16 +243,10 @@ export default function Santa() {
 
         return true;
       });
-
-      // Update score display
-      ctx.font = "24px Arial";
-      ctx.fillStyle = "white";
-      ctx.fillText(`Score: ${score}`, 10, canvas.height - 10); // 화면 하단 가운데에 점수 표시
-
       animationFrameId = requestAnimationFrame(update);
     };
 
-    update(); // Start the game loop
+    update(0); // Start the game loop
 
     return () => {
       cancelAnimationFrame(animationFrameId);
@@ -256,12 +255,11 @@ export default function Santa() {
       window.removeEventListener("touchstart", handleTouchStart);
       window.removeEventListener("touchend", handleTouchEnd);
     };
-  }, [score, isGameOver, timeLeft]);
+  }, [isGameOver]);
   const resetGame = () => {
     setIsGameOver(false);
     setTimeLeft(30);
     setScore(0);
-
     santaRef.current.x = 150;
     playerRef.current.x = 150;
     playerRef.current.targetSpeed = 0;
@@ -295,7 +293,7 @@ export default function Santa() {
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}>
-            <p>Touch : [Left/Right] Side</p>
+            <p>Touch : [Left/Right] side</p>
             <p>keyboard : [&larr;/&rarr;] or [a/d]</p>
             <button
               onClick={() => {
@@ -317,7 +315,8 @@ export default function Santa() {
             }}
           />
           <div style={{ color: "white", fontSize: "20px", marginTop: "10px" }}>
-            {timeLeft + " sec left !!"}
+            <p>{"[ Time ] " + timeLeft}</p>
+            <p>{"[ score ] " + score}</p>
           </div>
         </>
       )}
