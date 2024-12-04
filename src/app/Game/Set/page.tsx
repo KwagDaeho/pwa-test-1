@@ -192,6 +192,7 @@ export default function Set() {
     // score alert
     alert("Score : " + score);
     // demo로 이동
+setScore(0);
     setPhase("demo");
   };
   const start = () => {
