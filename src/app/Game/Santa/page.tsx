@@ -99,7 +99,7 @@ export default function Santa() {
     let lastTime = 0;
     const update = (timestamp) => {
       if (santaRef.current.x < -5 || santaRef.current.x > 305) {
-        santaRef.current.x = 150;
+        santaRef.current.x = 50 + Math.random() * 200;
       }
       const deltaTime = (timestamp - lastTime) / 20; // 초 단위로 변환
       lastTime = timestamp;
@@ -157,9 +157,9 @@ export default function Santa() {
       );
 
       // Generate items
-      if (Math.random() < 0.1) {
+      if (Math.random() < 0.15 * deltaTime) {
         const type =
-          Math.random() < 0.4 ? "snow" : Math.random() < 0.45 ? "gift" : "rock";
+          Math.random() < 0.6 ? "snow" : Math.random() < 0.4 ? "gift" : "rock";
         const xPosition = 5 + Math.random() * (canvas.width - 10); // 랜덤 x 위치
         if (type === "snow") {
           snowflakesRef.current.push({ x: xPosition, y: 0 });
