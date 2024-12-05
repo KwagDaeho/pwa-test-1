@@ -9,6 +9,7 @@ export default function GameLayout({
     <>
       <h1 style={{ paddingTop: "100px", textAlign: "center" }}>Leader Board</h1>
       <ul
+        id="leader_board"
         style={{
           display: "flex",
           justifyContent: "center",

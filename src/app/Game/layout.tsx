@@ -20,7 +20,7 @@ export default function GameLayout({
         Game
       </Link>
       <Link
-        href={"/Game/LeaderBoard/Santa"}
+        href={"/Game/LeaderBoard"}
         style={{
           position: "fixed",
           left: "90px",

@@ -1,0 +1,10 @@
+#leader_board button {
+  width: 100%;
+  padding: 4px 12px;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  background-color: #ef5169;
+  color: white;
+  cursor: pointer;
+}
