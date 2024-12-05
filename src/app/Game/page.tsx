@@ -1,7 +1,9 @@
 "use client";
-import Link from "next/link";
 
-export default function Set() {
+import Link from "next/link";
+import "./style.css";
+
+export default function Game() {
   return (
     <div
       style={{
@@ -17,48 +19,47 @@ export default function Set() {
         href={"/"}
         style={{
           padding: "5px 12px",
-          backgroundColor: "rgba(0, 0, 0, 0.4)",
+          backgroundColor: "rgba(255, 255, 255, 0.4)",
           color: "#232323",
         }}>
-        Go To Home
+        Home
       </Link>
       <h1>
-        PWA APP
+        PWA Games
         <br />
         by Daeho Kwag{" "}
       </h1>
-      <div>
-        <a href="https://open.kakao.com/o/sFBLKRZe" target="_blank">
-          카카오 오픈채팅
-        </a>
-      </div>
-      <div>
-        <a
-          href="https://www.notion.so/darby-daeho/f16abea6cc5c4791998b6a062173da93?pvs=4"
-          target="_blank">
-          노션 연결
-        </a>
-      </div>
-      <button>
-        <Link href={"/Game/Santa"} target="_blank">
-          [Game] Santa GO!
-        </Link>
-      </button>
-      <button>
-        <Link href={"/Game/Set"} target="_blank">
-          [Game] Set GO!
-        </Link>
-      </button>
-      <button>
-        <Link href={"/Game/Bird"} target="_blank">
-          [Game] Bird GO!
-        </Link>
-      </button>
-      <button>
-        <Link href={"/Game/CrossingBridge"} target="_blank">
-          [Game] CrossingBridge GO!
-        </Link>
-      </button>
+      <h2>== Game List ==</h2>
+      <ul id="game_wrap">
+        <li>
+          <button>
+            <Link href={"/Game/Santa"} target="_blank">
+              Santa
+            </Link>
+          </button>
+        </li>
+        <li>
+          <button>
+            <Link href={"/Game/Set"} target="_blank">
+              Set
+            </Link>
+          </button>
+        </li>
+        <li>
+          <button>
+            <Link href={"/Game/Bird"} target="_blank">
+              Bird
+            </Link>
+          </button>
+        </li>
+        <li>
+          <button>
+            <Link href={"/Game/CrossingBridge"} target="_blank">
+              CrossingBridge
+            </Link>
+          </button>
+        </li>
+      </ul>
     </div>
   );
 }

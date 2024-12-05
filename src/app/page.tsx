@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div className={styles.page}>
       <main className={styles.main}>
-        <h1>93DuCK - PWA APP </h1>
+        <h1>PWA 입니다.</h1>
         <div>
           <a href="https://open.kakao.com/o/sFBLKRZe" target="_blank">
             카카오 오픈채팅 연결 [새 창이 열려요!]
@@ -22,7 +22,7 @@ export default function Home() {
         </div>
         <InstallPrompt />
         <Push />
-        <Link href={"/Game"}>
+        <Link className={styles.game} href={"/Game"}>
           <button>Play Game</button>
         </Link>
       </main>

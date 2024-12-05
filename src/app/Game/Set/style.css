@@ -50,7 +50,7 @@ svg {
   margin: 20px 20px 20px 0;
 }
 
-button {
+#setContainer button {
   padding: 15px;
   font-size: 1em;
   background-color: #ef5169;
@@ -60,13 +60,13 @@ button {
   cursor: pointer;
 }
 
-.score {
+#setContainer .score {
   text-align: center;
   font-weight: bold;
   font-size: 1.5em;
 }
 
-.grid {
+#setContainer .grid {
   width: 660px;
   height: 500px;
   margin: 20px;
@@ -121,7 +121,7 @@ button {
   border-color: #ff0d0d;
 }
 
-.result {
+#setContainer .result {
   text-align: center;
 }
 
@@ -159,7 +159,7 @@ button {
       display: none;
     }
   }
-  button {
+  #setContainer button {
     font-size: 24px;
   }
   .grid.game .bauble:hover {

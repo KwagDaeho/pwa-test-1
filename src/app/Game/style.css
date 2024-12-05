@@ -1,0 +1,17 @@
+ul#game_wrap {
+  list-style: none;
+}
+ul#game_wrap li {
+  padding-bottom: 12px;
+}
+
+#game_wrap button {
+  width: 100%;
+  padding: 8px 24px;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.2em;
+  background-color: #ef5169;
+  color: white;
+  cursor: pointer;
+}
