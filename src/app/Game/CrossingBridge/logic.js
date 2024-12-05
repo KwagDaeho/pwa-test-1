@@ -59,6 +59,7 @@ export const gameLogic = () => {
   const introductionElement = document.getElementById("introduction");
   const perfectElement = document.getElementById("perfect");
   const restartButton = document.getElementById("restart");
+  const scoreButton = document.getElementById("scoreUpdate");
 
   ctx.font = "bold 30px Fira Sans";
   ctx.fillStyle = "#121212";
@@ -77,7 +78,7 @@ export const gameLogic = () => {
     introductionElement.style.opacity = 1;
     perfectElement.style.opacity = 0;
     restartButton.style.display = "none";
-
+    scoreButton.style.display = "none";
     // The first platform is always the same
     // x + w has to match paddingX
     platforms = [{ x: 50, w: 50 }];
@@ -288,6 +289,7 @@ export const gameLogic = () => {
           platformHeight + 100 + (window.innerHeight - canvasHeight) / 2;
         if (heroY > maxHeroY) {
           restartButton.style.display = "block";
+          score > 0 ? (scoreButton.style.display = "block") : "";
           return;
         }
         break;
@@ -360,9 +362,14 @@ export const gameLogic = () => {
     event.preventDefault();
     resetGame();
     restartButton.style.display = "none";
+    scoreButton.style.display = "none";
   };
+
   restartButton.addEventListener("touchend", restartGame);
   restartButton.addEventListener("click", restartGame);
+  scoreButton.addEventListener("click", () => {
+    window.postGameScore(score);
+  });
 
   function drawPlatforms() {
     platforms.forEach(({ x, w }) => {

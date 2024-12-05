@@ -2,6 +2,7 @@
 
 import { useState, useRef, useEffect } from "react";
 import "./style.css";
+import useGameDashboard from "@/hooks/useGameDashboard";
 
 interface Bauble {
   color: string;
@@ -10,7 +11,6 @@ interface Bauble {
   number: number;
   selected: boolean;
 }
-
 // Return a random item from an array
 function pick(array) {
   return array[Math.floor(Math.random() * array.length)];
@@ -159,6 +159,7 @@ export default function Set() {
   const [baubles, setBaubles] = useState<Bauble[] | null>(null);
   const [score, setScore] = useState(0);
   const [phase, setPhase] = useState("demo");
+  const { loading, addGameData } = useGameDashboard();
 
   useEffect(() => {
     setBaubles(generateBaubles());
@@ -187,12 +188,28 @@ export default function Set() {
     setBaubles(newBaubles);
   };
   const endGame = () => {
+    if (score > 0) {
+      const userName = prompt(
+        "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
+      );
+
+      if (userName !== null) {
+        addGameData(
+          "1534c734f1b5802dbb36c2d48eea6b01",
+          userName,
+          score,
+          new Date().toISOString()
+        );
+      } else {
+        console.log("점수 등록 취소");
+      }
+    }
+
     // Highlight the possible set
     setBaubles(highlightSet(baubles));
     // score alert
-    alert("Score : " + score);
     // demo로 이동
-setScore(0);
+    setScore(0);
     setPhase("demo");
   };
   const start = () => {
@@ -205,7 +222,21 @@ setScore(0);
     endGame();
   };
 
-  return (
+  return loading ? (
+    <div
+      style={{
+        position: "fixed",
+        left: "0",
+        top: "0",
+        width: "100%",
+        height: "100%",
+        paddingTop: "40vh",
+        textAlign: "center",
+        backgroundColor: "rgba(255,255,255,0.6)",
+      }}>
+      <p style={{ color: "#121212" }}>점수를 등록하는 중....</p>
+    </div>
+  ) : (
     <div id="setContainer">
       <div className={"grid " + phase}>
         {baubles?.map(({ color, shading, shape, number, selected }, index) => (

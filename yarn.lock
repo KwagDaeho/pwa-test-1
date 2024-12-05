@@ -2341,6 +2341,16 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@notionhq/client@npm:^2.2.15":
+  version: 2.2.15
+  resolution: "@notionhq/client@npm:2.2.15"
+  dependencies:
+    "@types/node-fetch": "npm:^2.5.10"
+    node-fetch: "npm:^2.6.1"
+  checksum: 10c9/18e8812f1630d7f6a93e058695101853b2db980b2003ca6b1e451c93bca330b8d1c1a7fe2c9769ac5a07ab36bdfe33d9458a244ecc3c171331153872384f0cae
+  languageName: node
+  linkType: hard
+
 "@npmcli/agent@npm:^2.0.0":
   version: 2.2.2
   resolution: "@npmcli/agent@npm:2.2.2"
@@ -2694,6 +2704,16 @@ __metadata:
     next: "npm:^12.2.5 || ^13.0.0"
     workbox-build: "npm:^6.5.4"
   checksum: 10c9/8421979b572a3bf670bad885dc80d69ed6660e9802eafba19ae847ae4d665f505ea3b4412207d4150d5189a6f92d272eb1f8c27c3fe2fa73f9238851eae80b23
+  languageName: node
+  linkType: hard
+
+"@types/node-fetch@npm:^2.5.10":
+  version: 2.6.12
+  resolution: "@types/node-fetch@npm:2.6.12"
+  dependencies:
+    "@types/node": "npm:*"
+    form-data: "npm:^4.0.0"
+  checksum: 10c9/8107c479da83a3114fcbfa882eba95ee5175cccb5e4dd53f737a96f2559ae6262f662176b8457c1656de09ec393cc7b20a266c077e4bfb21e929976e1cf4d0f9
   languageName: node
   linkType: hard
 
@@ -6251,6 +6271,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "next-pwa-test@workspace:."
   dependencies:
+    "@notionhq/client": "npm:^2.2.15"
     "@types/next-pwa": "npm:^5"
     "@types/node": "npm:^20"
     "@types/react": "npm:^18"
@@ -6401,7 +6422,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"node-fetch@npm:^2.6.9, node-fetch@npm:^2.7.0":
+"node-fetch@npm:^2.6.1, node-fetch@npm:^2.6.9, node-fetch@npm:^2.7.0":
   version: 2.7.0
   resolution: "node-fetch@npm:2.7.0"
   dependencies:

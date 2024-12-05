@@ -1082,6 +1082,7 @@ export const gameLogic = () => {
         case "menu":
           if (this.score > this.bestScore) {
             this.bestScore = this.score;
+            window.postGameScore(this.score);
           }
           this.initializeMap();
           this.cleanUpSpikes();

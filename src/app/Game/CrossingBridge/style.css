@@ -49,6 +49,21 @@
   display: none;
   cursor: pointer;
 }
+#CrossingBridgeContainer #scoreUpdate {
+  width: 120px;
+  height: 40px;
+  position: absolute;
+  left: calc(50% - 60px);
+  top: 120px;
+  color: white;
+  background-color: red;
+  border: none;
+  font-weight: 700;
+  font-size: 1.2em;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  display: none;
+  cursor: pointer;
+}
 
 #CrossingBridgeContainer #perfect {
   width: 100%;

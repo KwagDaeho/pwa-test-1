@@ -1,5 +1,6 @@
 "use client";
 
+import useGameDashboard from "@/hooks/useGameDashboard";
 import { useEffect, useRef, useState } from "react";
 
 export default function Santa() {
@@ -12,6 +13,7 @@ export default function Santa() {
   const [score, setScore] = useState(0);
   const [isGameOver, setIsGameOver] = useState(true);
   const [timeLeft, setTimeLeft] = useState(30); // 타이머 상태
+  const { loading, addGameData } = useGameDashboard();
 
   useEffect(() => {
     // 1초마다 타이머 감소
@@ -27,8 +29,24 @@ export default function Santa() {
 
     return () => clearInterval(timer);
   }, [timeLeft]);
+
   useEffect(() => {
-    if (isGameOver && timeLeft != 30) alert("Santa score : " + score);
+    if (isGameOver && timeLeft != 30 && score > 0) {
+      const userName = prompt(
+        "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
+      );
+
+      if (userName !== null) {
+        addGameData(
+          "1534c734f1b58051ba80fa960ba2a0be",
+          userName,
+          score,
+          new Date().toISOString()
+        );
+      } else {
+        console.log("점수 등록 취소");
+      }
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGameOver]);
 
@@ -273,7 +291,21 @@ export default function Santa() {
     giftsRef.current = [];
     rocksRef.current = [];
   };
-  return (
+  return loading ? (
+    <div
+      style={{
+        position: "fixed",
+        left: "0",
+        top: "0",
+        width: "100%",
+        height: "100%",
+        paddingTop: "40vh",
+        textAlign: "center",
+        backgroundColor: "rgba(255,255,255,0.6)",
+      }}>
+      <p style={{ color: "#121212" }}>점수를 등록하는 중....</p>
+    </div>
+  ) : (
     <div
       style={{
         display: "flex",
