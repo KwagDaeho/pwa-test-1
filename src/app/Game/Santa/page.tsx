@@ -77,7 +77,6 @@ export default function Santa() {
 
     // 터치 이벤트 처리 함수 (모바일에서 터치시)
     const handleTouchStart = (e: TouchEvent) => {
-      e.preventDefault();
       const touchX = e.touches[0].clientX;
       if (touchX > canvas.width / 2) {
         playerRef.current.targetSpeed = playerSpeed; // 우측으로 이동
@@ -85,7 +84,9 @@ export default function Santa() {
         playerRef.current.targetSpeed = -playerSpeed; // 좌측으로 이동
       }
     };
-
+    document.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+    });
     const handleTouchEnd = () => {
       playerRef.current.targetSpeed = 0; // 터치가 끝나면 이동 멈춤
     };
@@ -254,6 +255,9 @@ export default function Santa() {
       window.removeEventListener("keydown", handleKeyDown);
       window.removeEventListener("keyup", handleKeyUp);
       window.removeEventListener("touchstart", handleTouchStart);
+      document.removeEventListener("contextmenu", (e) => {
+        e.preventDefault();
+      });
       window.removeEventListener("touchend", handleTouchEnd);
     };
   }, [isGameOver]);
@@ -275,6 +279,7 @@ export default function Santa() {
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
+        userSelect: "none",
       }}>
       {isGameOver ? (
         <>
