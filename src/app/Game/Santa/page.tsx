@@ -315,9 +315,16 @@ export default function Santa() {
               border: "2px solid white",
             }}
           />
-          <div style={{ color: "#90c", fontSize: "20px", marginTop: "10px" }}>
+          <div
+            style={{
+              marginTop: "10px",
+              padding: "3px 12px",
+              backgroundColor: "rgba(255,255,255,0.5)",
+              color: "#121212",
+              fontSize: "20px",
+            }}>
             <p>{"[ Time ] " + timeLeft}</p>
-            <p>{"[ score ] " + score}</p>
+            <p>{"[ Score ] " + score}</p>
           </div>
         </>
       )}
