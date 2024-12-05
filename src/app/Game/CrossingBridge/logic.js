@@ -289,7 +289,9 @@ export const gameLogic = () => {
           platformHeight + 100 + (window.innerHeight - canvasHeight) / 2;
         if (heroY > maxHeroY) {
           restartButton.style.display = "block";
-          score > 0 ? (scoreButton.style.display = "block") : "";
+          if (score > 0) {
+            scoreButton.style.display = "block";
+          }
           return;
         }
         break;
