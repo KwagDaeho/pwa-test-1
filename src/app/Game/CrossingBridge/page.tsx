@@ -7,32 +7,35 @@ import { useEffect } from "react";
 export default function CrossingBridge() {
   const { loading, addGameData } = useGameDashboard();
   useEffect(() => {
-    window.postGameScore = async (score) => {
-      const userName = prompt(
-        "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
-      );
+    if (loading == false) {
+      window.postGameScore = async (score) => {
+        const userName = prompt(
+          "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
+        );
 
-      if (userName !== null) {
-        try {
-          await addGameData(
-            "1534c734f1b58002be1fceb5ea3eb07d",
-            userName,
-            score,
-            new Date().toISOString()
-          );
-          console.log("점수 등록 완료");
-        } catch (error) {
-          console.error("점수 등록 실패:", error);
+        if (userName !== null) {
+          try {
+            await addGameData(
+              "1534c734f1b58002be1fceb5ea3eb07d",
+              userName,
+              score,
+              new Date().toISOString()
+            );
+            console.log("점수 등록 완료");
+            location.reload();
+          } catch (error) {
+            console.error("점수 등록 실패:", error);
+          }
+        } else {
+          console.log("점수 등록 취소");
         }
-      } else {
-        console.log("점수 등록 취소");
-      }
-    };
-    (async () => {
-      const { gameLogic } = await import("./logic.js");
-      gameLogic();
-    })();
-  }, [addGameData]);
+      };
+      (async () => {
+        const { gameLogic } = await import("./logic.js");
+        gameLogic();
+      })();
+    }
+  }, [addGameData, loading]);
   return loading ? (
     <div
       style={{
@@ -48,7 +51,10 @@ export default function CrossingBridge() {
       <p style={{ color: "#121212" }}>점수를 등록하는 중....</p>
     </div>
   ) : (
-    <div id="CrossingBridgeContainer" className="container">
+    <div
+      id="CrossingBridgeContainer"
+      className="container"
+      key={loading.toString()}>
       <canvas id="game" width="375" height="375"></canvas>
       <div id="introduction">
         Click Mouse or Hold Touch

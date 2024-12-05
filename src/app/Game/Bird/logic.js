@@ -1081,8 +1081,8 @@ export const gameLogic = () => {
       switch (phase) {
         case "menu":
           if (this.score > this.bestScore) {
-            this.bestScore = this.score;
             window.postGameScore(this.score);
+            this.bestScore = this.score;
           }
           this.initializeMap();
           this.cleanUpSpikes();
