@@ -168,6 +168,14 @@ export default function Santa() {
         playerRef.current.x = canvas.width - 50;
 
       // Draw Player (정사각형 이미지 사용)
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+      ctx.lineWidth = 3;
+      ctx.strokeRect(
+        playerRef.current.x + 10,
+        playerRef.current.y + 10,
+        42,
+        36
+      );
       ctx.drawImage(
         playerImage,
         playerRef.current.x,
