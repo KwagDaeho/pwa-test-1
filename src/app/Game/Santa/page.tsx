@@ -8,6 +8,7 @@ export default function Santa() {
   const santaRef = useRef({ x: 150, y: 50, speed: 5 }); // 산타 초기 속도
   const playerRef = useRef({ x: 150, y: 500, speed: 0, targetSpeed: 0 }); // 플레이어 초기 속도
   const snowflakesRef = useRef<{ x: number; y: number }[]>([]); // 눈송이
+  const goldenSnowflakesRef = useRef<{ x: number; y: number }[]>([]); // 눈송이
   const giftsRef = useRef<{ x: number; y: number }[]>([]); // 선물
   const rocksRef = useRef<{ x: number; y: number }[]>([]); // 돌멩이
   const [score, setScore] = useState(0);
@@ -61,6 +62,8 @@ export default function Santa() {
     // 이미지 리소스
     const snowflakeImage = new Image();
     snowflakeImage.src = "/image/snow.png"; // 눈송이 이미지 주소 입력
+    const goldenSnowflakeImage = new Image();
+    goldenSnowflakeImage.src = "/image/golden-snow.png"; // 눈송이 이미지 주소 입력
     const giftImage = new Image();
     giftImage.src = "/image/gift.png"; // 선물 이미지 주소 입력
     const rockImage = new Image();
@@ -186,12 +189,20 @@ export default function Santa() {
       );
 
       // Generate items
-      if (Math.random() < 0.2 * deltaTime) {
+      if (Math.random() < 0.25 * deltaTime) {
         const type =
-          Math.random() < 0.5 ? "snow" : Math.random() < 0.5 ? "gift" : "rock";
+          Math.random() < 0.01
+            ? "golden-snow"
+            : Math.random() < 0.66
+            ? "snow"
+            : Math.random() < 0.5
+            ? "gift"
+            : "rock";
         const xPosition = 5 + Math.random() * (canvas.width - 10); // 랜덤 x 위치
         if (type === "snow") {
           snowflakesRef.current.push({ x: xPosition, y: 0 });
+        } else if (type === "golden-snow") {
+          goldenSnowflakesRef.current.push({ x: xPosition, y: 0 });
         } else if (type === "gift") {
           // 선물은 산타 아래에서 떨어지도록 수정
           giftsRef.current.push({
@@ -220,9 +231,9 @@ export default function Santa() {
         // Collision detection with player
         if (
           snowflake.y > playerRef.current.y &&
-          snowflake.y - 15 < playerRef.current.y + 30 &&
-          snowflake.x > playerRef.current.x &&
-          snowflake.x - 15 < playerRef.current.x + 45
+          snowflake.y < playerRef.current.y + 45 &&
+          snowflake.x > playerRef.current.x - 30 &&
+          snowflake.x < playerRef.current.x + 90
         ) {
           setScore((prev) => prev + 1);
           return false; // Remove collided snowflake
@@ -230,6 +241,35 @@ export default function Santa() {
 
         return true;
       });
+      goldenSnowflakesRef.current = goldenSnowflakesRef.current.filter(
+        (goldenSnowflake) => {
+          goldenSnowflake.x = (1.5 * canvas.width - santaRef.current.x) / 2;
+          goldenSnowflake.y += 4.5 * deltaTime; // Speed of falling snowflakes
+          if (goldenSnowflake.y > canvas.height) return false;
+
+          // Draw goldenSnowflake
+          ctx.drawImage(
+            goldenSnowflakeImage,
+            goldenSnowflake.x - 30,
+            goldenSnowflake.y - 30,
+            60,
+            60
+          );
+
+          // Collision detection with player
+          if (
+            goldenSnowflake.y > playerRef.current.y &&
+            goldenSnowflake.y < playerRef.current.y + 45 &&
+            goldenSnowflake.x > playerRef.current.x - 30 &&
+            goldenSnowflake.x < playerRef.current.x + 90
+          ) {
+            setScore((prev) => prev + 25);
+            return false; // Remove collided goldenSnowflake
+          }
+
+          return true;
+        }
+      );
 
       giftsRef.current = giftsRef.current.filter((gift) => {
         gift.y += 4 * deltaTime; // Speed of falling gifts
@@ -241,9 +281,9 @@ export default function Santa() {
         // Collision detection with player
         if (
           gift.y > playerRef.current.y &&
-          gift.y - 15 < playerRef.current.y + 30 &&
+          gift.y < playerRef.current.y + 45 &&
           gift.x > playerRef.current.x &&
-          gift.x - 15 < playerRef.current.x + 45
+          gift.x < playerRef.current.x + 60
         ) {
           setScore((prev) => prev + 5);
           return false; // Remove collided gift
@@ -262,9 +302,9 @@ export default function Santa() {
         // Collision detection with player
         if (
           rock.y > playerRef.current.y &&
-          rock.y - 20 < playerRef.current.y + 30 &&
+          rock.y < playerRef.current.y + 50 &&
           rock.x > playerRef.current.x &&
-          rock.x - 20 < playerRef.current.x + 45
+          rock.x < playerRef.current.x + 65
         ) {
           setIsGameOver(true); // Game Over when hit a rock
           return false; // Remove collided rock
@@ -340,6 +380,24 @@ export default function Santa() {
               backgroundRepeat: "no-repeat",
               backgroundPosition: "center",
             }}>
+            <div
+              style={{
+                padding: "24px",
+                color: "#ccc",
+                textAlign: "center",
+                backgroundColor: "rgba(0,0,0,0.5)",
+              }}>
+              <h3>패치노트</h3>
+              <ul
+                style={{
+                  listStyle: "inside",
+                  fontSize: "18px",
+                }}>
+                <li>눈송이가 조금 더 많이 나옵니다.</li>
+                <li>눈송이의 피격판정 범위가 넓어집니다.</li>
+                <li>낮은 확률로 거대 황금 눈송이가 등장합니다. (+25 pt )</li>
+              </ul>
+            </div>
             <p>Touch : [Left/Right] side</p>
             <p>keyboard : [&larr;/&rarr;] or [a/d]</p>
             <button
