@@ -22,6 +22,7 @@ export default function LeaderBoard() {
           flexDirection: "column",
           alignItems: "center",
           gap: "24px",
+          paddingBlock: "24px",
         }}>
         <h2>[ Set ]</h2>
         {loading && <p>Loading...</p>}
@@ -33,7 +34,6 @@ export default function LeaderBoard() {
                 .sort(function (a, b) {
                   return b.properties.Score.number - a.properties.Score.number;
                 })
-                .slice(0, 10)
                 .map((item, index: number) => {
                   return (
                     <li
