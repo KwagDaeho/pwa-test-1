@@ -95,6 +95,7 @@ export default function Santa() {
 
     // 터치 이벤트 처리 함수 (모바일에서 터치시)
     const handleTouchStart = (e: TouchEvent) => {
+      e.preventDefault();
       const touchX = e.touches[0].clientX;
       if (touchX > canvas.width / 2) {
         playerRef.current.targetSpeed = playerSpeed; // 우측으로 이동
@@ -112,7 +113,7 @@ export default function Santa() {
     // 이벤트 리스너 등록
     window.addEventListener("keydown", handleKeyDown);
     window.addEventListener("keyup", handleKeyUp);
-    window.addEventListener("touchstart", handleTouchStart);
+    window.addEventListener("touchstart", handleTouchStart, { passive: false });
     window.addEventListener("touchend", handleTouchEnd);
 
     let animationFrameId: number;
