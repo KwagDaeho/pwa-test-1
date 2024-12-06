@@ -8,3 +8,9 @@
   color: white;
   cursor: pointer;
 }
+
+button a {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
