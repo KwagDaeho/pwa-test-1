@@ -18,7 +18,26 @@ export async function GET(request: Request) {
   }
 
   try {
-    const response = await notion.databases.query({ database_id: databaseId });
+    const response = await notion.databases.query({
+      database_id: databaseId,
+      // filter: {
+      //   property: "Score",
+      //   number: {
+      //     greater_than: 50, // 점수가 50보다 큰 항목만
+      //   },
+      // },
+      sorts: [
+        {
+          property: "Score",
+          direction: "descending", // 내림차순
+        },
+        {
+          property: "Date",
+          direction: "ascending", // 오름차순
+        },
+      ],
+      page_size: 100,
+    });
     const data = response.results;
 
     return NextResponse.json({ success: true, data });
