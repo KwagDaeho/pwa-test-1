@@ -367,7 +367,9 @@ export default function Santa() {
           <div
             style={{
               width: "100%",
+              maxWidth: "350px",
               height: "100dvh",
+              maxHeight: "600px",
               display: "flex",
               flexDirection: "column",
               justifyContent: "flex-end",
