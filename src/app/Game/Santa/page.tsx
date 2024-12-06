@@ -141,7 +141,7 @@ export default function Santa() {
       ctx.lineWidth = 2;
       ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-      if (santaRef.current.x <= 0 || santaRef.current.x >= canvas.width - 50) {
+      if (santaRef.current.x <= 0 || santaRef.current.x >= canvas.width - 60) {
         santaRef.current.speed = -santaRef.current.speed; // 방향 반전
       }
       santaRef.current.x += santaRef.current.speed * deltaTime; // 일정한 속도로 이동
@@ -164,8 +164,8 @@ export default function Santa() {
       playerRef.current.x += playerRef.current.speed * deltaTime;
       // 화면 밖으로 나가지 않도록 제한
       if (playerRef.current.x < 0) playerRef.current.x = 0;
-      if (playerRef.current.x > canvas.width - 50)
-        playerRef.current.x = canvas.width - 50;
+      if (playerRef.current.x > canvas.width - 60)
+        playerRef.current.x = canvas.width - 60;
 
       // Draw Player (정사각형 이미지 사용)
       ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
