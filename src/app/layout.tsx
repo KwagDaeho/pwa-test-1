@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import Script from "next/script";
+import { Analytics } from "@vercel/analytics/react";
 
 export const generateViewport = () => ({
   minimumScale: 1,
@@ -26,6 +27,7 @@ export default function RootLayout({
       <body>
         {children}
         <Script src="/service-worker.js" />
+        <Analytics />
       </body>
     </html>
   );
