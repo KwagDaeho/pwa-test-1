@@ -1,6 +1,7 @@
 "use client";
 
 import useGameDashboard from "@/hooks/useGameDashboard";
+import useGoogleLogin from "@/hooks/useGoogleLogin";
 import { useEffect, useRef, useState } from "react";
 
 export default function Santa() {
@@ -15,7 +16,7 @@ export default function Santa() {
   const [isGameOver, setIsGameOver] = useState(true);
   const [timeLeft, setTimeLeft] = useState(30); // 타이머 상태
   const { loading, addGameData } = useGameDashboard();
-
+  const { user } = useGoogleLogin();
   useEffect(() => {
     // 1초마다 타이머 감소
     const timer = setInterval(() => {
@@ -33,9 +34,12 @@ export default function Santa() {
 
   useEffect(() => {
     if (isGameOver && timeLeft != 30 && score > 0) {
-      const userName = prompt(
-        "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
-      );
+      const userName =
+        user == null
+          ? prompt(
+              "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
+            )
+          : user.displayName;
 
       if (userName !== null) {
         addGameData(
@@ -340,100 +344,109 @@ export default function Santa() {
     giftsRef.current = [];
     rocksRef.current = [];
   };
-  return loading ? (
-    <div
-      style={{
-        position: "fixed",
-        left: "0",
-        top: "0",
-        width: "100%",
-        height: "100%",
-        paddingTop: "40vh",
-        textAlign: "center",
-        backgroundColor: "rgba(255,255,255,0.6)",
-      }}>
-      <p style={{ color: "#121212" }}>점수를 등록하는 중....</p>
-    </div>
-  ) : (
-    <div
-      style={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        userSelect: "none",
-      }}>
-      {isGameOver ? (
-        <>
-          <div
-            style={{
-              width: "100%",
-              maxWidth: "350px",
-              height: "100dvh",
-              maxHeight: "600px",
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              alignItems: "center",
-              paddingBottom: "50px",
-              fontSize: "24px",
-              color: "#f09",
-              backgroundImage: 'url("/image/bg-snow.jpg")',
-              backgroundSize: "contain",
-              backgroundRepeat: "no-repeat",
-              backgroundPosition: "center",
-            }}>
+  return (
+    <>
+      {loading && (
+        <div
+          style={{
+            position: "fixed",
+            left: "0",
+            top: "0",
+            width: "100%",
+            height: "100%",
+            paddingTop: "40vh",
+            textAlign: "center",
+            backgroundColor: "rgba(0,0,0,0.6)",
+          }}>
+          <p style={{ color: "#fff" }}>점수를 등록하는 중....</p>
+        </div>
+      )}
+      <div
+        style={{
+          minHeight: "100dvh",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          userSelect: "none",
+        }}>
+        {isGameOver ? (
+          <>
             <div
               style={{
-                padding: "24px",
-                color: "#ccc",
-                textAlign: "center",
-                backgroundColor: "rgba(0,0,0,0.5)",
+                width: "100%",
+                maxWidth: "350px",
+                height: "100dvh",
+                maxHeight: "600px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "flex-end",
+                alignItems: "center",
+                paddingBottom: "50px",
+                fontSize: "24px",
+                color: "#f09",
+                backgroundImage: 'url("/image/bg-snow.jpg")',
+                backgroundSize: "contain",
+                backgroundRepeat: "no-repeat",
+                backgroundPosition: "center",
               }}>
-              <h3>패치노트</h3>
-              <ul
+              <div
                 style={{
-                  listStyle: "inside",
-                  fontSize: "18px",
+                  padding: "24px",
+                  color: "#ccc",
+                  textAlign: "center",
+                  backgroundColor: "rgba(0,0,0,0.5)",
                 }}>
-                <li>눈송이가 조금 더 많이 나옵니다.</li>
-                <li>눈송이의 피격판정 범위가 넓어집니다.</li>
-                <li>낮은 확률로 거대 황금 눈송이가 등장합니다. (+25 pt )</li>
-              </ul>
+                <h3>패치노트</h3>
+                <ul
+                  style={{
+                    listStyle: "inside",
+                    fontSize: "18px",
+                  }}>
+                  <li>눈송이가 조금 더 많이 나옵니다.</li>
+                  <li>눈송이의 피격판정 범위가 넓어집니다.</li>
+                  <li>낮은 확률로 거대 황금 눈송이가 등장합니다. (+25 pt )</li>
+                </ul>
+              </div>
+              <p>Touch : [Left/Right] side</p>
+              <p>keyboard : [&larr;/&rarr;] or [a/d]</p>
+              <button
+                onClick={() => {
+                  resetGame();
+                }}
+                style={{
+                  marginTop: "36px",
+                  padding: "10px",
+                  fontSize: "20px",
+                }}>
+                Game Start
+              </button>
             </div>
-            <p>Touch : [Left/Right] side</p>
-            <p>keyboard : [&larr;/&rarr;] or [a/d]</p>
-            <button
-              onClick={() => {
-                resetGame();
+          </>
+        ) : (
+          <>
+            <canvas
+              ref={canvasRef}
+              style={{
+                width: "350px",
+                height: "600px",
+                border: "2px solid white",
               }}
-              style={{ marginTop: "36px", padding: "10px", fontSize: "20px" }}>
-              Game Start
-            </button>
-          </div>
-        </>
-      ) : (
-        <>
-          <canvas
-            ref={canvasRef}
-            style={{
-              width: "350px",
-              height: "600px",
-              border: "2px solid white",
-            }}
-          />
-          <div
-            style={{
-              marginTop: "10px",
-              padding: "3px 12px",
-              backgroundColor: "rgba(255,255,255,0.5)",
-              color: "#121212",
-              fontSize: "20px",
-            }}>
-            <p>{"[ Time ] " + timeLeft}</p>
-            <p>{"[ Score ] " + score}</p>
-          </div>
-        </>
-      )}
-    </div>
+            />
+            <div
+              style={{
+                marginTop: "10px",
+                padding: "3px 12px",
+                backgroundColor: "rgba(255,255,255,0.5)",
+                color: "#121212",
+                fontSize: "20px",
+              }}>
+              <p>{"[ Time ] " + timeLeft}</p>
+              <p>{"[ Score ] " + score}</p>
+            </div>
+          </>
+        )}
+      </div>
+    </>
   );
 }

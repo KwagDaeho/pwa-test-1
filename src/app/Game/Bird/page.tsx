@@ -4,7 +4,7 @@ import useGameDashboard from "@/hooks/useGameDashboard";
 import "./style.css";
 import { useEffect } from "react";
 
-export default function CrossingBridge() {
+export default function Bird() {
   const { loading, addGameData } = useGameDashboard();
   useEffect(() => {
     if (loading == false) {

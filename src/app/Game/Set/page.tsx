@@ -3,6 +3,7 @@
 import { useState, useRef, useEffect } from "react";
 import "./style.css";
 import useGameDashboard from "@/hooks/useGameDashboard";
+import useGoogleLogin from "@/hooks/useGoogleLogin";
 
 interface Bauble {
   color: string;
@@ -160,7 +161,8 @@ export default function Set() {
   const [score, setScore] = useState(0);
   const [phase, setPhase] = useState("demo");
   const { loading, addGameData } = useGameDashboard();
-
+  const { user } = useGoogleLogin();
+  console.log(user);
   useEffect(() => {
     setBaubles(generateBaubles());
   }, []);
@@ -189,9 +191,12 @@ export default function Set() {
   };
   const endGame = () => {
     if (score > 0) {
-      const userName = prompt(
-        "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
-      );
+      const userName =
+        user == null
+          ? prompt(
+              "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
+            )
+          : user.displayName;
 
       if (userName !== null) {
         addGameData(
