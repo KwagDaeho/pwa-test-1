@@ -539,10 +539,10 @@ export const gameLogic = () => {
     keyPress(event) {
       // 키가 눌렸을 때 처리합니다.
       this.keysPressed[event.keyCode] = true; // 눌린 키의 상태를 true로 설정합니다.
-      if (this.keysPressed[70]) {
-        // F 키가 눌리면 전체화면 모드로 전환합니다.
-        this.toggleFullScreen();
-      }
+      // if (this.keysPressed[70]) {
+      //   // F 키가 눌리면 전체화면 모드로 전환합니다.
+      //   this.toggleFullScreen();
+      // }
       switch (this.state) {
         case "menu":
           if (this.keysPressed[32]) {
@@ -1103,11 +1103,6 @@ export const gameLogic = () => {
               "[spacebar] to jump",
               this.width / 2,
               this.height / 3
-            );
-            this.writeText(
-              "[f] to fullscreen",
-              this.width / 2,
-              this.height / 2
             );
           } else {
             this.writeText("Best : " + this.bestScore, this.height / 2, 5);
