@@ -1,5 +1,5 @@
 .container {
-  height: 100vh;
+  min-height: 100vh;
   padding-top: 30dvh;
   text-align: center;
   overflow: hidden;
@@ -101,4 +101,58 @@
 .history {
   margin-top: 50px;
   transition: 1s;
+  width: 250px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.history h2 {
+  font-size: 2rem;
+  color: #ff6347;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  margin-bottom: 20px;
+}
+
+.nameInput {
+  display: block;
+  padding: 8px 16px;
+  margin: 0 auto 10px;
+  border: 2px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+  width: 200px;
+}
+
+.nameInput:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.winnersList {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.winnersList li {
+  padding: 12px 8px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+}
+
+/* 짝수/홀수 번째 항목에 다른 배경색 적용 */
+.winnersList li:nth-child(2n-1) {
+  background-color: #929292; /* 밝은 회색 */
+  color: #121212;
+}
+
+.winnersList li:nth-child(2n) {
+  background-color: #333; /* 흰색 */
+}
+
+/* 마우스 호버 효과 */
+.winnersList li:hover {
+  background-color: #fff3f0; /* 연한 살구색 */
+  transition: background-color 0.3s ease;
+  color: #ff6347;
+  font-weight: 700;
 }

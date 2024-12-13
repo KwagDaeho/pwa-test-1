@@ -12,18 +12,9 @@ export default function Game() {
         alignItems: "center",
         justifyContent: "center",
         gap: "10px",
-        marginTop: "50px",
+        marginTop: "80px",
         textAlign: "center",
       }}>
-      <Link
-        href={"/"}
-        style={{
-          padding: "5px 12px",
-          backgroundColor: "rgba(255, 255, 255, 0.4)",
-          color: "#232323",
-        }}>
-        Home
-      </Link>
       <h1>
         PWA Games
         <br />

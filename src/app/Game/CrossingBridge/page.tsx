@@ -60,15 +60,15 @@ export default function CrossingBridge() {
         Click Mouse or Hold Touch
         <br />
         <br />
-        Cross 1 bridge =&gt; <b>+1</b>
+        Cross 1 bridge =&gt; <b>+ 100</b>
         <br />
-        Cross to the red zone =&gt; <b>+2</b>
+        Cross to the red zone =&gt; <b>+ 100~500</b>
         {/* <br />
         <br />
         [space] to reset<b>+1</b> */}
       </div>
       <div id="perfect" style={{ textAlign: "center" }}>
-        <b>[[ SCORE + 2 ]]</b>
+        <b>[[ PERFECT ]]</b>
       </div>
       <button id="restart">Restart</button>
       <button id="scoreUpdate">점수 업로드</button>

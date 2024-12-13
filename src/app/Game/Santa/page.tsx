@@ -149,7 +149,7 @@ export default function Santa() {
       ctx.lineWidth = 2;
       ctx.strokeRect(0, 0, canvas.width, canvas.height);
 
-      if (santaRef.current.x <= 0 || santaRef.current.x >= canvas.width - 60) {
+      if (santaRef.current.x <= 10 || santaRef.current.x >= canvas.width - 70) {
         santaRef.current.speed = -santaRef.current.speed; // 방향 반전
       }
       santaRef.current.x += santaRef.current.speed * deltaTime; // 일정한 속도로 이동
@@ -195,11 +195,11 @@ export default function Santa() {
       // Generate items
       if (Math.random() < 0.25 * deltaTime) {
         const type =
-          Math.random() < 0.01
+          Math.random() < 0.025
             ? "golden-snow"
             : Math.random() < 0.66
             ? "snow"
-            : Math.random() < 0.5
+            : Math.random() < 0.55
             ? "gift"
             : "rock";
         const xPosition = 5 + Math.random() * (canvas.width - 10); // 랜덤 x 위치
@@ -239,7 +239,7 @@ export default function Santa() {
           snowflake.x > playerRef.current.x - 30 &&
           snowflake.x < playerRef.current.x + 90
         ) {
-          setScore((prev) => prev + 1);
+          setScore((prev) => Math.ceil(prev + Math.random() * 9 + 1));
           return false; // Remove collided snowflake
         }
 
@@ -247,8 +247,7 @@ export default function Santa() {
       });
       goldenSnowflakesRef.current = goldenSnowflakesRef.current.filter(
         (goldenSnowflake) => {
-          goldenSnowflake.x = (1.5 * canvas.width - santaRef.current.x) / 2;
-          goldenSnowflake.y += 4.5 * deltaTime; // Speed of falling snowflakes
+          goldenSnowflake.y += 5 * deltaTime; // Speed of falling snowflakes
           if (goldenSnowflake.y > canvas.height) return false;
 
           // Draw goldenSnowflake
@@ -267,7 +266,7 @@ export default function Santa() {
             goldenSnowflake.x > playerRef.current.x - 30 &&
             goldenSnowflake.x < playerRef.current.x + 90
           ) {
-            setScore((prev) => prev + 25);
+            setScore((prev) => prev + 500);
             return false; // Remove collided goldenSnowflake
           }
 
@@ -289,7 +288,7 @@ export default function Santa() {
           gift.x > playerRef.current.x &&
           gift.x < playerRef.current.x + 60
         ) {
-          setScore((prev) => prev + 5);
+          setScore((prev) => prev + Math.ceil(Math.random() * 100) + 10);
           return false; // Remove collided gift
         }
 
@@ -403,9 +402,11 @@ export default function Santa() {
                     listStyle: "inside",
                     fontSize: "18px",
                   }}>
-                  <li>눈송이가 조금 더 많이 나옵니다.</li>
-                  <li>눈송이의 피격판정 범위가 넓어집니다.</li>
-                  <li>낮은 확률로 거대 황금 눈송이가 등장합니다. (+25 pt )</li>
+                  <li>눈송이 : 1~10 pt</li>
+                  <li>선물 : 10~100 pt</li>
+                  <li>황금 거대 눈송이 : 500 pt</li>
+                  <li>황금 거대 눈송이가 더이상 x축으로 움직이지 않습니다.</li>
+                  <li>황금 거대 눈송이 등장 확률이 2배 증가했습니다.</li>
                 </ul>
               </div>
               <p>Touch : [Left/Right] side</p>
@@ -435,14 +436,22 @@ export default function Santa() {
             />
             <div
               style={{
+                position: "absolute",
+                left: "0",
+                top: "calc(50% - 150px)",
+                width: "100%",
+                height: "60px",
                 marginTop: "10px",
                 padding: "3px 12px",
-                backgroundColor: "rgba(255,255,255,0.5)",
+                backgroundColor: "rgba(255,255,255,0.2)",
                 color: "#121212",
-                fontSize: "20px",
+                fontSize: "24px",
+                fontWeight: "bold",
+                textAlign: "center",
+                textShadow: "0 0 5px #fff",
               }}>
-              <p>{"[ Time ] " + timeLeft}</p>
-              <p>{"[ Score ] " + score}</p>
+              <p>{score} pt</p>
+              <p>{timeLeft} sec</p>
             </div>
           </>
         )}

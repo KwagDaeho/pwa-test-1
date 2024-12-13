@@ -227,7 +227,7 @@ export const gameLogic = () => {
           const [nextPlatform, perfectHit] = thePlatformTheStickHits();
           if (nextPlatform) {
             // Increase score
-            score += perfectHit ? 2 : 1;
+            score += perfectHit ? Math.ceil(Math.random() * 5) * 100 : 100;
 
             if (perfectHit) {
               perfectElement.style.opacity = 1;

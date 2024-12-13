@@ -152,9 +152,9 @@ export const gameLogic = () => {
             Math.floor(targetX / this.size)
           ] = 2;
           playSound("/sound/get-coin.mp3");
-          this.world.score += 5;
-          if (Utils.random(0, 2) < 1) {
-            // 보너스 습득 후 벽 도달시, 50% 확률로 보너스 코인 생성
+          this.world.score += 10 + Math.ceil(Math.random() * 70);
+          if (Utils.random(0, 9) < 6) {
+            // 보너스 습득 후 벽 도달시, 60% 확률로 보너스 코인 생성
             this.world.spawnBonus = true;
           }
         }
@@ -165,7 +165,7 @@ export const gameLogic = () => {
         this.velocity.x *= -1;
         if (!this.isDead) {
           playSound("/sound/get-point.mp3");
-          this.world.score += 1;
+          this.world.score += 10;
           this.world.leftSpikes();
           this.sprite.selectLine = 1;
         }
@@ -175,7 +175,7 @@ export const gameLogic = () => {
         this.velocity.x *= -1;
         if (!this.isDead) {
           playSound("/sound/get-point.mp3");
-          this.world.score += 1;
+          this.world.score += 10;
           this.world.rightSpikes();
           this.sprite.selectLine = 0;
         }
@@ -927,8 +927,8 @@ export const gameLogic = () => {
     }
     randomSpikes() {
       // 아래 범위의 갯수만큼 랜덤한 y값을 생성하여 반환
-      // 250점 달성 이후부터, 최고난이도 (= 최대 6개 생성)
-      const spikeCount = Utils.random(1.1, Math.min(3.5 + this.score / 100), 6);
+      // 9000점 달성 이후부터, 최고난이도 (= 최대 6개 생성)
+      const spikeCount = Utils.random(1.2, Math.min(3 + this.score / 3000), 6);
 
       let draw = [];
       while (draw.length < spikeCount) {
@@ -948,8 +948,8 @@ export const gameLogic = () => {
       for (var i = 0; i < distribute.length; i++) {
         this.terrain.geometry[distribute[i]][11] = 6;
       }
-      if (this.spawnBonus || Utils.random(0, 100) < 20) {
-        // 코인 습득 이후는 60%, 아닌 경우에는 20% 확률로 코인 생성
+      if (this.spawnBonus || Utils.random(0, 100) < 40) {
+        // 코인 습득 이후는 76%, 아닌 경우에는 40% 확률로 코인 생성
         this.spawnBonus = false;
         let posBonus = Math.round(Utils.random(4, 12));
         // bonus 효과 추가
@@ -975,8 +975,8 @@ export const gameLogic = () => {
       for (var i = 0; i < distribute.length; i++) {
         this.terrain.geometry[distribute[i]][4] = 5;
       }
-      if (this.spawnBonus || Utils.random(0, 100) < 20) {
-        // 코인 습득 이후는 60%, 아닌 경우에는 20% 확률로 코인 생성
+      if (this.spawnBonus || Utils.random(0, 100) < 40) {
+        // 코인 습득 이후는 76%, 아닌 경우에는 40% 확률로 코인 생성
         let posBonus = Math.round(Utils.random(4, 12));
         this.effects.push(
           new Effect(
@@ -1034,8 +1034,8 @@ export const gameLogic = () => {
     }
     loop() {
       if (this.score > 48) {
-        // 48점 달성시 다음 프레임 속도 ( 게임 속도 ) 증가, 216점 달성시 최고속도 도달
-        this.targetFrameInterval = Math.max(12, 18 - this.score / 36);
+        // 6000점 달성시 다음 프레임 속도 ( 게임 속도 ) 증가, 216점 달성시 최고속도 도달
+        this.targetFrameInterval = Math.max(12, 18 - this.score / 1000);
       } else {
         this.targetFrameInterval = 1000 / this.targetFPS;
       }

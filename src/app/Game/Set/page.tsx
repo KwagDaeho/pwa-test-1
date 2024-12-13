@@ -162,7 +162,6 @@ export default function Set() {
   const [phase, setPhase] = useState("demo");
   const { loading, addGameData } = useGameDashboard();
   const { user } = useGoogleLogin();
-  console.log(user);
   useEffect(() => {
     setBaubles(generateBaubles());
   }, []);
@@ -178,7 +177,7 @@ export default function Set() {
       if (
         itIsASet(selectedBaubles[0], selectedBaubles[1], selectedBaubles[2])
       ) {
-        setScore(score + 10);
+        setScore(score + 100);
         newBaubles = generateBaubles();
       } else {
         setTimeout(() => {
@@ -313,7 +312,7 @@ const useAnimationFrame = (callback: (deltaTime: number) => void) => {
 };
 
 function Timer({ timeUp }) {
-  const time = 60; // 타이머 초기 시간 (초 단위)
+  const time = 40; // 타이머 초기 시간 (초 단위)
   const [timeLeft, setTimeLeft] = useState(time * 1000);
 
   // 애니메이션 프레임 훅
