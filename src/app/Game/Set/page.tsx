@@ -33,14 +33,14 @@ const generateBauble = (): Bauble => ({
 });
 
 // Generates a random bauble that's not in the given array
-const generateBaubleNotInArray = (array) => {
+const generateBaubleNotInArray = (array: Bauble[]) => {
   const bauble = generateBauble();
   if (!baubleIsInArray(array, bauble)) return bauble;
   return generateBaubleNotInArray(array);
 };
 
 // Check is bauble is already in array or not
-const baubleIsInArray = (baubles, bauble) =>
+const baubleIsInArray = (baubles: Bauble[], bauble: Bauble) =>
   baubles.find(
     (b) =>
       b.color == bauble.color &&
@@ -74,10 +74,10 @@ const generateBaubles = (): Bauble[] => {
 //   return replaceSet(baubles);
 // };
 
-const selectBauble = (baubles, index) =>
+const selectBauble = (baubles: Bauble[], index: number) =>
   baubles.map((b, i) => (i == index ? { ...b, selected: !b.selected } : b));
 
-const getSet = (baubles) => {
+const getSet = (baubles: Bauble[]) => {
   for (let i1 = 0; i1 < baubles.length - 2; i1++) {
     for (let i2 = i1 + 1; i2 < baubles.length - 1; i2++) {
       for (let i3 = i2 + 1; i3 < baubles.length; i3++) {
@@ -92,11 +92,11 @@ const getSet = (baubles) => {
   return undefined;
 };
 
-const thereIsAtLeastOneSet = (baubles) => {
+const thereIsAtLeastOneSet = (baubles: Bauble[]) => {
   return getSet(baubles) != undefined;
 };
 
-const highlightSet = (baubles) => {
+const highlightSet = (baubles: Bauble[]) => {
   const setIndexes = getSet(baubles);
 
   const newBaubles = baubles.map((b, i) => {
@@ -114,7 +114,7 @@ const highlightSet = (baubles) => {
   return newBaubles;
 };
 
-const itIsASet = (bauble1, bauble2, bauble3) => {
+const itIsASet = (bauble1: Bauble, bauble2: Bauble, bauble3: Bauble) => {
   const {
     colorsFitCriteria,
     shadingsFitCriteria,
@@ -130,7 +130,7 @@ const itIsASet = (bauble1, bauble2, bauble3) => {
   );
 };
 
-const getCriteria = (bauble1, bauble2, bauble3) => {
+const getCriteria = (bauble1: Bauble, bauble2: Bauble, bauble3: Bauble) => {
   const selectedColors = [bauble1.color, bauble2.color, bauble3.color];
   const selectedShadings = [bauble1.shading, bauble2.shading, bauble3.shading];
   const selectedShapes = [bauble1.shape, bauble2.shape, bauble3.shape];
@@ -148,7 +148,7 @@ const getCriteria = (bauble1, bauble2, bauble3) => {
   };
 };
 
-const threeBaublesAreSelected = (baubles) =>
+const threeBaublesAreSelected = (baubles: Bauble[]) =>
   baubles.filter((b) => b.selected).length == 3;
 
 const allTheSame = (values) => values[0] == values[1] && values[0] == values[2];
@@ -163,10 +163,10 @@ export default function Set() {
   const { loading, addGameData } = useGameDashboard();
   const { user } = useGoogleLogin();
   useEffect(() => {
-    setBaubles(generateBaubles());
+    setBaubles(highlightSet(generateBaubles()));
   }, []);
 
-  const select = (index) => {
+  const select = (index: number) => {
     if (phase == "demo") return;
     let newBaubles = selectBauble(baubles, index);
 
@@ -185,7 +185,6 @@ export default function Set() {
         }, 0);
       }
     }
-
     setBaubles(newBaubles);
   };
   const endGame = () => {
@@ -205,7 +204,7 @@ export default function Set() {
           new Date().toISOString()
         );
       } else {
-        console.log("점수 등록 취소");
+        console.log("점수 등록을 취소하였습니다.");
       }
     }
 

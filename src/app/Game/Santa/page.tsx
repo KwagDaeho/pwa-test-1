@@ -49,7 +49,7 @@ export default function Santa() {
           new Date().toISOString()
         );
       } else {
-        console.log("점수 등록 취소");
+        console.log("점수 등록을 취소하였습니다.");
       }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
