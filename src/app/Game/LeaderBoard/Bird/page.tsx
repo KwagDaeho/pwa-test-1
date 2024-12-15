@@ -6,12 +6,8 @@ import useGameDashboard from "@/hooks/useGameDashboard";
 export default function LeaderBoard() {
   const { data, loading, error, fetchGameData } = useGameDashboard();
   useEffect(() => {
-    handleFetchData();
-  }, []);
-
-  const handleFetchData = () => {
     fetchGameData("1534c734f1b580f2894df5cf7e8b8358");
-  };
+  }, [fetchGameData]);
 
   return (
     <>
@@ -80,7 +76,9 @@ export default function LeaderBoard() {
             </ol>
           </>
         )}
-        <button onClick={handleFetchData} disabled={loading}>
+        <button
+          onClick={() => fetchGameData("1534c734f1b580f2894df5cf7e8b8358")}
+          disabled={loading}>
           새로고침
         </button>
       </div>

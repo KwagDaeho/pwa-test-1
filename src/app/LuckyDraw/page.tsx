@@ -1,6 +1,6 @@
 "use client"; // 클라이언트 컴포넌트임을 명시
 
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import Confetti from "react-confetti";
 import styles from "./LuckyDraw.module.css"; // CSS 모듈 불러오기
 
@@ -116,48 +116,72 @@ const LuckyDraw = () => {
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [winnerName, setWinnerName] = useState(""); // 이름 입력용 state
   const [winners, setWinners] = useState([]); // 당첨자 목록 state
+  const [showSlotMachine, setShowSlotMachine] = useState(true);
+  const [animationKey, setAnimationKey] = useState(0); // 애니메이션 키 추가
+  const [shuffledProducts, setShuffledProducts] = useState<
+    typeof remainingProducts
+  >([]);
 
   const drawGift = () => {
     if (isButtonDisabled || !winnerName.trim()) return;
 
     setIsButtonDisabled(true);
+    setShowSlotMachine(false);
 
-    const randomIndex = Math.floor(Math.random() * remainingProducts.length);
-    const selectedGift = remainingProducts[randomIndex];
+    const selectedGift =
+      remainingProducts[Math.floor(Math.random() * remainingProducts.length)];
 
-    setDrawnGift(selectedGift);
+    // 폭죽을 더 일찍 시작 (슬롯머신이 거의 다 사라질 무렵)
     setConfetti(true);
-    setTimeout(() => setAnimateText(true), 2000);
+
+    // 결과는 기존 타이밍 유지
+    setTimeout(() => {
+      setDrawnGift(selectedGift);
+      setAnimateText(true);
+
+      setTimeout(() => {
+        setWinners((prev) => [
+          ...prev, // 기존 항목들을 앞에 유지
+          {
+            // 새로운 항목을 맨 뒤에 추가
+            name: winnerName,
+            gift: selectedGift.name,
+          },
+        ]);
+      }, 3800);
+
+      setTimeout(() => {
+        setAnimateText(false);
+        setTimeout(() => {
+          setAnimationKey((prev) => prev + 1);
+          setShowSlotMachine(true);
+          setWinnerName("");
+          setIsButtonDisabled(false);
+        }, 500);
+      }, 4000);
+
+      setTimeout(() => setConfetti(false), 5000);
+    }, 1500);
 
     setRemainingProducts(
-      remainingProducts.filter((_, index) => index !== randomIndex)
+      remainingProducts.filter((item) => item.name !== selectedGift.name)
     );
-
-    // 애니메이션이 끝나고 버튼이 다시 활성화될 때 당첨자 목록에 추가
-    setTimeout(() => {
-      setWinners((prev) => [
-        ...prev,
-        {
-          name: winnerName,
-          gift: selectedGift.name,
-        },
-      ]);
-      setWinnerName(""); // 이름 입력창 초기화
-      setIsButtonDisabled(false);
-    }, 3800);
-
-    setTimeout(() => setConfetti(false), 5000);
-    setTimeout(() => setAnimateText(false), 4000);
   };
 
-  // 당첨 내역을 상품 순서대로 정렬하는 함수
-  const getSortedWinners = () => {
-    return [...winners].sort((a, b) => {
-      const indexA = initialProducts.findIndex((p) => p.name === a.gift);
-      const indexB = initialProducts.findIndex((p) => p.name === b.gift);
-      return indexA - indexB;
-    });
-  };
+  // Memoize shuffleArray with useCallback
+  const shuffleArray = useCallback((array: typeof remainingProducts) => {
+    const shuffled = [...array];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+    return shuffled;
+  }, []); // Empty dependency array since this function doesn't depend on any external values
+
+  // Now useEffect with shuffleArray in dependencies
+  useEffect(() => {
+    setShuffledProducts(shuffleArray(remainingProducts));
+  }, [remainingProducts, shuffleArray]);
 
   return (
     <div className={styles.container}>
@@ -181,18 +205,35 @@ const LuckyDraw = () => {
         사용하기
       </button>
 
-      {confetti && <Confetti className={styles.confetti} />}
+      {/* 슬롯머신 */}
+      <div
+        className={`${styles.slotMachine} ${
+          showSlotMachine ? styles.show : styles.hide
+        }`}>
+        <div key={animationKey} className={styles.scrollingList}>
+          {[...shuffledProducts, ...shuffledProducts, ...shuffledProducts].map(
+            (product, index) => (
+              <div key={index} className={styles.productItem}>
+                {product.name}
+              </div>
+            )
+          )}
+        </div>
+      </div>
 
+      {/* 결과 화면 */}
       <div
         className={`${styles.result} ${animateText ? styles.animateText : ""}`}>
         <h3>추첨 결과</h3>
         <h2>{drawnGift?.name}</h2>
       </div>
 
+      {confetti && <Confetti className={styles.confetti} />}
+
       <div className={styles.history}>
         <h2>당첨 내역</h2>
         <ul className={styles.winnersList}>
-          {getSortedWinners().map((winner, index) => (
+          {winners.map((winner, index) => (
             <li key={index}>
               {winner.name} - {winner.gift}
             </li>

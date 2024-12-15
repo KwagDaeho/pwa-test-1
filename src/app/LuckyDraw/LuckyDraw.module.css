@@ -17,11 +17,14 @@
   opacity: 0;
   transform: scale(0.2);
   transition: transform 1.5s, opacity 1.5s;
+  height: 160px;
+  visibility: hidden;
 }
 
-.animateText {
+.result.animateText {
   opacity: 1;
   transform: scale(1);
+  visibility: visible;
 }
 
 /* 폭죽 애니메이션 */
@@ -105,11 +108,13 @@
   margin-left: auto;
   margin-right: auto;
 }
+
 .history h2 {
-  font-size: 2rem;
-  color: #ff6347;
-  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
+  font-size: 1.8rem;
+  color: tomato;
   margin-bottom: 20px;
+  font-weight: 600;
+  letter-spacing: -0.5px;
 }
 
 .nameInput {
@@ -131,28 +136,105 @@
   list-style: none;
   padding: 0;
   margin: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow: 0 2px 8px rgba(255, 99, 71, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.15);
 }
 
 .winnersList li {
-  padding: 12px 8px;
-  border-bottom: 1px solid #eee;
+  padding: 12px 16px;
   text-align: left;
+  position: relative;
+  animation: revealText 1s cubic-bezier(0.77, 0, 0.175, 1);
+  font-size: 0.95rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
 }
 
-/* 짝수/홀수 번째 항목에 다른 배경색 적용 */
+.winnersList li:last-child {
+  border-bottom: none;
+}
+
+/* 짝수/홀수 배경색 변경 */
 .winnersList li:nth-child(2n-1) {
-  background-color: #929292; /* 밝은 회색 */
-  color: #121212;
+  background-color: rgba(255, 99, 71, 0.15);
 }
 
 .winnersList li:nth-child(2n) {
-  background-color: #333; /* 흰색 */
+  background-color: rgba(255, 99, 71, 0.08);
 }
 
-/* 마우스 호버 효과 */
+/* 호버 효과 수정 */
 .winnersList li:hover {
-  background-color: #fff3f0; /* 연한 살구색 */
-  transition: background-color 0.3s ease;
-  color: #ff6347;
-  font-weight: 700;
+  background-color: rgba(255, 99, 71, 0.25);
+  transition: all 0.3s ease;
+  color: #fff;
+  text-shadow: 0 0 8px rgba(255, 99, 71, 0.5);
+  font-weight: 500;
+}
+
+@keyframes revealText {
+  0% {
+    clip-path: inset(0 100% 0 0);
+  }
+  100% {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+.slotMachine {
+  width: 100%;
+  height: 60px;
+  margin: 20px 0;
+  background: tomato;
+  overflow: hidden;
+  opacity: 1;
+  transform: scaleX(1);
+  transition: all 1.3s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+.slotMachine.hide {
+  opacity: 0;
+  transform: scaleX(0);
+}
+
+.slotMachine.show {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+.scrollingList {
+  display: flex;
+  white-space: nowrap;
+  height: 100%;
+  position: relative;
+  animation: scroll 140s linear infinite;
+  will-change: transform;
+}
+
+@keyframes scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-10000px);
+  }
+}
+
+.scrollingList.reset {
+  animation: none;
+}
+
+.productItem {
+  color: white;
+  padding: 0 40px;
+  font-size: 1.2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
 }
