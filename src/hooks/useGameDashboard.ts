@@ -1,10 +1,10 @@
-"use client";
+import { NotionData } from "@/types/NotionData";
 import { useState } from "react";
 
 const useGameDashboard = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
-  const [data, setData] = useState(null);
+  const [data, setData] = useState<NotionData[] | null>(null);
 
   // GET 요청 - 데이터베이스에서 데이터 조회
   const fetchGameData = async (databaseId: string) => {

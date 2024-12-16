@@ -151,19 +151,6 @@ export const gameLogic = () => {
 
   resetGame();
 
-  // If space was pressed restart the game
-  // window.addEventListener("keydown", function (event) {
-  //   if (event.key == " ") {
-  //     event.preventDefault();
-  //     if (confirm("Reset Game?")) {
-  //       alert("Reset Game ...");
-  //       resetGame();
-  //     } else {
-  //       alert("== Resume ==");
-  //     }
-  //     return;
-  //   }
-  // });
   window.addEventListener("mousedown", startAction);
   window.addEventListener("mouseup", endAction);
   window.addEventListener("touchstart", startAction, { passive: false });

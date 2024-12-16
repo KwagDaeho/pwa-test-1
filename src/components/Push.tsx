@@ -39,14 +39,16 @@ export default function Push() {
 
   // 푸시 토큰을 가져오는 함수
   const getPushToken = async (messagingInstance: Messaging): Promise<void> => {
-    alert("토큰 가져오기. 토큰값 alert이 안 뜨면 에러 또는 푸시알림 거절임");
+    console.log(
+      "토큰 가져오기. 토큰값 console.log이 안 뜨면 에러 또는 푸시알림 거절임"
+    );
     try {
       const token = await getToken(messagingInstance, {
         vapidKey:
           "BAoxgrzIdQPE90qpBuUoCNMN-eUKRGDumVGyMiz4zqwbNncR1yJXg36T1OE7TWJhIHaDVNmCGY5DAwRkkwBWQbI",
       });
       if (token) {
-        alert("FCM Token: " + token);
+        console.log("FCM Token: " + token);
         setToken(token);
         // 토큰을 서버나 DB에 저장하여 나중에 사용할 수 있도록 처리하면 된다.
       } else {
@@ -86,7 +88,7 @@ export default function Push() {
           onMessage(messagingResolve, (payload) => {
             console.log("payload", payload);
             const title = payload.notification.title;
-            alert("TITLE : " + title + "   ...PUSH..");
+            console.log("TITLE : " + title + "   ...PUSH..");
           });
           // 푸시 알림을 위한 토큰을 가져옴
           await getPushToken(messagingResolve);
