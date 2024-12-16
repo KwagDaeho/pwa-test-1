@@ -126,7 +126,7 @@ export default function LuckyDrawCustom() {
         }`}
         type="button"
         disabled={isButtonDisabled}>
-        사용하기
+        추첨
       </button>
 
       <div style={{ margin: "16px 0" }}></div>

@@ -53,6 +53,18 @@ export default function RootLayout({
           LuckyDraw
         </Link>
         <Link
+          href={"/LuckyDrawCustom"}
+          style={{
+            position: "fixed",
+            left: "202px",
+            top: "10px",
+            padding: "5px 12px",
+            backgroundColor: "rgba(255, 255, 255, 0.4)",
+            color: "#232323",
+          }}>
+          뽑기
+        </Link>
+        <Link
           href={"/Game"}
           style={{
             position: "fixed",
