@@ -45,7 +45,16 @@ export default function GameLayout({
           </li>
         </ul>
       </div>
-      <div>{children}</div>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          gap: "24px",
+          paddingBlock: "24px",
+        }}>
+        {children}
+      </div>
     </>
   );
 }

@@ -13,25 +13,15 @@ export default function LeaderBoard() {
 
   return (
     <>
-      {/* 데이터 표시 */}
-      <div
-        style={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: "24px",
-          paddingBlock: "24px",
-        }}>
-        <h2>[ Bird ]</h2>
-        {loading && <p>Loading...</p>}
-        {error && <p style={{ color: "red" }}>{error}</p>}
-        {data && <LeaderBoardListTable data={data} />}
-        <button
-          onClick={() => fetchGameData("1534c734f1b580f2894df5cf7e8b8358")}
-          disabled={loading}>
-          새로고침
-        </button>
-      </div>
+      <h2>[ Bird ]</h2>
+      {loading && <p>Loading...</p>}
+      {error && <p style={{ color: "red" }}>{error}</p>}
+      {data && <LeaderBoardListTable data={data} />}
+      <button
+        onClick={() => fetchGameData("1534c734f1b580f2894df5cf7e8b8358")}
+        disabled={loading}>
+        새로고침
+      </button>
     </>
   );
 }

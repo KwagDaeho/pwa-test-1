@@ -42,7 +42,11 @@ export default function LeaderBoardListTable({ data }: { data: NotionData[] }) {
               fontSize: `${index == 0 ? "1.5em" : index < 3 ? "1.2em" : "1em"}`,
             }}>
             <span style={{ width: "30%", minWidth: "200px" }}>
-              <b>{item.properties.Name.title[0].text.content}</b> 님{" "}
+              <b>
+                {index > 2 && index + ". "}
+                {item.properties.Name.title[0].text.content}
+              </b>{" "}
+              님{" "}
             </span>
             <span>{item.properties.Score.number} 점</span>
           </li>

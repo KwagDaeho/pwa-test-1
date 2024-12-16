@@ -437,9 +437,9 @@ export default function Santa() {
             <div
               style={{
                 position: "absolute",
-                left: "0",
-                top: "calc(50% - 150px)",
-                width: "100%",
+                left: "calc(50% - 175px)",
+                top: "calc(50% - 300px)",
+                width: "350px",
                 height: "60px",
                 marginTop: "10px",
                 padding: "3px 12px",
