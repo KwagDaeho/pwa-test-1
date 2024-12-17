@@ -8,6 +8,7 @@ export default function Home() {
     <div className={styles.page}>
       <main className={styles.main}>
         <h1>PWA 입니다.</h1>
+        <h2>다크모드를 추천!</h2>
         <div>
           <a href="https://open.kakao.com/o/sFBLKRZe" target="_blank">
             카카오 오픈채팅 연결 [새 창이 열려요!]

@@ -1,6 +1,6 @@
 .container {
   min-height: 100vh;
-  padding-top: 30dvh;
+  padding-top: 15dvh;
   text-align: center;
   overflow: hidden;
 }
@@ -77,14 +77,14 @@
 
 .button.isButtonDisabled {
   content: "뽑기 진행중";
-  background-color: #ddd;
+  background-color: #fff;
   color: #ff6347;
   border-color: #bbb;
   cursor: not-allowed;
 }
 
 .button.isButtonDisabled:after {
-  background: #bbb;
+  background: #fff;
   transform: rotate(0deg);
 }
 
@@ -102,11 +102,10 @@
 }
 
 .history {
-  margin-top: 50px;
   transition: 1s;
   width: 250px;
-  margin-left: auto;
-  margin-right: auto;
+  margin: 0 auto;
+  padding-block: 20px 50px;
 }
 
 .history h2 {
@@ -276,4 +275,44 @@
 
 .modal button:hover {
   opacity: 0.8; /* 호버 시 효과 */
+}
+
+.fadeIn {
+  animation: fadeIn 0.5s ease-in-out forwards; /* forwards를 추가하여 애니메이션 후 상태 유지 */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.fadeOut {
+  animation: fadeOut 0.5s ease-in-out forwards; /* fadeOut 애니메이션 추가 */
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+.buttonContainer {
+  display: flex;
+  flex-direction: column; /* 세로 방향으로 정렬 */
+  align-items: center; /* 중앙 정렬 */
+  gap: 16px; /* 버튼 간의 간격을 16픽셀로 설정 */
+  height: 320px; /* 버튼 컨테이너의 고정 높이를 320픽셀로 설정 */
+  padding: 20px; /* 여백 추가 */
+  overflow: hidden; /* 내용이 넘칠 경우 숨김 처리 */
 }

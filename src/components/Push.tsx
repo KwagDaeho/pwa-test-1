@@ -128,7 +128,9 @@ export default function Push() {
 
   return (
     <div>
-      <div>🔔{permission}🔔</div>
+      <div style={{ textAlign: "center", paddingBottom: "12px" }}>
+        🔔 {permission} 🔔
+      </div>
       {renderPermissionMessage()}
       <button
         style={{
