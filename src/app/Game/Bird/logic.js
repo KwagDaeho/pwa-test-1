@@ -152,7 +152,7 @@ export const gameLogic = () => {
             Math.floor(targetX / this.size)
           ] = 2;
           playSound("/sound/get-coin.mp3");
-          this.world.score += 10 + Math.ceil(Math.random() * 70);
+          this.world.score += 10 + Math.floor(Math.random() * 71);
           if (Utils.random(0, 9) < 6) {
             // 보너스 습득 후 벽 도달시, 60% 확률로 보너스 코인 생성
             this.world.spawnBonus = true;

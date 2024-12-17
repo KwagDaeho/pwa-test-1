@@ -263,7 +263,7 @@ export default function Santa() {
           snowflake.x > playerRef.current.x - 30 &&
           snowflake.x < playerRef.current.x + 90
         ) {
-          setScore((prev) => Math.ceil(prev + Math.random() * 14 + 1));
+          setScore((prev) => Math.floor(prev + Math.random() * 15 + 1));
           return true; // Collision detected
         }
         return false; // No collision
@@ -297,7 +297,7 @@ export default function Santa() {
           gift.x > playerRef.current.x &&
           gift.x < playerRef.current.x + 60
         ) {
-          setScore((prev) => prev + Math.ceil(Math.random() * 99) + 1);
+          setScore((prev) => prev + Math.floor(Math.random() * 100) + 1);
           return true; // Collision detected
         }
         return false; // No collision
@@ -311,7 +311,7 @@ export default function Santa() {
           giantGift.x > playerRef.current.x - 30 &&
           giantGift.x < playerRef.current.x + 90
         ) {
-          setScore((prev) => prev + Math.ceil(Math.random() * 400) + 200); // 점수 조정
+          setScore((prev) => prev + Math.floor(Math.random() * 401) + 200); // 점수 조정
           return true; // Collision detected
         }
         return false; // No collision
