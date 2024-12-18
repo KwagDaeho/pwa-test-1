@@ -1257,6 +1257,5 @@ export const gameLogic = () => {
     },
   ];
 
-  world(parameters, levels);
   new World(parameters, levels);
 };
