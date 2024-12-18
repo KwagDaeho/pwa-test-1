@@ -1119,7 +1119,7 @@ export const gameLogic = () => {
     }
   }
 
-  let parameters = {
+  const parameters = {
     size: 8,
     zoom: 4,
 
@@ -1233,7 +1233,7 @@ export const gameLogic = () => {
     ],
   };
 
-  let levels = [
+  const levels = [
     {
       name: "lvl1",
       geometry: [
@@ -1256,5 +1256,7 @@ export const gameLogic = () => {
       ],
     },
   ];
+
+  world(parameters, levels);
   new World(parameters, levels);
 };

@@ -356,6 +356,9 @@ export const gameLogic = () => {
 
   restartButton.addEventListener("touchend", restartGame);
   restartButton.addEventListener("click", restartGame);
+  scoreButton.addEventListener("touchend", () => {
+    window.postGameScore(score);
+  });
   scoreButton.addEventListener("click", () => {
     window.postGameScore(score);
   });
