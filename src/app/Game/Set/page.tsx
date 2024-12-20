@@ -211,7 +211,6 @@ export default function Set() {
 
     // Highlight the possible set
     setBaubles(highlightSet(baubles));
-    // score alert
     // demo로 이동
     setScore(0);
     setPhase("demo");
@@ -287,7 +286,7 @@ export default function Set() {
 }
 
 function Timer({ timeUp }) {
-  const time = 40; // 타이머 초기 시간 (초 단위)
+  const time = 50; // 타이머 초기 시간 (초 단위)
   const [timeLeft, setTimeLeft] = useState(time * 1000);
 
   // 애니메이션 프레임 훅
