@@ -1,5 +1,9 @@
 const soundCache = {}; // 사운드 캐시
-const audioContext = new (window.AudioContext || window.webkitAudioContext)(); // AudioContext 싱글톤
+const audioContext =
+  typeof window !== "undefined" &&
+  (window.AudioContext || window.webkitAudioContext)
+    ? new (window.AudioContext || window.webkitAudioContext)()
+    : null; // AudioContext 싱글톤
 
 const sound = (url) => {
   // AudioContext 상태 복구 함수
@@ -96,4 +100,5 @@ const util = {
     return result;
   },
 };
+
 export { sound, soundCache, util };

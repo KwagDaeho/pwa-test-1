@@ -1,7 +1,6 @@
 "use client";
 
 import useGameDashboard from "@/hooks/useGameDashboard";
-import useGoogleLogin from "@/hooks/useGoogleLogin";
 import { useEffect, useRef, useState } from "react";
 
 export default function Santa() {
@@ -18,7 +17,6 @@ export default function Santa() {
   const [isGameOver, setIsGameOver] = useState(true);
   const [timeLeft, setTimeLeft] = useState(30); // 타이머 상태
   const { loading, addGameData } = useGameDashboard();
-  const { user } = useGoogleLogin();
   useEffect(() => {
     // 1초마다 타이머 감소
     const timer = setInterval(() => {
@@ -36,23 +34,7 @@ export default function Santa() {
 
   useEffect(() => {
     if (isGameOver && timeLeft != 30 && score > 0) {
-      const userName =
-        user == null
-          ? prompt(
-              "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
-            )
-          : user.displayName;
-
-      if (userName !== null) {
-        addGameData(
-          "1534c734f1b58051ba80fa960ba2a0be",
-          userName,
-          score,
-          new Date().toISOString()
-        );
-      } else {
-        console.log("점수 등록을 취소하였습니다.");
-      }
+      addGameData("1534c734f1b58051ba80fa960ba2a0be", score);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isGameOver]);

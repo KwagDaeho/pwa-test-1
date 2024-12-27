@@ -53,11 +53,11 @@ export default function Game() {
           padding: "24px",
         }}>
         <p>
-          구글 로그인을 하시면, Set/Santa 게임 종료시
+          구글 로그인을 하시면, Set/Santa/Bird 게임 종료시
           <br />
           점수가 구글 닉네임으로 자동 등록됩니다.
           <br />
-          나머지 2개 게임은 리팩토링이 아직... ㅎㅎ
+          다리건너기 게임은 리팩토링이 아직... ㅎㅎ
         </p>
       </div>
     </div>

@@ -9,7 +9,7 @@ export interface BirdImagesData {
     img: null;
   };
   pixelFont: {
-    url: null;
+    url: string | null;
     img: null;
   };
   effects: [];

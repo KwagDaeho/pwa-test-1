@@ -205,7 +205,7 @@ export const gameLogic = () => {
       for (let i = 0; i < IMAGES.length; i++) {
         const subject = IMAGES[i];
         const name = subject.name;
-        subject.img = loadImage(IMAGES[i].img);
+        subject.img = loadImage(IMAGES[i].url);
         imageResources[name] = IMAGES[i];
       }
       resources = imageResources;

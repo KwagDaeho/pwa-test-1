@@ -1,10 +1,12 @@
 import { NotionData } from "@/types/NotionData";
 import { useState } from "react";
+import useGoogleLogin from "./useGoogleLogin";
 
 const useGameDashboard = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<NotionData[] | null>(null);
+  const { user } = useGoogleLogin();
 
   // GET 요청 - 데이터베이스에서 데이터 조회
   const fetchGameData = async (databaseId: string) => {
@@ -29,33 +31,35 @@ const useGameDashboard = () => {
   };
 
   // POST 요청 - 데이터베이스에 데이터 추가
-  const addGameData = async (
-    databaseId: string,
-    name: string,
-    score: number,
-    date: string
-  ) => {
+  const addGameData = async (databaseId: string, score: number) => {
     setLoading(true);
     setError(null);
-
+    const date = new Date().toISOString();
     try {
-      const response = await fetch(
-        `/api/game-dashboard?database_id=${databaseId}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ name, score, date }),
-        }
-      );
+      const name =
+        user == null
+          ? prompt(
+              "Score : " + score + "\n점수를 등록하려면 이름을 입력하세요."
+            )
+          : user.displayName;
 
-      const result = await response.json();
+      if (name !== null) {
+        const response = await fetch(
+          `/api/game-dashboard?database_id=${databaseId}`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ name, score, date }),
+          }
+        );
 
-      if (response.ok) {
-        setData(result.data);
+        const result = await response.json();
+        console.log(result);
+        window.location.reload();
       } else {
-        setError(result.error);
+        console.log("점수 등록을 취소하였습니다.");
       }
     } catch (error) {
       console.log(error);
