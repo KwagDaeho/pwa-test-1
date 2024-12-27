@@ -1,21 +1,5 @@
+import { BirdImagesData } from "@/types/LocalData";
 import { sound, util } from "@/util/game";
-
-interface ImagesData {
-  bird: object;
-  leaf: {
-    url: null,
-    img: null,
-  };
-  pattern: {
-    url: null,
-    img: null,
-  };
-  pixelFont: {
-    url: null,
-    img: null,
-  };
-  effects: [];
-}
 
 const IMAGES = [
   { url: "https://image.ibb.co/by5TQQ/font.png", name: "pixelFont", img: null },
@@ -66,7 +50,7 @@ export const gameLogic = () => {
       count: 0,
       totalResources: IMAGES.length,
     };
-    let resources: ImagesData = {
+    let resources: BirdImagesData = {
       bird: {},
       leaf: {
         url: null,
