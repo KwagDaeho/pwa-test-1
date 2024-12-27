@@ -1,6 +1,7 @@
 declare global {
   interface Window {
     postGameScore: function; // addBirdData가 함수일 경우
+    webkitAudioContext?: typeof AudioContext;
   }
 }
 

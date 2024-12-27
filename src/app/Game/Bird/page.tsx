@@ -25,7 +25,7 @@ export default function Bird() {
         }
       };
       (async () => {
-        const { gameLogic } = await import("./logic.js");
+        const { gameLogic } = await import("./logic");
         gameLogic();
       })();
     }
