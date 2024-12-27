@@ -34,16 +34,12 @@ export default function Game() {
         </li>
         <li>
           <button>
-            <Link href={"/Game/Bird"} target="_blank">
-              Bird
-            </Link>
+            <Link href={"/Game/Bird"}>Bird</Link>
           </button>
         </li>
         <li>
           <button>
-            <Link href={"/Game/CrossingBridge"} target="_blank">
-              CrossingBridge
-            </Link>
+            <Link href={"/Game/CrossingBridge"}>CrossingBridge</Link>
           </button>
         </li>
       </ul>
@@ -51,15 +47,7 @@ export default function Game() {
         style={{
           marginTop: "20px",
           padding: "24px",
-        }}>
-        <p>
-          구글 로그인을 하시면, Set/Santa/Bird 게임 종료시
-          <br />
-          점수가 구글 닉네임으로 자동 등록됩니다.
-          <br />
-          다리건너기 게임은 리팩토링이 아직... ㅎㅎ
-        </p>
-      </div>
+        }}></div>
     </div>
   );
 }

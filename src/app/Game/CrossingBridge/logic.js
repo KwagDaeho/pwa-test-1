@@ -20,8 +20,6 @@ export const gameLogic = () => {
   let sticks = [];
   let trees = [];
 
-  // Todo: Save high score to localStorage (?)
-
   let score = 0;
   let beforeScore = 0;
 
@@ -151,10 +149,10 @@ export const gameLogic = () => {
 
   resetGame();
 
-  window.addEventListener("mousedown", startAction);
-  window.addEventListener("mouseup", endAction);
-  window.addEventListener("touchstart", startAction, { passive: false });
-  window.addEventListener("touchend", endAction, { passive: false });
+  canvas.addEventListener("mousedown", startAction);
+  canvas.addEventListener("mouseup", endAction);
+  canvas.addEventListener("touchstart", startAction, { passive: false });
+  canvas.addEventListener("touchend", endAction, { passive: false });
   function startAction(event) {
     // 모바일 터치에서는 event.changedTouches[0]로 첫 번째 터치 정보를 가져옴
     if (phase == "waiting") {

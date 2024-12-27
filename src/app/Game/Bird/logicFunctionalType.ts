@@ -1,37 +1,14 @@
+import {
+  alphabets,
+  IMAGES_BIRD,
+  levels,
+  parameters,
+} from "@/constants/game_bird";
 import { BirdImagesData } from "@/types/LocalData";
 import { sound, util } from "@/util/game";
 
-const IMAGES = [
-  { url: "https://image.ibb.co/by5TQQ/font.png", name: "pixelFont", img: null },
-  {
-    url: "https://image.ibb.co/kiYF5Q/oiseau.png",
-    name: "bird",
-    spriteCount: 6,
-    row: 4,
-    animationSpeed: 0.6,
-    img: null,
-  },
-  {
-    url: "https://image.ibb.co/mvORC5/effets.png",
-    name: "effects",
-    spriteCount: 7,
-    row: 3,
-    animationSpeed: 0.6,
-    img: null,
-  },
-  { url: "https://image.ibb.co/hCPoQQ/feuille.png", name: "leaf", img: null },
-  {
-    url: "https://image.ibb.co/dojBek/piece.png",
-    name: "coin",
-    spriteCount: 6,
-    img: null,
-  },
-  { url: "https://image.ibb.co/gU7a5Q/motif.png", name: "pattern", img: null },
-];
 export const gameLogic = () => {
   const world = (parameters, levels) => {
-    const alphabet =
-      "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789 ?!:',.()<>[]"; // Available characters
     const size = parameters.size; // Grid size (dimensions of tiles)
     const keysPressed = []; // Array to store the pressed tileDefinitions
     const zoom = parameters.zoom || 2; // Zoom level for the game world, default is 2
@@ -48,7 +25,7 @@ export const gameLogic = () => {
     // resources
     const prop = {
       count: 0,
-      totalResources: IMAGES.length,
+      totalResources: IMAGES_BIRD.length,
     };
     let resources: BirdImagesData = {
       bird: {},
@@ -202,11 +179,11 @@ export const gameLogic = () => {
     const processResources = (tileDefinitions) => {
       // 이미지 리소스를 처리합니다.
       const imageResources = resources;
-      for (let i = 0; i < IMAGES.length; i++) {
-        const subject = IMAGES[i];
+      for (let i = 0; i < IMAGES_BIRD.length; i++) {
+        const subject = IMAGES_BIRD[i];
         const name = subject.name;
-        subject.img = loadImage(IMAGES[i].url);
-        imageResources[name] = IMAGES[i];
+        subject.img = loadImage(IMAGES_BIRD[i].url);
+        imageResources[name] = IMAGES_BIRD[i];
       }
       resources = imageResources;
 
@@ -283,7 +260,7 @@ export const gameLogic = () => {
 
       for (let i = 0; i < text.length; i++) {
         // 텍스트에서 각 문자를 하나씩 처리합니다.
-        const index = alphabet.indexOf(text.charAt(i)), // 문자의 인덱스 찾기
+        const index = alphabets.indexOf(text.charAt(i)), // 문자의 인덱스 찾기
           clipX = width * index, // 텍스트에서 문자의 가로 위치
           posX = x - center + i * width; // 화면에 그릴 x 좌표 계산
 
@@ -833,96 +810,6 @@ export const gameLogic = () => {
       };
     };
   };
-
-  const parameters = {
-    size: 8,
-    zoom: 4,
-
-    tileDefinitions: [
-      { type: "tile", name: "empty", id: 0, isCollidable: true },
-      {
-        type: "tile",
-        name: "wall",
-        id: 1,
-        isCollidable: false,
-        appearance: "auto",
-        row: 1,
-      },
-      {
-        type: "tile",
-        name: "background",
-        id: 2,
-        isCollidable: false,
-        appearance: 0,
-      },
-      {
-        type: "tile",
-        name: "spikeTop",
-        id: 3,
-        isCollidable: false,
-        appearance: 2,
-        action: "isDead",
-      },
-      {
-        type: "tile",
-        name: "spikeBottom",
-        id: 4,
-        isCollidable: false,
-        appearance: 3,
-        action: "isDead",
-      },
-      {
-        type: "tile",
-        name: "spikeLeft",
-        id: 5,
-        isCollidable: false,
-        appearance: 4,
-        action: "isDead",
-      },
-      {
-        type: "tile",
-        name: "spikeRight",
-        id: 6,
-        isCollidable: false,
-        appearance: 5,
-        action: "isDead",
-      },
-      {
-        type: "sprite",
-        name: "next",
-        id: 7,
-        isCollidable: false,
-        action: "bonus",
-        appearance: "coin",
-        row: 1,
-        animationSpeed: 0.2,
-      },
-    ],
-  };
-
-  const levels = [
-    {
-      name: "lvl1",
-      geometry: [
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-        [0, 0, 0, 1, 3, 3, 3, 3, 3, 3, 3, 3, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 2, 2, 2, 2, 2, 2, 2, 2, 1, 0, 0, 0],
-        [0, 0, 0, 1, 4, 4, 4, 4, 4, 4, 4, 4, 1, 0, 0, 0],
-        [0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 0, 0, 0],
-        [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-      ],
-    },
-  ];
 
   world(parameters, levels);
 };

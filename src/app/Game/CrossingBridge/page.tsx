@@ -16,6 +16,9 @@ export default function CrossingBridge() {
         gameLogic();
       })();
     }
+    return () => {
+      window.location.reload();
+    };
   }, [loading]);
   return loading ? (
     <div

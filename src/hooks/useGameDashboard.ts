@@ -7,7 +7,6 @@ const useGameDashboard = () => {
   const [error, setError] = useState<string | null>(null);
   const [data, setData] = useState<NotionData[] | null>(null);
   const { user } = useGoogleLogin();
-
   // GET 요청 - 데이터베이스에서 데이터 조회
   const fetchGameData = async (databaseId: string) => {
     setLoading(true);
@@ -57,7 +56,6 @@ const useGameDashboard = () => {
 
         const result = await response.json();
         console.log(result);
-        window.location.reload();
       } else {
         console.log("점수 등록을 취소하였습니다.");
       }

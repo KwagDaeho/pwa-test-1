@@ -7,7 +7,7 @@ import {
   onAuthStateChanged,
 } from "firebase/auth";
 
-type User = {
+export type User = {
   displayName: string | null;
   email: string | null;
   photoURL: string | null;
@@ -15,7 +15,7 @@ type User = {
 
 const useGoogleLogin = () => {
   const [user, setUser] = useState<User | null>(null); // 로그인된 사용자 정보 상태
-  const [loading, setLoading] = useState<boolean>(true); // 로딩 상태 (로그인 정보 확인 중일 때)
+  const [loginLoading, setLoginLoading] = useState<boolean>(true); // 로딩 상태 (로그인 정보 확인 중일 때)
   const [error, setError] = useState<string | null>(null); // 에러 상태
 
   // // 로그인 처리
@@ -59,14 +59,14 @@ const useGoogleLogin = () => {
       } else {
         setUser(null); // 로그아웃된 경우 사용자 정보 초기화
       }
-      setLoading(false); // 상태 업데이트 후 로딩 종료
+      setLoginLoading(false); // 상태 업데이트 후 로딩 종료
     });
 
     // 컴포넌트가 언마운트될 때 구독 해제
     return () => unsubscribe();
   }, []);
 
-  return { user, loading, error, googleLogout };
+  return { user, loginLoading, error, googleLogout };
 };
 
 export default useGoogleLogin;
