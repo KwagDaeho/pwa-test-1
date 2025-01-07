@@ -671,7 +671,7 @@ export const gameLogic = () => {
               Math.floor(targetX / size)
             ] = 2;
             sound("/sound/get-coin.mp3").play();
-            score += 10 + Math.floor(Math.random() * 71);
+            score += util.randomFloor(10, 80);
             if (util.random(0, 9) < 6) {
               // 보너스 습득 후 벽 도달시, 60% 확률로 보너스 코인 생성
               spawnBonus = true;

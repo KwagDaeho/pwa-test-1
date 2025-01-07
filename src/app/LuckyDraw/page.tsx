@@ -3,6 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import Confetti from "react-confetti";
 import styles from "./LuckyDraw.module.css"; // CSS 모듈 불러오기
+import { util } from "@/util/game";
 
 const initialProducts = [
   { name: "16인치 포터블 모니터" },
@@ -129,7 +130,7 @@ const LuckyDraw = () => {
     setShowSlotMachine(false);
 
     const selectedGift =
-      remainingProducts[Math.floor(Math.random() * remainingProducts.length)];
+      remainingProducts[util.randomIndex(remainingProducts.length)];
 
     setConfetti(true);
 
@@ -168,7 +169,7 @@ const LuckyDraw = () => {
   const shuffleArray = useCallback((array: typeof remainingProducts) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = util.randomIndex(i + 1);
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;

@@ -73,10 +73,17 @@ const util = {
     // 특정 값(`value`)이 두 값(`min`, `max`) 사이에 있는지 확인하는 함수
     return (value - min) * (value - max) < 0;
   },
-  random: (min, max) => {
+  random: (min: number, max: number) => {
     // `min`과 `max` 사이의 임의의 숫자를 생성하는 함수
     return min + Math.random() * (max - min);
   },
+  randomFloor: (min: number, max: number) => {
+    return Math.floor(util.random(min, max + 1));
+  },
+  randomIndex: (length: number) => {
+    return Math.floor(util.random(0, length));
+  },
+
   getDistance: (p1, p2) => {
     // 두 점(`p1`, `p2`) 사이의 거리를 계산하는 함수
     return Math.hypot(p1.x - p2.x, p1.y - p2.y);

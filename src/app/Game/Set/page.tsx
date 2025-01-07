@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import "./style.css";
 import useGameDashboard from "@/hooks/useGameDashboard";
 import { useAnimationFrame } from "@/hooks/useAnimationFrame";
+import { util } from "@/util/game";
 
 interface Bauble {
   color: string;
@@ -13,9 +14,9 @@ interface Bauble {
   selected: boolean;
 }
 // Return a random item from an array
-function pick(array) {
-  return array[Math.floor(Math.random() * array.length)];
-}
+const pick = (array) => {
+  return array[util.randomFloor(0, array.length - 1)];
+};
 
 // The possible values of each feature
 const colors = ["#72C264", "#FAC44C", "#EF5169"];
@@ -267,7 +268,7 @@ export default function Set() {
   );
 }
 
-function Timer({ timeUp }) {
+const Timer = ({ timeUp }) => {
   const time = 50; // 타이머 초기 시간 (초 단위)
   const [timeLeft, setTimeLeft] = useState(time * 1000);
 
@@ -306,17 +307,17 @@ function Timer({ timeUp }) {
       </text>
     </svg>
   );
-}
-function Score({ score }) {
+};
+const Score = ({ score }) => {
   return (
     <div className="score">
       <h3>Score</h3>
       <h1>{score}</h1>
     </div>
   );
-}
+};
 
-function Bauble({ index, color, shading, shape, number, selected, select }) {
+const Bauble = ({ index, color, shading, shape, number, selected, select }) => {
   const motifFill = {
     solid: "#5f4c6c",
     striped: "url(#stripe)",
@@ -366,9 +367,9 @@ function Bauble({ index, color, shading, shape, number, selected, select }) {
       <rect x="-17.5" y="-60" width="34" height="20" fill="#F79257" />
     </svg>
   );
-}
+};
 
-function Motif({ shape, number }) {
+const Motif = ({ shape, number }) => {
   const Shape = {
     tree: Tree,
     circle: Circle,
@@ -395,22 +396,22 @@ function Motif({ shape, number }) {
       <Shape transform="translate(40, 0)" />
     </g>
   );
-}
+};
 
-function Circle({ transform }) {
+const Circle = ({ transform }) => {
   return <circle r="15" transform={transform} />;
-}
+};
 
-function Star({ transform }) {
+const Star = ({ transform }) => {
   return (
     <polygon
       points="0,-20 6,-8 19,-6 10,3 12,16 0,10 -12,16 -10,3 -19,-6 -6,-8"
       transform={transform}
     />
   );
-}
+};
 
-function Tree({ transform }) {
+const Tree = ({ transform }) => {
   return (
     <polygon
       points="
@@ -419,4 +420,4 @@ function Tree({ transform }) {
       transform={transform}
     />
   );
-}
+};

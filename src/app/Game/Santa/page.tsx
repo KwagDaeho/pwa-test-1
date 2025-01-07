@@ -1,6 +1,7 @@
 "use client";
 
 import useGameDashboard from "@/hooks/useGameDashboard";
+import { util } from "@/util/game";
 import { useEffect, useRef, useState } from "react";
 
 export default function Santa() {
@@ -111,7 +112,7 @@ export default function Santa() {
     let lastTime = 0;
     const update = (timestamp) => {
       if (santaRef.current.x < -5 || santaRef.current.x > 305) {
-        santaRef.current.x = 50 + Math.random() * 200;
+        santaRef.current.x = util.randomFloor(50, 250);
       }
       const deltaTime = (timestamp - lastTime) / 20; // 초 단위로 변환
       lastTime = timestamp;
@@ -174,10 +175,9 @@ export default function Santa() {
         60,
         60
       );
-
+      const randomValue = util.random(0, 1);
       // Generate items
-      if (Math.random() < 0.3 * deltaTime) {
-        const randomValue = Math.random();
+      if (randomValue < 0.3 * deltaTime) {
         const type =
           randomValue < 0.03
             ? "golden-snow" // 2.5%
@@ -188,7 +188,7 @@ export default function Santa() {
             : randomValue < 0.65 + 0.15
             ? "gift" // 15%
             : "rock"; // 20%
-        const xPosition = 5 + Math.random() * (canvas.width - 10); // 랜덤 x 위치
+        const xPosition = util.random(5, 6) * (canvas.width - 10); // 랜덤 x 위치
         if (type === "snow") {
           snowflakesRef.current.push({ x: xPosition, y: 0 });
         } else if (type === "golden-snow") {
@@ -245,7 +245,7 @@ export default function Santa() {
           snowflake.x > playerRef.current.x - 30 &&
           snowflake.x < playerRef.current.x + 90
         ) {
-          setScore((prev) => Math.floor(prev + Math.random() * 15 + 1));
+          setScore((prev) => Math.floor(prev + util.randomFloor(1, 15)));
           return true; // Collision detected
         }
         return false; // No collision
@@ -279,7 +279,7 @@ export default function Santa() {
           gift.x > playerRef.current.x &&
           gift.x < playerRef.current.x + 60
         ) {
-          setScore((prev) => prev + Math.floor(Math.random() * 100) + 1);
+          setScore((prev) => prev + util.randomFloor(1, 100));
           return true; // Collision detected
         }
         return false; // No collision
@@ -293,7 +293,7 @@ export default function Santa() {
           giantGift.x > playerRef.current.x - 30 &&
           giantGift.x < playerRef.current.x + 90
         ) {
-          setScore((prev) => prev + Math.floor(Math.random() * 401) + 200); // 점수 조정
+          setScore((prev) => prev + util.randomFloor(200, 600));
           return true; // Collision detected
         }
         return false; // No collision

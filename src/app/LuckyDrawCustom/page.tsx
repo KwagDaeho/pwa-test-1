@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Confetti from "react-confetti";
 import styles from "./LuckyDrawCustom.module.css"; // CSS 모듈 불러오기
+import { util } from "@/util/game";
 
 export default function LuckyDrawCustom() {
   const [drawnGift, setDrawnGift] = useState(null);
@@ -37,7 +38,7 @@ export default function LuckyDrawCustom() {
   const shuffleArray = (array: string[]) => {
     const shuffled = [...array];
     for (let i = shuffled.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
+      const j = util.randomIndex(i + 1);
       [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
     }
     return shuffled;
@@ -46,9 +47,7 @@ export default function LuckyDrawCustom() {
     const randomProducts = shuffleArray(prizes);
     return Array(50)
       .fill(null)
-      .map(
-        () => randomProducts[Math.floor(Math.random() * randomProducts.length)]
-      ); // 랜덤으로 섞인 상품을 50개 생성
+      .map(() => randomProducts[util.randomIndex(randomProducts.length)]); // 랜덤으로 섞인 상품을 50개 생성
   };
 
   const drawGift = () => {
@@ -58,7 +57,7 @@ export default function LuckyDrawCustom() {
     setShowSlotMachine(false);
 
     // 랜덤으로 당첨 목록에서 선택
-    const selectedGift = prizes[Math.floor(Math.random() * prizes.length)];
+    const selectedGift = prizes[util.randomIndex(prizes.length)];
 
     // 폭죽을 더 일찍 시작 (슬롯머신이 거의 다 사라질 무렵)
     setConfetti(true);
