@@ -112,7 +112,7 @@ export default function Santa() {
     let lastTime = 0;
     const update = (timestamp) => {
       if (santaRef.current.x < -5 || santaRef.current.x > 305) {
-        santaRef.current.x = util.randomFloor(50, 250);
+        santaRef.current.x = util.random(50, 250);
       }
       const deltaTime = (timestamp - lastTime) / 20; // 초 단위로 변환
       lastTime = timestamp;
@@ -175,11 +175,11 @@ export default function Santa() {
         60,
         60
       );
-      const randomValue = util.random(0, 1);
       // Generate items
-      if (randomValue < 0.3 * deltaTime) {
+      if (Math.random() < 0.3 * deltaTime) {
+        const randomValue = Math.random();
         const type =
-          randomValue < 0.03
+          randomValue < 0.025
             ? "golden-snow" // 2.5%
             : randomValue < 0.05
             ? "giant-gift" // 2.5%
@@ -188,7 +188,7 @@ export default function Santa() {
             : randomValue < 0.65 + 0.15
             ? "gift" // 15%
             : "rock"; // 20%
-        const xPosition = util.random(5, 6) * (canvas.width - 10); // 랜덤 x 위치
+        const xPosition = util.random(5, canvas.width - 10); // 랜덤 x 위치
         if (type === "snow") {
           snowflakesRef.current.push({ x: xPosition, y: 0 });
         } else if (type === "golden-snow") {
@@ -245,7 +245,7 @@ export default function Santa() {
           snowflake.x > playerRef.current.x - 30 &&
           snowflake.x < playerRef.current.x + 90
         ) {
-          setScore((prev) => Math.floor(prev + util.randomFloor(1, 15)));
+          setScore((prev) => prev + util.randomFloor(1, 15));
           return true; // Collision detected
         }
         return false; // No collision
@@ -354,7 +354,7 @@ export default function Santa() {
             textAlign: "center",
             backgroundColor: "rgba(0,0,0,0.6)",
           }}>
-          <p style={{ color: "#fff" }}>점수를 등록하��� 중....</p>
+          <p style={{ color: "#fff" }}>점수를 등록하는 중....</p>
         </div>
       )}
       <div
