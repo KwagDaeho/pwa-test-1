@@ -833,7 +833,8 @@ export default function Bird() {
     return () => {
       window.location.reload();
     };
-  }, [addGameData, loading]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loading]);
 
   return loading ? (
     <div

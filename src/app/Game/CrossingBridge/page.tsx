@@ -19,6 +19,7 @@ export default function CrossingBridge() {
     return () => {
       window.location.reload();
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [loading]);
   return loading ? (
     <div
