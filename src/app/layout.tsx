@@ -37,6 +37,7 @@ export default function RootLayout({
             padding: "5px 12px",
             backgroundColor: "rgba(255,255,255,0.4)",
             color: "#232323",
+            zIndex: 1,
           }}>
           Home
         </Link>
@@ -49,6 +50,7 @@ export default function RootLayout({
             padding: "5px 12px",
             backgroundColor: "rgba(255, 255, 255, 0.4)",
             color: "#232323",
+            zIndex: 1,
           }}>
           LuckyDraw
         </Link>
@@ -61,6 +63,7 @@ export default function RootLayout({
             padding: "5px 12px",
             backgroundColor: "rgba(255, 255, 255, 0.4)",
             color: "#232323",
+            zIndex: 1,
           }}>
           뽑기
         </Link>
@@ -74,6 +77,7 @@ export default function RootLayout({
             padding: "5px 12px",
             backgroundColor: "rgba(255,255,255,0.4)",
             color: "#232323",
+            zIndex: 1,
           }}>
           Game
         </Link>
@@ -86,6 +90,7 @@ export default function RootLayout({
             padding: "5px 12px",
             backgroundColor: "rgba(255,255,255,0.4)",
             color: "#232323",
+            zIndex: 1,
           }}>
           Leader Board
         </Link>

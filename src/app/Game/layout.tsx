@@ -5,7 +5,7 @@ export default function GameLayout({
 }>) {
   return (
     <>
-      <main>{children}</main>
+      <main style={{ minHeight: "100dvh" }}>{children}</main>
     </>
   );
 }
