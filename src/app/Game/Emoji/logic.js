@@ -250,7 +250,7 @@ export const gameLogic = () => {
           ".scoreText",
           0.4,
           { rotation: 0.1 },
-          { rotation: 0, scale: 2.5, y: 130, ease: Power2.easeInOut },
+          { rotation: 0, scale: 2.5, y: 100, ease: Power2.easeInOut },
           0.2
         )
         .to(".end", 0.6, { autoAlpha: 1, ease: Power2.easeInOut }, 0)

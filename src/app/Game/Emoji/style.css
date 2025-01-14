@@ -9,7 +9,7 @@
 
 #emojiGame {
   height: 100dvh;
-  padding-top: 80px;
+  padding-top: 100px;
 }
 
 #emojiGame #btnArea {
@@ -24,8 +24,9 @@
   top: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
+  padding-bottom: 10vh;
 }
 #emojiGame * {
   color: #fff;
