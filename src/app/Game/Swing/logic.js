@@ -1349,6 +1349,14 @@ export const gameLogic = () => {
                     x: k,
                     y: 0,
                   });
+                  if (this.character.pivot) {
+                    // 작살이 꽂혀있는 경우
+                    this.pivotTimeout = setTimeout(() => {
+                      this.character.setPivot(null);
+                    }, 1500);
+                  } else {
+                    clearTimeout(this.pivotTimeout); // 타이머 제거
+                  }
                 } else if (83 === f || 68 == f) {
                   var m = 83 === f ? 0 : 1;
                   if (this.character.money >= this.itemPrice[m]) {
@@ -1361,7 +1369,7 @@ export const gameLogic = () => {
                   540 < this.character.y ||
                   this.terrain.isHit(this.character)
                 ) {
-                  this.terrain.fillStyle = "red";
+                  this.terrain.fillStyle = "#fff";
                   this.state = 1;
                   this.elapsed = 0;
                   this.soundManager.play("gameover");
