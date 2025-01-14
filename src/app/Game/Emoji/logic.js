@@ -66,13 +66,14 @@ export const gameLogic = () => {
       background: "radial-gradient(#333, #000 120%)",
     })
     .set(".btn", {
-      width: 90,
-      height: 90,
+      width: 70,
+      height: 70,
       border: "3px solid transparent",
       textAlign: "center",
-      fontSize: 72,
-      lineHeight: "96px",
+      fontSize: 60,
+      lineHeight: "76px",
       cursor: "pointer",
+      boxSizing: "border-box",
     })
     .set(".scoreText", {
       width: "100%",
