@@ -24,6 +24,11 @@ export default function Game() {
       <ul id="game_wrap">
         <li>
           <button>
+            <Link href={"/Game/Emoji"}>Emoji</Link>
+          </button>
+        </li>
+        <li>
+          <button>
             <Link href={"/Game/Santa"}>Santa</Link>
           </button>
         </li>

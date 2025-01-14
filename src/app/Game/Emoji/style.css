@@ -1,0 +1,30 @@
+body,
+#container {
+  width: 100%;
+  height: 100%;
+  background: #000;
+  font-family: "Oswald", sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.75px;
+}
+
+#game {
+  height: 100dvh;
+  padding-top: 80px;
+}
+
+#btnArea {
+  width: 360px;
+  display: flex;
+  flex-wrap: wrap;
+  margin: 0 auto;
+}
+div.end {
+  position: absolute;
+  left: 0;
+  top: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
