@@ -36,8 +36,8 @@ export default function Emoji() {
       <p style={{ color: "#121212" }}>점수를 등록하는 중....</p>
     </div>
   ) : (
-    <div id="container" style={{ opacity: 0 }}>
-      <div id="game" className="fs">
+    <div id="emojiContainer" style={{ opacity: 0 }}>
+      <div id="emojiGame">
         <div className="scoreText"></div>
         <div className="timeTxt">30:00</div>
         <div className="timePlus">+3 sec</div>

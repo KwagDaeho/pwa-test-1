@@ -1,6 +1,6 @@
 import { TimelineMax, Power1, Power2, TweenMax, Back } from "gsap";
 export const gameLogic = () => {
-  let game = document.getElementById("game"),
+  let game = document.getElementById("emojiGame"),
     btnArea = document.getElementById("btnArea"),
     replayBtn = document.getElementById("replayBtn"),
     timeLimit = 30 * 1000, // in millisec
@@ -105,7 +105,7 @@ export const gameLogic = () => {
       transformOrigin: "120px 130px",
       cursor: "pointer",
     })
-    .to("#container", 0.2, { alpha: 1, ease: Power2.easeIn }, 0);
+    .to("#emojiContainer", 0.2, { alpha: 1, ease: Power2.easeIn }, 0);
 
   function populate() {
     lastBtn = undefined;
