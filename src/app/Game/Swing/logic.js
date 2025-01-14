@@ -1344,7 +1344,7 @@ export const gameLogic = () => {
                   32 === f)
                 ) {
                   var k =
-                    Math.cos(Math.PI / 4) * this.character.y + this.character.x;
+                    Math.cos(Math.PI / 7) * this.character.y + this.character.x;
                   this.character.setPivot({
                     x: k,
                     y: 0,
@@ -1544,7 +1544,7 @@ export const gameLogic = () => {
                 this.position = null;
                 this.angle = 0;
                 this.accel = 0;
-                this.force.y = -4;
+                this.force.y = -5;
                 this.effect("jump", this.x, this.y);
                 this.sound("jump");
                 this.update(0);
