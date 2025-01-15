@@ -1,3 +1,4 @@
+import { util } from "@/util/game";
 export const gameLogic = () => {
   window.requestAnimationFrame = (function () {
     return (
@@ -24,7 +25,7 @@ export const gameLogic = () => {
       };
 
     if ("now" in window.performance == false) {
-      var nowOffset = Date.now();
+      let nowOffset = Date.now();
 
       if (performance.timing && performance.timing.navigationStart) {
         nowOffset = performance.timing.navigationStart;
@@ -35,33 +36,33 @@ export const gameLogic = () => {
       };
     }
   })();
-  var _get = function get(obj, property, receiver) {
-      if (obj === null) obj = Function.prototype;
-      var desc = Object.getOwnPropertyDescriptor(obj, property);
-      if (desc === void 0) {
-        var parent = Object.getPrototypeOf(obj);
-        return parent === null ? void 0 : get(parent, property, receiver);
-      }
-      if ("value" in desc) return desc.value;
-      var l = desc.get;
-      return void 0 === l ? void 0 : l.call(f);
-    },
-    _createClass = (function () {
-      function a(b, c) {
-        for (var g, f = 0; f < c.length; f++) {
-          g = c[f];
-          g.enumerable = g.enumerable || !1;
-          g.configurable = !0;
-          if ("value" in g) {
-            g.writable = !0;
-          }
-          Object.defineProperty(b, g.key, g);
+  const _get = function get(obj, property, receiver) {
+    if (obj === null) obj = Function.prototype;
+    let desc = Object.getOwnPropertyDescriptor(obj, property);
+    if (desc === void 0) {
+      let parent = Object.getPrototypeOf(obj);
+      return parent === null ? void 0 : get(parent, property, receiver);
+    }
+    if ("value" in desc) return desc.value;
+    let l = desc.get;
+    return void 0 === l ? void 0 : l.call(f);
+  };
+  const _createClass = (function () {
+    function a(b, c) {
+      for (let g, f = 0; f < c.length; f++) {
+        g = c[f];
+        g.enumerable = g.enumerable || !1;
+        g.configurable = !0;
+        if ("value" in g) {
+          g.writable = !0;
         }
+        Object.defineProperty(b, g.key, g);
       }
-      return function (b, c, f) {
-        return c && a(b.prototype, c), f && a(b, f), b;
-      };
-    })();
+    }
+    return function (b, c, f) {
+      return c && a(b.prototype, c), f && a(b, f), b;
+    };
+  })();
 
   function _possibleConstructorReturn(a, b) {
     if (!a)
@@ -93,7 +94,7 @@ export const gameLogic = () => {
     if (!(a instanceof b))
       throw new TypeError("Cannot call a class as a function");
   }
-  var SpriteDefs = {
+  let SpriteDefs = {
       character: [
         {
           x: 0,
@@ -773,7 +774,7 @@ export const gameLogic = () => {
     },
     Images = {
       sprites: (function () {
-        var a = new Image();
+        let a = new Image();
         return (
           (a.src = "//cdn.df.nexon.com/img/intro/whip/eclipse_sprites.png"), a
         );
@@ -805,23 +806,20 @@ export const gameLogic = () => {
     return this.length > 0 ? this[this.length - 1] : null;
   };
   Math.distanceToLine = function (a, b) {
-    var c = Math.distance(b[0], b[1]);
-    if (c === 0) return Math.distance(a, b[0]);
-    var f =
+    let c = util.getDistance(b[0], b[1]);
+    if (c === 0) return util.getDistance(a, b[0]);
+    let f =
       ((a.x - b[0].x) * (b[1].x - b[0].x) +
         (a.y - b[0].y) * (b[1].y - b[0].y)) /
       c;
     return f < 0
-      ? Math.distance(a, b[0])
+      ? util.getDistance(a, b[0])
       : f > c
-      ? Math.distance(a, b[1])
+      ? util.getDistance(a, b[1])
       : Math.abs(
           -(a.x - b[0].x) * (b[1].y - b[0].y) +
             (a.y - b[0].y) * (b[1].x - b[0].x)
         ) / c;
-  };
-  Math.distance = function (a, b) {
-    return Math.abs(Math.sqrt(Math.pow(b.x - a.x, 2) + Math.pow(b.y - a.y, 2)));
   };
   Math.rad2deg = function (a) {
     return (180 * a) / Math.PI;
@@ -830,7 +828,7 @@ export const gameLogic = () => {
     return (a / 180) * Math.PI;
   };
   Math.angle = function (a, b) {
-    var c = b.x - a.x,
+    let c = b.x - a.x,
       f = b.y - a.y;
     return Math.atan2(-f, c) - Math.PI / 2;
   };
@@ -847,13 +845,13 @@ export const gameLogic = () => {
   };
   Math.isCross = function (a, b) {
     if (a.y > b[0].y !== a.y > b[1].y) {
-      var c =
+      let c =
         ((b[1].x - b[0].x) * (b[1].y - b[0].y)) / (b[1].y - b[0].y) + b[0].x;
       if (a.x > c) return true;
     }
     return false;
   };
-  var Sprite = (function () {
+  let Sprite = (function () {
       function a(b, c, f, g, k, l, m) {
         _classCallCheck(this, a);
         this.img = b;
@@ -870,7 +868,7 @@ export const gameLogic = () => {
             key: "draw",
             value: function draw(b, c, f, g) {
               b.save();
-              var k = (g && g.scale) || 1;
+              let k = (g && g.scale) || 1;
               b.translate(c, f);
               if (g && g.rotate) {
                 b.rotate(-g.rotate);
@@ -963,7 +961,7 @@ export const gameLogic = () => {
                   this.curFrame = this.frames.length - 1;
                 } else {
                   for (
-                    var c = 0, f = 0;
+                    let c = 0, f = 0;
                     (f += this.frames[c].duration), f < this.elapsed;
 
                   ) {
@@ -1053,7 +1051,7 @@ export const gameLogic = () => {
           {
             key: "mouseHandler",
             value: function mouseHandler(b, c) {
-              var f = window.getComputedStyle(this.canvas),
+              let f = window.getComputedStyle(this.canvas),
                 g = parseInt(this.canvas.width, 0) / parseInt(f.width, 0),
                 k = parseInt(this.canvas.height, 0) / parseInt(f.height, 0),
                 l = {
@@ -1136,7 +1134,7 @@ export const gameLogic = () => {
             key: "pop",
             value: function pop() {
               if (0 === this.scenes.length) return null;
-              var b = this.scenes.pop();
+              let b = this.scenes.pop();
               return (
                 b.destroy(),
                 0 < this.scenes.length && this.scenes.last().resume(),
@@ -1222,7 +1220,7 @@ export const gameLogic = () => {
     GameStartScene = (function (a) {
       function b() {
         _classCallCheck(this, b);
-        var c = _possibleConstructorReturn(
+        let c = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -1266,7 +1264,7 @@ export const gameLogic = () => {
     GameScene = (function (a) {
       function b() {
         _classCallCheck(this, b);
-        var c = _possibleConstructorReturn(
+        let c = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -1343,7 +1341,7 @@ export const gameLogic = () => {
                   this.itemManager.checkCollision(this.character),
                   32 === f)
                 ) {
-                  var k =
+                  let k =
                     Math.cos(Math.PI / 7) * this.character.y + this.character.x;
                   this.character.setPivot({
                     x: k,
@@ -1358,7 +1356,7 @@ export const gameLogic = () => {
                     clearTimeout(this.pivotTimeout); // 타이머 제거
                   }
                 } else if (83 === f || 68 == f) {
-                  var m = 83 === f ? 0 : 1;
+                  let m = 83 === f ? 0 : 1;
                   if (this.character.money >= this.itemPrice[m]) {
                     this.character.money -= this.itemPrice[m];
                     this.itemPrice[m] += 100;
@@ -1373,6 +1371,7 @@ export const gameLogic = () => {
                   this.state = 1;
                   this.elapsed = 0;
                   this.soundManager.play("gameover");
+                  this.soundManager.stop("bgm");
                 } else {
                   this.terrain.fillStyle = "black";
                 }
@@ -1389,7 +1388,7 @@ export const gameLogic = () => {
                 c.translate(-this.cameraX + 200, 0),
                 1 === this.state)
               ) {
-                var f = 540 * (1 - 2 * Math.min(this.elapsed, 0.5));
+                let f = 540 * (1 - 2 * Math.min(this.elapsed, 0.5));
                 c.save();
                 c.beginPath();
                 c.arc(
@@ -1450,11 +1449,11 @@ export const gameLogic = () => {
     Character = (function (a) {
       function b() {
         _classCallCheck(this, b);
-        var c = _possibleConstructorReturn(
+        let c = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
-        for (var {} in ((c.img = Images.sprites),
+        for (let {} in ((c.img = Images.sprites),
         (c.spriteSheet = new SpriteSheet(c.img, SpriteDefs.character)),
         (c.animations = {}),
         AnimationDefs.character))
@@ -1526,9 +1525,10 @@ export const gameLogic = () => {
             key: "setPivot",
             value: function setPivot(c) {
               if (null === this.pivot && 0 < this.mp) {
+                // 작살을 천장에 고정
                 this.mp--;
                 this.pivot = c;
-                this.pLen = Math.distance(this, this.pivot);
+                this.pLen = util.getDistance(this, this.pivot);
                 this.position = {
                   x: this.x - this.pivot.x,
                   y: this.y - this.pivot.y,
@@ -1547,6 +1547,7 @@ export const gameLogic = () => {
                 this.sound("whip");
                 this.update(0);
               } else if (null !== this.pivot) {
+                // 작살을 천장에서 제거
                 this.pivot = null;
                 this.pLen = 0;
                 this.position = null;
@@ -1562,7 +1563,8 @@ export const gameLogic = () => {
           {
             key: "update",
             value: function update(c) {
-              if (null === this.pivot) {
+              if (this.pivot === null) {
+                // 작살이 제거된 상태
                 this.currentAnimation = 0 == this.mp ? "fall" : "spin";
                 this.force.y += this.gravity * c;
                 this.force.x *= 0.99;
@@ -1570,8 +1572,8 @@ export const gameLogic = () => {
                 this.y += this.force.y;
                 this.rotation += -360 * c;
               } else {
-                var f = this.angle;
-                var g = ((-1 * this.gravity) / this.pLen) * Math.sin(f);
+                let f = this.angle;
+                let g = ((-1 * this.gravity) / this.pLen) * Math.sin(f);
                 this.accel += g * c;
                 this.accel *= 0.999;
                 f += this.accel;
@@ -1613,7 +1615,7 @@ export const gameLogic = () => {
                 c.stroke();
 
                 for (
-                  var f = {
+                  let f = {
                       x: this.x,
                       y: this.y,
                     },
@@ -1660,7 +1662,7 @@ export const gameLogic = () => {
           {
             key: "collisionCheckPosition",
             get: function get() {
-              var c = this.animations[this.currentAnimation].current;
+              let c = this.animations[this.currentAnimation].current;
               return {
                 x: this.x - (c.ox - c.sw / 2),
                 y: this.y - (c.oy - c.sh / 2),
@@ -1674,7 +1676,7 @@ export const gameLogic = () => {
     Background = (function (a) {
       function b() {
         _classCallCheck(this, b);
-        var c = _possibleConstructorReturn(
+        let c = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -1686,7 +1688,7 @@ export const gameLogic = () => {
             "//cdn.df.nexon.com/img/intro/whip/star2.png",
             "//cdn.df.nexon.com/img/intro/whip/mountains.png",
           ].map(function (g) {
-            var k = new Image();
+            let k = new Image();
             return (k.src = g), k;
           })),
           c
@@ -1698,13 +1700,13 @@ export const gameLogic = () => {
           {
             key: "render",
             value: function render(c) {
-              var f = this.parent.cameraX - 200;
+              let f = this.parent.cameraX - 200;
               c.save();
               c.translate(f, 0);
-              var g = -(f / 8) % 540;
-              var k = -(f / 4) % 540;
-              var l = -(f / 2) % 540;
-              var m = 540 - this.images[3].height;
+              let g = -(f / 8) % 540;
+              let k = -(f / 4) % 540;
+              let l = -(f / 2) % 540;
+              let m = 540 - this.images[3].height;
               c.drawImage(this.images[0], 0, 0);
               c.drawImage(this.images[1], g, 0);
               c.drawImage(this.images[1], g + 540, 0);
@@ -1722,7 +1724,7 @@ export const gameLogic = () => {
     Terrain = (function (a) {
       function b() {
         _classCallCheck(this, b);
-        var c = _possibleConstructorReturn(
+        let c = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -1748,7 +1750,7 @@ export const gameLogic = () => {
             key: "addTile",
             value: function addTile() {
               while (this.points.length < 55) {
-                var tile =
+                let tile =
                   tileSets[Math.floor(Math.random() * tileSets.length)];
                 tile.forEach((height) => {
                   this.maxX += this.tileWidth;
@@ -1763,7 +1765,7 @@ export const gameLogic = () => {
           {
             key: "isHit",
             value: function isHit(c) {
-              var f = {
+              let f = {
                   x: this.points[0].x,
                   y: 540,
                 },
@@ -1780,12 +1782,12 @@ export const gameLogic = () => {
               )
                 return !0;
               g = f;
-              for (var m = 0, n = 1; g.x < l.x; ) {
+              let m = 0;
+              for (let n = 1; g.x < l.x && n < this.points.length; n++) {
                 if (Math.isCross(l, [g, this.points[n]])) {
                   m++;
                 }
                 g = this.points[n];
-                n++;
               }
 
               return 0 != m % 2;
@@ -1795,13 +1797,13 @@ export const gameLogic = () => {
             key: "update",
             value: function update(c) {
               // eslint-disable-next-line @typescript-eslint/no-this-alias
-              var g = this;
+              let g = this;
               _get(
                 b.prototype.__proto__ || Object.getPrototypeOf(b.prototype),
                 "update",
                 this
               ).call(this, c);
-              var f = this.parent.cameraX - 200;
+              let f = this.parent.cameraX - 200;
               this.points = this.points.filter(function (k) {
                 return k.x + g.tileWidth > f;
               });
@@ -1838,7 +1840,7 @@ export const gameLogic = () => {
     ItemManager = (function (a) {
       function b() {
         _classCallCheck(this, b);
-        var c = _possibleConstructorReturn(
+        let c = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -1873,7 +1875,7 @@ export const gameLogic = () => {
           {
             key: "getRandomItemType",
             value: function getRandomItemType() {
-              var c = 0 | (10 * Math.random());
+              let c = 0 | (10 * Math.random());
               return 1 > c ? "magnet" : 6 > c ? "mana" : "potion";
             },
           },
@@ -1889,7 +1891,7 @@ export const gameLogic = () => {
             key: "update",
             value: function update(c, f) {
               // eslint-disable-next-line @typescript-eslint/no-this-alias
-              var k = this,
+              let k = this,
                 g = 0 < f.magnet;
               if (
                 ((this.minX = this.parent.cameraX - 200),
@@ -1897,7 +1899,7 @@ export const gameLogic = () => {
                   if ((m.update(c, g), g)) {
                     m.originY = m.y;
                     m.ty = 0;
-                    var n = Math.atan2(f.y - m.y, f.x - m.x),
+                    let n = Math.atan2(f.y - m.y, f.x - m.x),
                       o = Math.getPoint(m, n, 540 * c);
                     m.x = o.x;
                     m.originY = o.y;
@@ -1915,7 +1917,7 @@ export const gameLogic = () => {
                   this.createItem("coin", this.lastItemX, this.coinY),
                   0 == this.lastItemX % 400))
               ) {
-                var l = Math.floor(1000 * Math.random()) + 80;
+                let l = Math.floor(1000 * Math.random()) + 80;
                 this.createItem(this.getRandomItemType(), this.lastItemX, l);
               }
             },
@@ -1923,7 +1925,7 @@ export const gameLogic = () => {
           {
             key: "render",
             value: function render(c) {
-              var f = this.minX + 540;
+              let f = this.minX + 540;
               this.items.forEach(function (g) {
                 g.render(c, f);
               });
@@ -1932,7 +1934,7 @@ export const gameLogic = () => {
           {
             key: "createItem",
             value: function createItem(c, f, g) {
-              var k = null;
+              let k = null;
               if ("potion" === c) {
                 k = new Potion(
                   f,
@@ -1970,7 +1972,7 @@ export const gameLogic = () => {
     Item = (function (a) {
       function b(c, f, g) {
         _classCallCheck(this, b);
-        var k = _possibleConstructorReturn(
+        let k = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -2009,7 +2011,7 @@ export const gameLogic = () => {
           {
             key: "isHit",
             value: function isHit(c) {
-              if (Math.distance(c, this) <= c.radius + this.radius) {
+              if (util.getDistance(c, this) <= c.radius + this.radius) {
                 c.gotItem(this.action());
               }
             },
@@ -2190,7 +2192,7 @@ export const gameLogic = () => {
     EffectManager = (function (a) {
       function b() {
         _classCallCheck(this, b);
-        var c = _possibleConstructorReturn(
+        let c = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -2233,7 +2235,7 @@ export const gameLogic = () => {
           {
             key: "create",
             value: function create(c, f, g) {
-              var k = new Animation(this.spriteSheet, AnimationDefs.effect[c], {
+              let k = new Animation(this.spriteSheet, AnimationDefs.effect[c], {
                   loop: !1,
                 }),
                 l = new Effect(k, f, g);
@@ -2248,7 +2250,7 @@ export const gameLogic = () => {
     Effect = (function (a) {
       function b(c, f, g) {
         _classCallCheck(this, b);
-        var k = _possibleConstructorReturn(
+        let k = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -2282,7 +2284,7 @@ export const gameLogic = () => {
     SoundManager = (function () {
       function a() {
         // eslint-disable-next-line @typescript-eslint/no-this-alias
-        var b = this;
+        let b = this;
         _classCallCheck(this, a);
         this.sounds = {};
         this.enable = !0;
@@ -2291,7 +2293,6 @@ export const gameLogic = () => {
           "jump",
           "highjump",
           "coin",
-          "gameover",
           "potion",
           "bgm",
           "gameover",
@@ -2300,7 +2301,10 @@ export const gameLogic = () => {
           b.sounds[c] = document.createElement("audio");
           b.sounds[c].src = "//cdn.df.nexon.com/img/intro/whip/" + c + ".mp3";
         });
-        this.sounds.bgm.volume = 0.1;
+        this.sounds.bgm.volume = 0.25;
+        this.sounds.whip.volume = 0.7;
+        this.sounds.gameover.volume = 0.25;
+        this.sounds.jump.volume = 0.3;
         this.sounds.bgm.addEventListener("ended", function () {
           b.sounds.bgm.currentTime = 0;
           b.sounds.bgm.play();
@@ -2311,7 +2315,7 @@ export const gameLogic = () => {
           {
             key: "init",
             value: function init() {
-              this.bgm.play();
+              this.sounds.bgm.play();
             },
           },
           {
@@ -2324,7 +2328,7 @@ export const gameLogic = () => {
           {
             key: "bgmStart",
             value: function bgmStart() {
-              this.stop("bgm");
+              this.play("bgm");
             },
           },
           {
@@ -2346,7 +2350,7 @@ export const gameLogic = () => {
             key: "toggle",
             value: function toggle() {
               // eslint-disable-next-line @typescript-eslint/no-this-alias
-              var b = this;
+              let b = this;
               this.enable = !this.enable;
               this.soundFiles.forEach(function (c) {
                 b.sounds[c].volume = b.enable ? ("bgm" == i ? 0.3 : 1) : 0;
@@ -2357,7 +2361,7 @@ export const gameLogic = () => {
             key: "distructor",
             value: function distructor() {
               // eslint-disable-next-line @typescript-eslint/no-this-alias
-              var b = this;
+              let b = this;
               this.soundFiles.forEach(function (c) {
                 b.soundFiles[c].pause();
                 b.soundFiles[c] = null;
@@ -2410,7 +2414,7 @@ export const gameLogic = () => {
     UI = (function (a) {
       function b(c, f) {
         _classCallCheck(this, b);
-        var g = _possibleConstructorReturn(
+        let g = _possibleConstructorReturn(
           this,
           (b.__proto__ || Object.getPrototypeOf(b)).call(this)
         );
@@ -2465,7 +2469,7 @@ export const gameLogic = () => {
               ) {
                 c.font = "12px verdana";
                 c.fillStyle = "white";
-                var f = this.scoreManager.name
+                let f = this.scoreManager.name
                   ? this.scoreManager.name + "\uB2D8"
                   : "";
                 if (0 < this.scoreManager.myRank) {
@@ -2476,7 +2480,7 @@ export const gameLogic = () => {
               if (1 == this.parent.state) {
                 c.globalAlpha = Math.max(0, 1 - this.parent.elapsed);
               }
-              var g = 60 * (this.character.mp / 10);
+              let g = 60 * (this.character.mp / 10);
 
               if (
                 (0 < g &&
@@ -2522,8 +2526,8 @@ export const gameLogic = () => {
         ]),
         b
       );
-    })(GameObject),
-    game = new Game(document.getElementById("swingContainer"));
+    })(GameObject);
+  const game = new Game(document.getElementById("swingContainer"));
   game.push(new GameStartScene());
   game.update();
 };
