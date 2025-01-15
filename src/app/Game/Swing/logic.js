@@ -1009,10 +1009,11 @@ export const gameLogic = () => {
             window.innerWidth / 540
           })`;
         }
-        document.addEventListener("keydown", this.keyHandler.bind(this), !1);
+        document.addEventListener("keydown", this.keyHandler.bind(this), false);
         document
           .querySelector("main")
           .addEventListener("touchstart", function (event) {
+            console.log(event);
             let keyToPress; // 눌릴 키를 저장할 변수
             // event.target의 ID에 따라 눌릴 키 결정
             if (event.target.id === "buy_mana") {
@@ -1020,33 +1021,30 @@ export const gameLogic = () => {
             } else if (event.target.id === "buy_jump") {
               keyToPress = "KeyD"; // D키
             } else {
-              keyToPress = "Space"; // 기본적으로 스페이스바
+              keyToPress = " ";
             }
-            const keyEvent = new KeyboardEvent("keydown", {
-              key: keyToPress === "Space" ? " " : keyToPress,
-              code: keyToPress,
-              keyCode:
-                keyToPress === "Space" ? 32 : keyToPress === "KeyS" ? 83 : 68, // 83: S, 68: D
-              which:
-                keyToPress === "Space" ? 32 : keyToPress === "KeyS" ? 83 : 68,
-              bubbles: true, // Allow the event to bubble up
-            });
-            // Dispatch the key event
-            document.dispatchEvent(keyEvent);
+            if (keyToPress == "KeyS" || keyToPress == "KeyD") {
+              const keyEvent = new KeyboardEvent("keydown", {
+                key: keyToPress,
+                code: keyToPress,
+                keyCode: keyToPress === "KeyS" ? 83 : 68, // 83: S, 68: D
+                which: keyToPress === "KeyS" ? 83 : 68,
+                bubbles: true, // Allow the event to bubble up
+              });
+              // Dispatch the key event
+              document.dispatchEvent(keyEvent);
+            }
           });
 
         window.addEventListener("focus", this.focusHandler.bind(this), !1);
         window.addEventListener("blur", this.blurHandler.bind(this), !1);
-        this.canvas.addEventListener(
-          "click",
-          this.mouseHandler.bind(this, "click"),
-          false
-        );
-        this.canvas.addEventListener(
-          "touchstart",
-          this.mouseHandler.bind(this, "click"),
-          false
-        );
+        document
+          .querySelector("main")
+          .addEventListener(
+            "click",
+            this.mouseHandler.bind(this, "click"),
+            false
+          );
       }
       return (
         _createClass(a, [
@@ -1063,6 +1061,17 @@ export const gameLogic = () => {
                 };
               if (l.x >= 489 && l.x <= 535 && l.y >= 5 && l.y <= 55) {
                 this.scenes[1].soundManager.toggle();
+              } else if (!c.target.id.includes("buy_")) {
+                document.dispatchEvent(
+                  new KeyboardEvent("keydown", {
+                    key: " ",
+                    code: "Space",
+                    keyCode: 32, // Spacebar 키 코드
+                    which: 32, // Spacebar 키 코드
+                    bubbles: true, // 이벤트 버블링 허용
+                    cancelable: true, // 이벤트 취소 가능
+                  })
+                );
               }
               this.mouse = l;
             },
