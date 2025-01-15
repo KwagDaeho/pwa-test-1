@@ -73,7 +73,7 @@ export const gameLogic = () => {
       fontSize: 60,
       lineHeight: "76px",
       cursor: "pointer",
-      boxSizing: "border-box",
+      transformOrigin: "center",
     })
     .set(".scoreText", {
       width: "100%",
@@ -185,7 +185,7 @@ export const gameLogic = () => {
             { scale: 1, rotation: 0 },
             0
           )
-          .to([b, lastBtn], 0.1, { border: "3px solid #08c04d" }, 0)
+          .to([b, lastBtn], 0.1, { borderColor: "#08c04d" }, 0)
           .to(
             b,
             0.3,
@@ -210,13 +210,13 @@ export const gameLogic = () => {
             },
             0
           )
-          .to(".btn", 0.1, { border: "3px solid transparent" }, 0.5);
+          .to(".btn", 0.1, { borderColor: "transparent" }, 0.5);
         return;
       }
       //not matched
-      else TweenMax.to(lastBtn, 0.1, { border: "3px solid transparent" });
+      else TweenMax.to(lastBtn, 0.1, { borderColor: "transparent" });
     }
-    TweenMax.to(b, 0.1, { border: "3px solid #006da6" });
+    TweenMax.to(b, 0.1, { borderColor: "#006da6" });
     lastBtn = e.currentTarget;
   }
 
@@ -246,7 +246,7 @@ export const gameLogic = () => {
       new TimelineMax()
         .to(".timeTxt", 0.3, { autoAlpha: 0 }, 0)
         .to(btnArea, 0.3, { autoAlpha: 0 }, 0)
-        .to(".btn", 0.1, { border: "3px solid transparent" }, 0.3)
+        .to(".btn", 0.1, { borderColor: "transparent" }, 0.3)
         .fromTo(
           ".scoreText",
           0.4,
