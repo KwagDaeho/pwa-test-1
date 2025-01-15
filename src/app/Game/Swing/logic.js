@@ -1014,7 +1014,6 @@ export const gameLogic = () => {
           .querySelector("main")
           .addEventListener("touchstart", function (event) {
             let keyToPress; // 눌릴 키를 저장할 변수
-
             // event.target의 ID에 따라 눌릴 키 결정
             if (event.target.id === "buy_mana") {
               keyToPress = "KeyS"; // S키
@@ -1023,7 +1022,6 @@ export const gameLogic = () => {
             } else {
               keyToPress = "Space"; // 기본적으로 스페이스바
             }
-
             const keyEvent = new KeyboardEvent("keydown", {
               key: keyToPress === "Space" ? " " : keyToPress,
               code: keyToPress,
@@ -1033,7 +1031,6 @@ export const gameLogic = () => {
                 keyToPress === "Space" ? 32 : keyToPress === "KeyS" ? 83 : 68,
               bubbles: true, // Allow the event to bubble up
             });
-
             // Dispatch the key event
             document.dispatchEvent(keyEvent);
           });
@@ -1043,7 +1040,12 @@ export const gameLogic = () => {
         this.canvas.addEventListener(
           "click",
           this.mouseHandler.bind(this, "click"),
-          !1
+          false
+        );
+        this.canvas.addEventListener(
+          "touchstart",
+          this.mouseHandler.bind(this, "click"),
+          false
         );
       }
       return (
@@ -1059,6 +1061,9 @@ export const gameLogic = () => {
                   x: c.offsetX * g,
                   y: c.offsetY * k,
                 };
+              if (l.x >= 489 && l.x <= 535 && l.y >= 5 && l.y <= 55) {
+                this.scenes[1].soundManager.toggle();
+              }
               this.mouse = l;
             },
           },
@@ -1319,8 +1324,10 @@ export const gameLogic = () => {
               this.itemManager.init();
               this.effectManager.init();
               this.scoreManager.reset();
-              this.soundManager.bgmStart();
               this.state = 0;
+              if (this.soundManager.enable) {
+                this.soundManager.bgmStart();
+              }
             },
           },
           {
@@ -2287,7 +2294,7 @@ export const gameLogic = () => {
         let b = this;
         _classCallCheck(this, a);
         this.sounds = {};
-        this.enable = !0;
+        this.enable = false;
         this.soundFiles = [
           "whip",
           "jump",
@@ -2301,10 +2308,18 @@ export const gameLogic = () => {
           b.sounds[c] = document.createElement("audio");
           b.sounds[c].src = "//cdn.df.nexon.com/img/intro/whip/" + c + ".mp3";
         });
-        this.sounds.bgm.volume = 0.25;
-        this.sounds.whip.volume = 0.7;
-        this.sounds.gameover.volume = 0.25;
-        this.sounds.jump.volume = 0.3;
+        this.setDefaultVolume = () => {
+          this.sounds.whip.volume = 0.7;
+          this.sounds.jump.volume = 0.3;
+          this.sounds.highjump.volume = 1;
+          this.sounds.coin.volume = 1;
+          this.sounds.potion.volume = 1;
+          this.sounds.bgm.volume = 0.25;
+          this.sounds.gameover.volume = 0.25;
+        };
+        this.soundFiles.forEach(function (sound) {
+          b.sounds[sound].volume = 0;
+        });
         this.sounds.bgm.addEventListener("ended", function () {
           b.sounds.bgm.currentTime = 0;
           b.sounds.bgm.play();
@@ -2352,9 +2367,14 @@ export const gameLogic = () => {
               // eslint-disable-next-line @typescript-eslint/no-this-alias
               let b = this;
               this.enable = !this.enable;
-              this.soundFiles.forEach(function (c) {
-                b.sounds[c].volume = b.enable ? ("bgm" == i ? 0.3 : 1) : 0;
-              });
+              if (b.enable == true) {
+                this.setDefaultVolume();
+                this.sounds.bgm.play();
+              } else {
+                this.soundFiles.forEach(function (sound) {
+                  b.sounds[sound].volume = 0;
+                });
+              }
             },
           },
           {
