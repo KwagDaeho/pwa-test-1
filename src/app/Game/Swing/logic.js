@@ -782,12 +782,25 @@ export const gameLogic = () => {
     },
     tileSets = [
       [5, 5, 6, 7, 6, 5],
+      [10, 11, 12, 14, 13, 9],
       [5, 10, 15, 15, 10, 8],
-      [5, 10, 15, 15, 18, 20, 16, 8],
+      [5, 8, 11, 14, 17, 20, 30, 20, 10],
+      [5, 30, 32, 34, 36, 30, 20],
+      [5, 20, 40, 60, 70, 80, 80, 70, 60, 50, 40, 30, 20, 10],
+      [
+        5, 15, 20, 25, 30, 35, 50, 60, 70, 80, 90, 100, 100, 100, 90, 70, 50,
+        30, 10,
+      ],
+      [10, 11, 12, 14, 13, 9],
+      [5, 10, 15, 15, 10, 8],
       [5, 8, 11, 14, 17, 20, 30, 20, 10],
       [5, 30, 32, 34, 36, 30, 20],
       [5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 45, 40, 30, 20, 10],
       [5, 20, 40, 60, 70, 80, 80, 70, 60, 50, 40, 30, 20, 10],
+      [
+        5, 15, 20, 25, 30, 35, 50, 60, 70, 80, 90, 100, 100, 100, 90, 70, 50,
+        30, 10,
+      ],
       [
         5, 15, 20, 25, 30, 35, 50, 60, 70, 80, 90, 100, 100, 100, 90, 70, 50,
         30, 10,
@@ -800,6 +813,18 @@ export const gameLogic = () => {
         5, 10, 15, 20, 25, 30, 35, 40, 45, 50, 70, 90, 110, 130, 150, 170, 190,
         210, 200, 190, 180, 170, 160, 150, 140, 130, 120, 110, 100, 90, 80, 70,
         60, 50, 40, 30, 20, 10,
+      ],
+      [
+        80, 90, 100, 110, 120, 130, 140, 160, 180, 200, 205, 210, 225, 240, 300,
+        320, 310, 290, 270, 240, 220, 200, 150, 170, 180, 170, 190, 200, 170,
+        160, 200, 250, 240, 230, 220, 200, 190, 180, 185, 170, 165, 160, 150,
+        130, 110, 100,
+      ],
+      [
+        120, 100, 120, 150, 190, 200, 210, 200, 190, 180, 140, 100, 110, 140,
+        120, 130, 150, 140, 110, 120, 50, 55, 60, 70, 80, 90, 100, 120, 125,
+        130, 150, 140, 150, 160, 200, 210, 100, 90, 90, 80, 80, 70, 60, 50, 40,
+        50,
       ],
     ];
   Array.prototype.last = function () {
@@ -1012,8 +1037,12 @@ export const gameLogic = () => {
         document.addEventListener("keydown", this.keyHandler.bind(this), false);
         document
           .querySelector("main")
+          .addEventListener("contextmenu", function (event) {
+            event.preventDefault(); // 컨텍스트 메뉴 방지
+          });
+        document
+          .querySelector("main")
           .addEventListener("touchstart", function (event) {
-            console.log(event);
             let keyToPress; // 눌릴 키를 저장할 변수
             // event.target의 ID에 따라 눌릴 키 결정
             if (event.target.id === "buy_mana") {
@@ -1041,8 +1070,8 @@ export const gameLogic = () => {
         document
           .querySelector("main")
           .addEventListener(
-            "click",
-            this.mouseHandler.bind(this, "click"),
+            "mousedown",
+            this.mouseHandler.bind(this, "mousedown"),
             false
           );
       }
@@ -1519,9 +1548,9 @@ export const gameLogic = () => {
             value: function gotItem(c) {
               if (c === "jump") {
                 this.pivot = null;
-                this.force.y = -8;
-                this.force.x += 10;
-                this.mp = Math.min(10, this.mp + 1);
+                this.force.x += 14;
+                this.force.y = -12;
+                // this.mp = Math.min(10, this.mp + 1);
                 this.effect("jump", this.x, this.y);
                 this.sound("highjump");
               } else if (c === "mana") {
@@ -1531,7 +1560,7 @@ export const gameLogic = () => {
               } else if (c === "magnet") {
                 this.magnet = 3;
               } else if (c === "coin") {
-                this.money += 10;
+                this.money += util.randomFloor(5, 15);
                 this.effect("coin", this.x, this.y);
                 this.sound("coin");
               }
@@ -1540,7 +1569,7 @@ export const gameLogic = () => {
           {
             key: "setPivot",
             value: function setPivot(c) {
-              if (null === this.pivot && 0 < this.mp) {
+              if (null === this.pivot && 0 < this.mp && this.force.y > -9) {
                 // 작살을 천장에 고정
                 this.mp--;
                 this.pivot = c;
@@ -1557,7 +1586,7 @@ export const gameLogic = () => {
                   this.pivot
                 );
                 this.accel =
-                  ((-1.3 * (this.force.x + this.force.y)) / this.pLen) *
+                  ((-1.4 * (this.force.x + this.force.y)) / this.pLen) *
                   Math.sin(this.angle);
                 this.effect("clap", c.x, c.y);
                 this.sound("whip");
@@ -1569,7 +1598,7 @@ export const gameLogic = () => {
                 this.position = null;
                 this.angle = 0;
                 this.accel = 0;
-                this.force.y = -5;
+                this.force.y = -7;
                 this.effect("jump", this.x, this.y);
                 this.sound("jump");
                 this.update(0);
@@ -1772,7 +1801,7 @@ export const gameLogic = () => {
                   this.maxX += this.tileWidth;
                   this.points.push({
                     x: this.maxX,
-                    y: 540 - height,
+                    y: 540 - util.random(0.9, 1.1) * height,
                   });
                 });
               }
@@ -1892,7 +1921,7 @@ export const gameLogic = () => {
             key: "getRandomItemType",
             value: function getRandomItemType() {
               let c = 0 | (10 * Math.random());
-              return 1 > c ? "magnet" : 6 > c ? "mana" : "potion";
+              return 1 > c ? "magnet" : 7 > c ? "mana" : "potion";
             },
           },
           {
@@ -1926,14 +1955,14 @@ export const gameLogic = () => {
                   return !m.destroy;
                 })),
                 920 >= this.lastItemX - this.minX &&
-                  ((this.lastItemX += 80),
+                  ((this.lastItemX += 100),
                   (this.coinY += Math.floor(40 * Math.random()) - 20),
-                  20 > this.coinY && (this.coinY = 20),
-                  520 < this.coinY && (this.coinY = 520),
+                  50 > this.coinY && (this.coinY = 260),
+                  320 < this.coinY && (this.coinY = 260),
                   this.createItem("coin", this.lastItemX, this.coinY),
-                  0 == this.lastItemX % 400))
+                  0 == this.lastItemX % 500))
               ) {
-                let l = Math.floor(1000 * Math.random()) + 80;
+                let l = Math.floor(300 * Math.random()) + 60;
                 this.createItem(this.getRandomItemType(), this.lastItemX, l);
               }
             },
@@ -2404,7 +2433,7 @@ export const gameLogic = () => {
     ScoreManager = (function () {
       function a() {
         _classCallCheck(this, a);
-        this.highscore = 0;
+        this.bestScore = 0;
         this.gotCoin = 0;
         this.usedCoin = 0;
         this._score = 0;
@@ -2428,8 +2457,8 @@ export const gameLogic = () => {
             key: "score",
             set: function set(b) {
               this._score = b;
-              if (this._score > this.highscore) {
-                this.highscore = this._score;
+              if (this._score > this.bestScore) {
+                this.bestScore = this._score;
               }
             },
             get: function get() {
@@ -2485,12 +2514,12 @@ export const gameLogic = () => {
                 }),
                 (c.font = "16px verdana"),
                 c.strokeText(
-                  "HIGHSCORE " + this.scoreManager.highscore + "m",
+                  " Best  " + this.scoreManager.bestScore + "m",
                   0,
                   523
                 ),
                 c.fillText(
-                  "HIGHSCORE " + this.scoreManager.highscore + "m",
+                  " Best  " + this.scoreManager.bestScore + "m",
                   0,
                   523
                 ),

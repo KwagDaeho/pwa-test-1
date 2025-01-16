@@ -41,7 +41,7 @@ export default function Emoji() {
       <div id="buy_items">
         <button id="buy_mana">MANA</button>
         <button id="buy_jump">JUMP</button>
-        <div>Touch To Play</div>
+        <div>Touch/Click/Space</div>
       </div>
     </div>
   );

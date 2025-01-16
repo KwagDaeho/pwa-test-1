@@ -32,6 +32,9 @@
   width: 140px;
   font-size: 30px;
   font-weight: 700;
+  user-select: none; /* 텍스트 선택 방지 */
+  -webkit-user-select: none; /* Safari에서 텍스트 선택 방지 */
+  -moz-user-select: none; /* Firefox에서 텍스트 선택 방지 */
 }
 @media screen and (min-width: 1281px) {
   #swingCanvasWrap #buy_items {
