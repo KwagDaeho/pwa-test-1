@@ -1313,7 +1313,7 @@ export const gameLogic = () => {
         );
         return (
           (c.cameraX = 100),
-          (c.itemPrice = [50, 100]),
+          (c.itemPrice = [100, 100]),
           (c.character = new Character()),
           (c.background = new Background()),
           (c.terrain = new Terrain()),
@@ -1354,7 +1354,7 @@ export const gameLogic = () => {
                 this
               ).call(this);
               this.cameraX = 100;
-              this.itemPrice = [50, 100];
+              this.itemPrice = [100, 100];
               this.ui.scoreManager = this.scoreManager;
               this.background.init();
               this.character.init();
@@ -1525,18 +1525,18 @@ export const gameLogic = () => {
             key: "init",
             value: function init() {
               this.x = 50;
-              this.y = 50;
+              this.y = 100;
               this.gravity = 9;
               this.pivot = null;
               this.position = null;
               this.force = {
                 x: 0,
-                y: 0,
+                y: -5,
               };
               this.pLen = 0;
               this.angle = 0;
               this.accel = 0;
-              this.money = 0;
+              this.money = 100;
               this.mp = 10;
               this.magnet = 0;
               this.rotation = 0;
@@ -1550,7 +1550,6 @@ export const gameLogic = () => {
                 this.pivot = null;
                 this.force.x += 14;
                 this.force.y = -12;
-                // this.mp = Math.min(10, this.mp + 1);
                 this.effect("jump", this.x, this.y);
                 this.sound("highjump");
               } else if (c === "mana") {
@@ -1955,12 +1954,12 @@ export const gameLogic = () => {
                   return !m.destroy;
                 })),
                 920 >= this.lastItemX - this.minX &&
-                  ((this.lastItemX += 100),
-                  (this.coinY += Math.floor(40 * Math.random()) - 20),
+                  ((this.lastItemX += 120),
+                  (this.coinY += util.randomFloor(-50, 50)),
                   50 > this.coinY && (this.coinY = 260),
                   320 < this.coinY && (this.coinY = 260),
                   this.createItem("coin", this.lastItemX, this.coinY),
-                  0 == this.lastItemX % 500))
+                  0 == this.lastItemX % 840))
               ) {
                 let l = Math.floor(300 * Math.random()) + 60;
                 this.createItem(this.getRandomItemType(), this.lastItemX, l);
