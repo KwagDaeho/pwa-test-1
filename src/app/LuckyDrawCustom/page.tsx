@@ -24,6 +24,20 @@ export default function LuckyDrawCustom() {
   // 페이지 렌더링 시 슬롯머신에 기본 상품 노출
   useEffect(() => {
     setShuffledProducts(Array(50).fill("당첨 내용을 입력해주세요.")); // 슬롯머신에 기본값 노출
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Enter") {
+        const getPrizeButton = window.document.getElementById("button_get_prize");
+        if (getPrizeButton) {
+          getPrizeButton.click();
+        } else {
+          window.document.getElementById("button_add_prize").click();
+        }
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, []);
 
   // prizes가 업데이트될 때마다 shuffledProducts를 업데이트
@@ -102,9 +116,7 @@ export default function LuckyDrawCustom() {
       setPrizes((prev) => {
         const updatedPrizes = [...prev, prizeInput];
         // "당첨 내용을 입력해주세요."가 있을 경우 제거
-        return updatedPrizes.filter(
-          (prize) => prize !== "당첨 내용을 입력해주세요."
-        );
+        return updatedPrizes.filter((prize) => prize !== "당첨 내용을 입력해주세요.");
       });
       setPrizeInput(""); // 입력 필드 초기화
       setIsButtonDisabled(false); // 당첨내역이 추가되면 버튼 활성화
@@ -138,6 +150,7 @@ export default function LuckyDrawCustom() {
           />
 
           <button
+            id="button_add_prize"
             onClick={addPrize}
             className={`${styles.button} ${isAnimating ? styles.fadeOut : ""}`}
             style={{ animationDelay: isAnimating ? "0s" : "0s" }} // 첫 번째 버튼
@@ -178,10 +191,9 @@ export default function LuckyDrawCustom() {
 
           {showDrawButton && ( // showDrawButton이 true일 때만 추첨 버튼 표시
             <button
+              id="button_get_prize"
               onClick={drawGift}
-              className={`${styles.button} ${styles.fadeIn} ${
-                isButtonDisabled ? styles.isButtonDisabled : ""
-              }`}
+              className={`${styles.button} ${styles.fadeIn} ${isButtonDisabled ? styles.isButtonDisabled : ""}`}
               type="button"
               disabled={isButtonDisabled}>
               추첨
@@ -206,10 +218,7 @@ export default function LuckyDrawCustom() {
       )}
 
       {/* 슬롯머신 */}
-      <div
-        className={`${styles.slotMachine} ${
-          showSlotMachine ? styles.show : styles.hide
-        }`}>
+      <div className={`${styles.slotMachine} ${showSlotMachine ? styles.show : styles.hide}`}>
         <div key={animationKey} className={styles.scrollingList}>
           {shuffledProducts.map((product, index) => (
             <div key={index} className={styles.productItem}>
@@ -220,8 +229,7 @@ export default function LuckyDrawCustom() {
       </div>
 
       {/* 결과 화면 */}
-      <div
-        className={`${styles.result} ${animateText ? styles.animateText : ""}`}>
+      <div className={`${styles.result} ${animateText ? styles.animateText : ""}`}>
         <h3>추첨 결과</h3>
         <h2>{drawnGift}</h2>
       </div>

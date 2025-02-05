@@ -20,3 +20,9 @@ export interface NotionData {
     // 추가 필드 정의 가능
   };
 }
+
+export type NotionPostScoreData = {
+  name: string;
+  score: number;
+  date: string;
+};

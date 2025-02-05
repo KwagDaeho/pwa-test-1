@@ -1,105 +1,68 @@
 import { NextResponse } from "next/server";
 import { Client } from "@notionhq/client";
+import { NotionPostScoreData } from "@/types/NotionData";
 
-// Notion API 클라이언트 설정
-const notion = new Client({
-  auth: "secret_3s0jxVi3BlFEN6n4skZlaAkeGqjly7eqYvVGuC9volX",
-});
+const NotionClient = (() => {
+  let instance: Client | null = null;
+  return {
+    getInstance: () => {
+      if (!instance) {
+        instance = new Client({
+          auth: "secret_3s0jxVi3BlFEN6n4skZlaAkeGqjly7eqYvVGuC9volX", // 환경 변수 사용
+        });
+      }
+      return instance;
+    },
+  };
+})();
+const notion = NotionClient.getInstance();
+const RequestHandlers = {
+  GET: async (request: Request) => {
+    const databaseId = new URL(request.url).searchParams.get("database_id");
+    if (!databaseId) return errorResponse("Database ID is required", 400);
+    try {
+      const response = await notion.databases.query({
+        database_id: databaseId,
+        sorts: [
+          { property: "Score", direction: "descending" },
+          { property: "Date", direction: "ascending" },
+        ],
+        page_size: 100,
+      });
+      return NextResponse.json({ success: true, data: response.results });
+    } catch (error) {
+      return errorResponse(error.message, 500);
+    }
+  },
+  POST: async (request: Request) => {
+    const databaseId = new URL(request.url).searchParams.get("database_id");
+    if (!databaseId) return errorResponse("Database ID is required", 400);
+
+    const { name, score, date }: NotionPostScoreData = await request.json();
+    if (!name || !score || !date) return errorResponse("Missing required fields", 400);
+    try {
+      const response = await notion.pages.create({
+        parent: { database_id: databaseId },
+        properties: {
+          Name: { title: [{ text: { content: name } }] },
+          Score: { number: score },
+          Date: { date: { start: date } },
+        },
+      });
+      return NextResponse.json({ success: true, data: response });
+    } catch (error) {
+      return errorResponse(error.message, 500);
+    }
+  },
+};
+
+const errorResponse = (message: string, status: number) => {
+  return NextResponse.json({ success: false, error: message }, { status });
+};
 
 export async function GET(request: Request) {
-  const url = new URL(request.url);
-  const databaseId = url.searchParams.get("database_id"); // 쿼리 파라미터로 DB ID 받기
-
-  if (!databaseId) {
-    return NextResponse.json(
-      { success: false, error: "Database ID is required" },
-      { status: 400 }
-    );
-  }
-
-  try {
-    const response = await notion.databases.query({
-      database_id: databaseId,
-      // filter: {
-      //   property: "Score",
-      //   number: {
-      //     greater_than: 50, // 점수가 50보다 큰 항목만
-      //   },
-      // },
-      sorts: [
-        {
-          property: "Score",
-          direction: "descending", // 내림차순
-        },
-        {
-          property: "Date",
-          direction: "ascending", // 오름차순
-        },
-      ],
-      page_size: 100,
-    });
-    const data = response.results;
-
-    return NextResponse.json({ success: true, data });
-  } catch (error) {
-    console.error("Error fetching data from Notion:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+  return RequestHandlers.GET(request);
 }
-
 export async function POST(request: Request) {
-  const url = new URL(request.url);
-  const databaseId = url.searchParams.get("database_id"); // 쿼리 파라미터로 DB ID 받기
-
-  if (!databaseId) {
-    return NextResponse.json(
-      { success: false, error: "Database ID is required" },
-      { status: 400 }
-    );
-  }
-
-  const { name, score, date } = await request.json();
-
-  if (!name || !score || !date) {
-    return NextResponse.json(
-      { success: false, error: "Missing required fields: name, score, date" },
-      { status: 400 }
-    );
-  }
-
-  try {
-    const response = await notion.pages.create({
-      parent: { database_id: databaseId },
-      properties: {
-        Name: {
-          title: [
-            {
-              text: {
-                content: name,
-              },
-            },
-          ],
-        },
-        Score: {
-          number: score,
-        },
-        Date: {
-          date: {
-            start: date,
-          },
-        },
-      },
-    });
-
-    return NextResponse.json({ success: true, data: response });
-  } catch (error) {
-    console.error("Error adding data to Notion:", error);
-    return NextResponse.json(
-      { success: false, error: error.message },
-      { status: 500 }
-    );
-  }
+  return RequestHandlers.POST(request);
 }
